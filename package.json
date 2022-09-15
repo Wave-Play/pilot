@@ -1,0 +1,117 @@
+{
+	"name": "@waveplay/pilot",
+	"version": "0.0.0-development",
+	"private": false,
+	"description": "NextJS-like routing for React Native",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Wave-Play/pilot.git"
+	},
+	"engines": {
+		"node": ">=12"
+	},
+	"license": "MIT",
+	"author": "WavePlay <dev@waveplay.com> (waveplay.com)",
+	"contributors": [
+		"Pkmmte Xeleon <pk@waveplay.com>"
+	],
+	"sideEffects": false,
+	"main": "dist/index.js",
+	"module": "dist/pilot.esm.js",
+	"release": {
+		"branches": [
+			"main",
+			"next"
+		]
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"files": [
+		"lib/",
+		"dist/",
+		"LICENSE",
+		"README.md"
+	],
+	"scripts": {
+		"build": "tsdx build",
+		"format": "tsdx lint src --fix",
+		"lint": "tsdx lint src",
+		"prepare": "tsdx build",
+		"semantic-release": "semantic-release",
+		"start": "tsdx watch",
+		"test": "tsdx test"
+	},
+	"dependencies": {
+		"jotai": "^1.0.0",
+		"next": "^12.3.0",
+		"node-match-path": "^0.6.3",
+		"pino": "^8.5.0",
+		"pino-pretty": "7.1.0",
+		"radix3": "^0.1.2",
+		"react": "^18.2.0",
+		"react-native": "^0.70.1",
+		"tiny-lru": "^8.0.2"
+	},
+	"peerDependencies": {
+		"next": "^12.0.0 || ^11.0.0 || ^10.0.0",
+		"react": "^17.0.0 || ^18.0.0",
+		"react-native": "^0.64.0 || ^0.69.0"
+	},
+	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "5.6.0",
+		"@typescript-eslint/parser": "5.6.0",
+		"benchmark": "^2.1.4",
+		"eslint-plugin-import": "2.25.4",
+		"eslint-plugin-jest": "25.3.0",
+		"semantic-release": "18.0.1",
+		"semantic-release-cli": "5.4.4",
+		"tsdx": "0.14.1",
+		"tslib": "2.3.1",
+		"typescript": "4.6.2"
+	},
+	"eslint": {
+		"env": {
+			"es6": true,
+			"jest": true,
+			"node": true
+		},
+		"parser": "@typescript-eslint/parser",
+		"parserOptions": {
+			"ecmaVersion": 2019,
+			"sourceType": "module"
+		},
+		"extends": [
+			"eslint:recommended",
+			"plugin:jest/recommended",
+			"plugin:import/recommended",
+			"plugin:@typescript-eslint/eslint-recommended",
+			"plugin:@typescript-eslint/recommended"
+		],
+		"rules": {
+			"arrow-body-style": [
+				"error",
+				"always"
+			],
+			"curly": "error",
+			"import/order": [
+				"error",
+				{
+					"newlines-between": "always"
+				}
+			]
+		},
+		"settings": {
+			"import/extensions": [
+				".ts"
+			],
+			"import/resolver": {
+				"node": {
+					"extensions": [
+						".ts"
+					]
+				}
+			}
+		}
+	}
+}
