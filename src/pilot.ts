@@ -5,9 +5,10 @@ import { NextRouter } from 'next/router';
 import { ComponentProps, ComponentType, createElement, ReactElement } from 'react';
 import { PilotRouteOptions } from './route';
 import { RadixRouter } from './radix-router';
-import pino from 'pino';
-import lru, { Lru } from 'tiny-lru';
+import { Lru } from 'tiny-lru';
 import { Default404, Default500, generateNumber } from './internal';
+const lru = require('tiny-lru');
+const pino = require('pino');
 
 interface ActionResult {
 	page?: PilotPage
