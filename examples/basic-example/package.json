@@ -1,0 +1,27 @@
+{
+  "name": "basic-example",
+  "version": "1.0.0",
+  "scripts": {
+    "build:next": "next build",
+    "start:expo": "expo start",
+    "start:next": "next dev"
+  },
+  "dependencies": {
+    "@expo/next-adapter": "4.0.12",
+    "@waveplay/pilot": "1.0.2",
+    "expo": "46.0.9",
+    "next": "12.2.5",
+    "react": "18.0.0",
+    "react-dom": "18.0.0",
+    "react-native": "0.69.5",
+    "react-native-web": "0.18.9"
+  },
+  "devDependencies": {
+    "@babel/core": "7.12.9",
+    "@nissy-dev/swc-plugin-react-native-web": "0.2.4",
+    "next-build-id": "3.0.0",
+    "next-compose-plugins": "2.2.1",
+    "next-transpile-modules": "9.0.0",
+    "webpack": "5.74.0"
+  }
+}
