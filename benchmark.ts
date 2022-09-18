@@ -1,7 +1,7 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import { Pilot, PilotRouteOptions, RadixRouter, RegexRouter } from '@waveplay/pilot';
+import { Pilot, PilotRouteOptions, RadixRouter, RegexRouter } from './dist';
 import Benchmark from 'benchmark';
 
 const ROUTES: PilotRouteOptions[] = [
@@ -16,7 +16,7 @@ const ROUTES: PilotRouteOptions[] = [
 	{ path: '/messages/:id', component: () => null },
 	{ path: '/u/:user/:track', component: () => null },
 ];
-const PATH_TESTS: string[] = ROUTES.map(route => route.path.replaceAll(':', ''));
+const PATH_TESTS: string[] = ROUTES.map(route => route.path.replace(/:/g, ''));
 
 export const start = async () => {
 	const pilot = new Pilot();

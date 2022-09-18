@@ -1,7 +1,7 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import React, { FunctionComponent, ReactElement, useEffect, useState } from 'react';
+import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
 import { usePilot } from './use-pilot';
 import { PilotEvent, PilotStateProps } from './pilot';
 
@@ -15,7 +15,7 @@ export const PilotAreaRenderer: FunctionComponent<PilotAreaRendererProps> = (pro
 	const pilot = usePilot();
 
 	// Update content after navigating to a new page
-	const [ content, setContent ] = useState<ReactElement>(pilot.render());
+	const [ content, setContent ] = useState<ReactElement | null>(pilot.render());
 
 	// If enabled, show placeholder while we wait for a new load
 	// or, you know, an error if things... go bad

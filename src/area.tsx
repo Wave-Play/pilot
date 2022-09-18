@@ -2,7 +2,7 @@
  * © 2022 WavePlay <dev@waveplay.com>
  */
 import type { NextRouter } from 'next/router';
-import React, { FunctionComponent, ReactElement, useEffect } from 'react';
+import { FunctionComponent, ReactElement, useEffect } from 'react';
 import { PilotRouter, PilotStateProps } from './pilot';
 import { PilotRoute, PilotRouteOptions } from './route';
 import { PilotAreaRenderer } from './area-renderer';
