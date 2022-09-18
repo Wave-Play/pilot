@@ -32,6 +32,8 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
       - name: Yarn install
         run: yarn --frozen-lockfile
+      - name: Build
+        run: yarn build
       - name: Release
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/next')
         run: yarn semantic-release
