@@ -17,6 +17,7 @@
 	],
 	"sideEffects": false,
 	"main": "dist/index.js",
+	"module": "dist/pilot.esm.js",
 	"release": {
 		"branches": [
 			"main",
@@ -40,6 +41,9 @@
 		"start": "tsdx watch",
 		"test": "tsdx test"
 	},
+	"resolutions": {
+		"typescript": "4.6.2"
+	},
 	"dependencies": {
 		"jotai": "1.8.3",
 		"node-match-path": "^0.6.3",
@@ -54,12 +58,12 @@
 		"react-native": ">=0.64.1"
 	},
 	"devDependencies": {
-		"@babel/plugin-transform-react-jsx": "7.19.0",
+		"@babel/plugin-transform-react-jsx": "^7.19.0",
+		"@types/benchmark": "^2.1.2",
 		"@types/react": "^18.0.20",
 		"@types/react-native": "^0.70.1",
 		"@typescript-eslint/eslint-plugin": "5.6.0",
 		"@typescript-eslint/parser": "5.6.0",
-		"babel-preset-expo": "9.2.0",
 		"benchmark": "^2.1.4",
 		"eslint-plugin-import": "2.25.4",
 		"eslint-plugin-jest": "25.3.0",

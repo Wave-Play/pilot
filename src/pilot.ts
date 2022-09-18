@@ -25,7 +25,7 @@ export interface PilotConfig {
 	id?: string
 	cacheSize?: number
 	logLevel?: 'trace' | 'debug' | 'info' | 'warn' | 'error'
-	nextRouter?: NextRouter
+	nextRouter?: NextRouter | null
 	router?: PilotRouter
 }
 
@@ -122,6 +122,7 @@ export class Pilot {
 
 	public addRoute(route: PilotRouteOptions) {
 		this._logger.debug(`[${this._getId()}] addRoute(${JSON.stringify(route)})`);
+		if (!this._config.router) throw new Error('');
 		this._config.router.addRoute(route);
 	}
 
@@ -244,10 +245,10 @@ export class Pilot {
 
 	public removeRoute(path: string) {
 		this._logger.debug(`[${this._getId()}] removeRoute(${path})`);
-		this._config.router.removeRoute(path);
+		this._config.router?.removeRoute(path);
 	}
 
-	public render(): ReactElement {
+	public render(): ReactElement | null {
 		this._logger.debug(`[${this._getId()}] render()`);
 
 		// Can't render anything if no page has been set
@@ -265,7 +266,7 @@ export class Pilot {
 			nextRouter: !!this._config.nextRouter,
 			path: this.getPath() || null,
 			params: this.getParams(),
-			routerStats: this._config.router.stats(),
+			routerStats: this._config.router?.stats(),
 			query: this.getQuery(),
 			stackLength: this._stack.length,
 		}
@@ -303,7 +304,7 @@ export class Pilot {
 			this._logger.error(`[${this._getId()}] Error while executing action:`, e);
 			this._notify(path, {
 				type: 'error',
-				page: null
+				page: undefined
 			});
 		}
 
@@ -338,7 +339,7 @@ export class Pilot {
 	 * @returns Component and props for the specified path. If no component is found, returns null.
 	 */
 	private async _load(path: string): Promise<ActionResult> {
-		let route = this._config.router.find(path, { pilot: this });
+		let route = this._config.router?.find(path, { pilot: this });
 
 		// If no route is found, load 404 page instead
 		if (route) {
@@ -381,9 +382,9 @@ export class Pilot {
 		return {
 			page: {
 				component: route.component,
-				params: route.params,
+				params: route.params || {},
 				props: props?.props,
-				query: route.query
+				query: route.query || {}
 			}
 		};
 	}
@@ -398,7 +399,7 @@ export class Pilot {
 	 * @returns Props for the specified path.
 	 */
 	private async _loadProps(path: string, route: PilotRouteResult): Promise<any> {
-		let props = null;
+		let props: any = null;
 
 		// Return early if there's nothing to load
 		if (!route.getProps) {
@@ -419,11 +420,11 @@ export class Pilot {
 		
 		// Get props from route's getProps() function
 		props = await route.getProps({
-			query: route.query,
+			query: route.query || {},
 			params: route.params,
-			req: null,
-			res: null,
-			resolvedUrl: null
+			req: {} as any,
+			res: {} as any,
+			resolvedUrl: path
 		});
 
 		// If a "revalidate" value is returned, cache the props for that amount of time

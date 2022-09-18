@@ -1,5 +1,5 @@
 {
-	"include": ["src/**/*.ts"],
+	"include": ["src"],
 	"compilerOptions": {
 		"target": "es2018",
 		"module": "esnext",
@@ -12,6 +12,7 @@
 		"allowJs": true,
 		"skipLibCheck": true,
 		"strict": false,
+		"strictNullChecks": false,
 		"forceConsistentCasingInFileNames": true,
 		"noEmit": false,
 		"esModuleInterop": true,
@@ -22,12 +23,9 @@
 		"importHelpers": true,
 		"declaration": true,
 		"sourceMap": true,
-		"rootDir": "src",
+		"rootDir": ".",
 		"noUnusedLocals": true,
 		"moduleResolution": "node",
 		"outDir": "dist"
-	},
-	"files": [
-		"src/index.ts"
-	]
+	}
 }

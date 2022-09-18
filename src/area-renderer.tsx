@@ -15,7 +15,7 @@ export const PilotAreaRenderer: FunctionComponent<PilotAreaRendererProps> = (pro
 	const pilot = usePilot();
 
 	// Update content after navigating to a new page
-	const [ content, setContent ] = useState<ReactElement>(pilot.render());
+	const [ content, setContent ] = useState<ReactElement | null>(pilot.render());
 
 	// If enabled, show placeholder while we wait for a new load
 	// or, you know, an error if things... go bad
