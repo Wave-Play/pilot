@@ -1,7 +1,7 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 let id = 0;

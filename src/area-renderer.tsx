@@ -4,7 +4,6 @@
 import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
 import { usePilot } from './use-pilot';
 import { PilotEvent, PilotStateProps } from './pilot';
-const React = require('react');
 
 interface PilotAreaRendererProps {
 	persistError?: boolean

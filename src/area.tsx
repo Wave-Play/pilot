@@ -7,7 +7,6 @@ import { PilotRouter, PilotStateProps } from './pilot';
 import { PilotRoute, PilotRouteOptions } from './route';
 import { PilotAreaRenderer } from './area-renderer';
 import { usePilot } from './use-pilot';
-const React = require('react');
 
 interface PilotAreaProps {
 	children?: any
