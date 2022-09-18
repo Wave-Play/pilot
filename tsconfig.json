@@ -1,8 +1,8 @@
 {
-  "include": ["src/**/*.ts"],
-  "compilerOptions": {
+	"include": ["src/**/*.ts"],
+	"compilerOptions": {
 		"target": "es2018",
-    "module": "esnext",
+		"module": "esnext",
 		"lib": [
 			"dom",
 			"dom.iterable",
@@ -11,7 +11,7 @@
 		"baseUrl": ".",
 		"allowJs": true,
 		"skipLibCheck": true,
-    "strict": false,
+		"strict": false,
 		"forceConsistentCasingInFileNames": true,
 		"noEmit": false,
 		"esModuleInterop": true,
@@ -19,14 +19,14 @@
 		"isolatedModules": true,
 		"allowSyntheticDefaultImports": true,
 		"jsx": "preserve",
-    "importHelpers": true,
-    "declaration": true,
-    "sourceMap": true,
-    "rootDir": "src",
-    "noUnusedLocals": true,
-    "moduleResolution": "node",
+		"importHelpers": true,
+		"declaration": true,
+		"sourceMap": true,
+		"rootDir": "src",
+		"noUnusedLocals": true,
+		"moduleResolution": "node",
 		"outDir": "dist"
-  },
+	},
 	"files": [
 		"src/index.ts"
 	]
