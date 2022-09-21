@@ -3,25 +3,38 @@
  */
 import type { NextRouter } from 'next/router';
 import { FunctionComponent, ReactElement, useEffect } from 'react';
-import { PilotRouter, PilotStateProps } from './pilot';
+import { PilotConfig, PilotRouter, PilotStateProps } from './pilot';
 import { PilotRoute, PilotRouteOptions } from './route';
 import { PilotAreaRenderer } from './area-renderer';
 import { usePilot } from './use-pilot';
 
 interface PilotAreaProps {
 	children?: any
+	config?: PilotConfig
+	/**
+	 * @deprecated use config instead
+	 */
 	logLevel?: 'trace' | 'debug' | 'info' | 'warn' | 'error'
 	name?: string
 	persistPlaceholder?: boolean
 	placeholder?: (visible: boolean) => ReactElement<PilotStateProps>
 	renderContent?: boolean
+	/**
+	 * @deprecated use config instead
+	 */
 	nextRouter?: NextRouter | null
+	/**
+	 * @deprecated use config instead
+	 */
 	router?: PilotRouter
 }
 export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaProps) => {
-	const { children, logLevel, name, nextRouter, persistPlaceholder, placeholder, renderContent = true, router } = props;
+	const { children, config, logLevel, name, nextRouter, persistPlaceholder, placeholder, renderContent = true, router } = props;
 	const pilot = usePilot(name);
 	pilot.config({ logLevel, nextRouter, router });
+	if (config) {
+		pilot.config(config);
+	}
 
 	// Extract paths from children
 	let paths: PilotRouteOptions[] = [];
