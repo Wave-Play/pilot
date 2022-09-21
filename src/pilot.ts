@@ -39,7 +39,7 @@ export interface PilotConfig {
 }
 
 export interface PilotFlyOptions {
-	locale?: string
+	locale?: string | false
 	scroll?: boolean
 	shallow?: boolean
 }
@@ -376,24 +376,27 @@ export class Pilot {
 	private async _load(path: string, options?: PilotFlyOptions): Promise<ActionResult> {
 		const hasQuery = path.includes('?');
 
-		// If this path starts with another registered locale, make sure to update the current locale
-		const locale = options?.locale || this._config.i18n?.locales?.find(locale => 
-			path.startsWith(`/${locale}/`)
-			|| path === `/${locale}`
-			|| (hasQuery && path.substring(0, path.indexOf('?')) === `/${locale}`)
-		);
-		if (locale && locale !== this._currentLocale) {
-			this._logger.debug(`[${this._getId()}] Locale changed from ${this._currentLocale} to ${locale}`);
-			this._currentLocale = locale;
-		}
+		// Handle locale prefix only as long as caller doesn't opt out
+		if (options?.locale !== false) {
+			// If this path starts with another registered locale, make sure to update the current locale
+			const locale = options?.locale || this._config.i18n?.locales?.find(locale => 
+				path.startsWith(`/${locale}/`)
+				|| path === `/${locale}`
+				|| (hasQuery && path.substring(0, path.indexOf('?')) === `/${locale}`)
+			);
+			if (locale && locale !== this._currentLocale) {
+				this._logger.debug(`[${this._getId()}] Locale changed from ${this._currentLocale} to ${locale}`);
+				this._currentLocale = locale;
+			}
 
-		// Paths are handled internally, so we need to strip the locale prefix or router won't match
-		if (path.startsWith(`/${this._currentLocale}/`)) {
-			path = path.replace(`/${this._currentLocale}`, '');
-		} else if (path === `/${this._currentLocale}`) {
-			path = '/';
-		} else if (hasQuery && path.substring(0, path.indexOf('?')) === `/${this._currentLocale}`) {
-			path = '/';
+			// Paths are handled internally, so we need to strip the locale prefix or router won't match
+			if (path.startsWith(`/${this._currentLocale}/`)) {
+				path = path.replace(`/${this._currentLocale}`, '');
+			} else if (path === `/${this._currentLocale}`) {
+				path = '/';
+			} else if (hasQuery && path.substring(0, path.indexOf('?')) === `/${this._currentLocale}`) {
+				path = '/';
+			}
 		}
 
 		// Look up the route data for this path
@@ -510,7 +513,7 @@ export class Pilot {
 	 * @returns The modified path. If no hooks modify the path, this will be the same as the original.
 	 */
 	private async _notify(path: string, event: PilotEvent): Promise<string> {
-		this._logger.debug(`[${this._getId()}] _notify(${path}, ${event})`);
+		this._logger.debug(`[${this._getId()}] _notify(${path})`);
 		for (let hook of this._hooks) {
 			if (hook.type === event.type || hook.type === '*') {
 				const result = hook.callback(path, event);
