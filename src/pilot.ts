@@ -182,6 +182,20 @@ export class Pilot {
 		this._currentLocale = config?.i18n?.defaultLocale;
 	}
 
+	public getDefaultLocale(): string | undefined {
+		return this._config.i18n?.defaultLocale;
+	}
+
+	public getLocale(): string | undefined {
+		this._logger.debug(`[${this._getId()}] getLocale()`);
+		return this._currentLocale;
+	}
+
+	public getLocales(): string[] | undefined {
+		this._logger.debug(`[${this._getId()}] getLocales()`);
+		return this._config.i18n?.locales;
+	}
+
 	public getParams(): DataMap {
 		this._logger.debug(`[${this._getId()}] getParams()`);
 		return this._currentPage?.params || {};
@@ -198,6 +212,11 @@ export class Pilot {
 		} else {
 			return this._stack[this._stack.length - 1];
 		}
+	}
+
+	public getProps(): any {
+		this._logger.debug(`[${this._getId()}] getProps()`);
+		return this._currentPage?.props || {};
 	}
 
 	public getQuery(): DataMap {
