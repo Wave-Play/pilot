@@ -21,12 +21,27 @@ interface FlightOptions {
 	addToStack?: boolean
 }
 
+type Url = string | {
+	pathname: string
+	query?: DataMap
+}
+
 export interface PilotConfig {
 	id?: string
 	cacheSize?: number
+	i18n?: {
+		defaultLocale: string
+		locales: string[]
+	}
 	logLevel?: 'trace' | 'debug' | 'info' | 'warn' | 'error'
 	nextRouter?: NextRouter | null
 	router?: PilotRouter
+}
+
+export interface PilotFlyOptions {
+	locale?: string
+	scroll?: boolean
+	shallow?: boolean
 }
 
 export interface PilotEvent {
@@ -85,6 +100,7 @@ export class Pilot {
 	private _logger = pino();
 
 	// Trackers
+	private _currentLocale?: string;
 	private _currentPage?: PilotPage;
 	private readonly _hooks: PilotHook[] = [];
 	private readonly _stack: string[] = [];
@@ -163,6 +179,7 @@ export class Pilot {
 		// Update config for cache and logger separately
 		this._cache.max = config?.cacheSize !== undefined ? config.cacheSize : 100;
 		this._logger.level = config?.logLevel || 'warn';
+		this._currentLocale = config?.i18n?.defaultLocale;
 	}
 
 	public getParams(): DataMap {
@@ -170,10 +187,14 @@ export class Pilot {
 		return this._currentPage?.params || {};
 	}
 
-	public getPath(): string {
+	public getPath(options?: { includeLocale?: boolean }): string {
 		this._logger.debug(`[${this._getId()}] getPath()`);
+		const { includeLocale } = options || {};
+
 		if (this._config.nextRouter) {
 			return this._config.nextRouter.asPath;
+		} else if (includeLocale && this._currentLocale) {
+			return '/' + this._currentLocale + this._stack[this._stack.length - 1];
 		} else {
 			return this._stack[this._stack.length - 1];
 		}
@@ -195,17 +216,19 @@ export class Pilot {
 	 * 
 	 * @param path 
 	 */
-	public async fly(path: string) {
-		this._logger.debug(`[${this._getId()}] fly(${path})`);
+	public async fly(url: Url, as?: string, options?: PilotFlyOptions) {
+		this._logger.debug(`[${this._getId()}] fly(${JSON.stringify(url)})`);
 
-		return this._fly(path, {
+		return this._fly(url, {
 			action: async (path: string) => {
 				// Delegate to NextJS router if one exists; use internal router otherwise
 				if (this._config.nextRouter) {
-					await this._config.nextRouter.push(path);
+					await this._config.nextRouter.push({
+						pathname: path
+					}, as, options);
 					return null;
 				} else {
-					return await this._load(path);
+					return await this._load(path, options);
 				}
 			}
 		});
@@ -279,11 +302,23 @@ export class Pilot {
 	 * @param path Path to navigate to. Mainly used for notifying listeners.
 	 * @param options Should contain action to execute + other options.
 	 */
-	private async _fly(path: string, options: FlightOptions) {
+	private async _fly(url: Url, options: FlightOptions) {
 		const { action, addToStack = true } = options;
-		const originalPath = path;
+
+		// Get path from URL or use directly if string
+		let path = typeof url === 'string' ? url : url.pathname;
+
+		// Query values are important too, ya know
+		if (typeof url !== 'string' && url.query) {
+			let token = '?';
+			for (let key in url.query) {
+				path += `${token}${key}=${url.query[key]}`;
+				token = '&';
+			}
+		}
 
 		// Notify listeners and allow them to modify the path
+		const originalPath = path;
 		path = await this._notify(path, { type: 'load-start' });
 		if (path !== originalPath) {
 			this._logger.info(`[${this._getId()}] A hook has modified this path: ${path}`);
@@ -338,7 +373,30 @@ export class Pilot {
 	 * @param path Path to load.
 	 * @returns Component and props for the specified path. If no component is found, returns null.
 	 */
-	private async _load(path: string): Promise<ActionResult> {
+	private async _load(path: string, options?: PilotFlyOptions): Promise<ActionResult> {
+		const hasQuery = path.includes('?');
+
+		// If this path starts with another registered locale, make sure to update the current locale
+		const locale = options?.locale || this._config.i18n?.locales?.find(locale => 
+			path.startsWith(`/${locale}/`)
+			|| path === `/${locale}`
+			|| (hasQuery && path.substring(0, path.indexOf('?')) === `/${locale}`)
+		);
+		if (locale && locale !== this._currentLocale) {
+			this._logger.debug(`[${this._getId()}] Locale changed from ${this._currentLocale} to ${locale}`);
+			this._currentLocale = locale;
+		}
+
+		// Paths are handled internally, so we need to strip the locale prefix or router won't match
+		if (path.startsWith(`/${this._currentLocale}/`)) {
+			path = path.replace(`/${this._currentLocale}`, '');
+		} else if (path === `/${this._currentLocale}`) {
+			path = '/';
+		} else if (hasQuery && path.substring(0, path.indexOf('?')) === `/${this._currentLocale}`) {
+			path = '/';
+		}
+
+		// Look up the route data for this path
 		let route = this._config.router?.find(path, { pilot: this });
 
 		// If no route is found, load 404 page instead
@@ -420,8 +478,9 @@ export class Pilot {
 		
 		// Get props from route's getProps() function
 		props = await route.getProps({
+			locale: this._currentLocale,
+			params: route.params || {},
 			query: route.query || {},
-			params: route.params,
 			req: {} as any,
 			res: {} as any,
 			resolvedUrl: path
