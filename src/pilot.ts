@@ -242,9 +242,12 @@ export class Pilot {
 			action: async (path: string) => {
 				// Delegate to NextJS router if one exists; use internal router otherwise
 				if (this._config.nextRouter) {
-					await this._config.nextRouter.push({
-						pathname: path
-					}, as, options);
+					// Account for updated path (e.g. hook overrides)
+					if (typeof url !== 'string') {
+						url.pathname = path;
+					}
+
+					await this._config.nextRouter.push(url, as, options);
 					return null;
 				} else {
 					return await this._load(path, options);
