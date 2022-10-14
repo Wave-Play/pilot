@@ -60,7 +60,7 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 	return (
 		<>
 			{ children }
-			{ renderContent && <PilotAreaRenderer persistPlaceholder={persistPlaceholder} placeholder={placeholder}/> }
+			{ renderContent && <PilotAreaRenderer name={name} persistPlaceholder={persistPlaceholder} placeholder={placeholder}/> }
 		</>
 	)
 };

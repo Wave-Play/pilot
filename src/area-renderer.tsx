@@ -6,13 +6,14 @@ import { usePilot } from './use-pilot';
 import { PilotEvent, PilotStateProps } from './pilot';
 
 interface PilotAreaRendererProps {
+	name?: string
 	persistError?: boolean
 	persistPlaceholder?: boolean
 	placeholder?: (visible: boolean) => ReactElement<PilotStateProps>
 }
 export const PilotAreaRenderer: FunctionComponent<PilotAreaRendererProps> = (props: PilotAreaRendererProps) => {
-	const { persistPlaceholder, placeholder } = props;
-	const pilot = usePilot();
+	const { name, persistPlaceholder, placeholder } = props;
+	const pilot = usePilot(name);
 
 	// Update content after navigating to a new page
 	const [ content, setContent ] = useState<ReactElement | null>(pilot.render());
