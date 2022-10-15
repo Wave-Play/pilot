@@ -37,16 +37,13 @@
 		"build": "tsup",
 		"semantic-release": "semantic-release"
 	},
-	"resolutions": {
-		"typescript": "4.6.2"
-	},
 	"dependencies": {
-		"jotai": "1.8.3",
-		"node-match-path": "^0.6.3",
-		"pino": "^8.5.0",
-		"pino-pretty": "7.1.0",
-		"radix3": "^0.1.2",
-		"tiny-lru": "^8.0.2"
+		"jotai": "1.8.5",
+		"node-match-path": "0.6.3",
+		"pino": "8.6.1",
+		"pino-pretty": "9.1.1",
+		"radix3": "0.2.1",
+		"tiny-lru": "9.0.3"
 	},
 	"peerDependencies": {
 		"next": ">=11.0.0",
@@ -54,20 +51,20 @@
 		"react-native": ">=0.64.1"
 	},
 	"devDependencies": {
-		"@babel/plugin-transform-react-jsx": "^7.19.0",
-		"@types/benchmark": "^2.1.2",
-		"@types/react": "^18.0.20",
-		"@types/react-native": "^0.70.1",
-		"@typescript-eslint/eslint-plugin": "5.6.0",
-		"@typescript-eslint/parser": "5.6.0",
-		"benchmark": "^2.1.4",
-		"eslint-plugin-import": "2.25.4",
-		"eslint-plugin-jest": "25.3.0",
-		"next": "^12.3.0",
-		"semantic-release": "18.0.1",
+		"@babel/plugin-transform-react-jsx": "7.19.0",
+		"@types/benchmark": "2.1.2",
+		"@types/react": "18.0.21",
+		"@types/react-native": "0.70.4",
+		"@typescript-eslint/eslint-plugin": "5.40.0",
+		"@typescript-eslint/parser": "5.40.0",
+		"benchmark": "2.1.4",
+		"eslint-plugin-import": "2.26.0",
+		"eslint-plugin-jest": "27.1.2",
+		"next": "12.3.1",
+		"semantic-release": "19.0.5",
 		"semantic-release-cli": "5.4.4",
-		"tsup": "^6.2.3",
-		"typescript": "4.6.2"
+		"tsup": "6.2.3",
+		"typescript": "4.8.4"
 	},
 	"eslint": {
 		"env": {

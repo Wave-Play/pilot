@@ -5,7 +5,7 @@ import { NextRouter } from 'next/router';
 import { ComponentProps, ComponentType, createElement, ReactElement } from 'react';
 import { PilotRouteOptions } from './route';
 import { RadixRouter } from './radix-router';
-import lru, { Lru } from 'tiny-lru';
+import { lru, LRU } from 'tiny-lru';
 import { DataMap, Default404, Default500, generateNumber, Url } from './_internal';
 import pino from 'pino';
 
@@ -87,7 +87,7 @@ export class Pilot {
 	private _config: PilotConfig;
 
 	// Loaded props cache
-	private _cache: Lru;
+	private _cache: LRU<any>;
 
 	// Handy lil' logger for debugging
 	private _logger = pino();
