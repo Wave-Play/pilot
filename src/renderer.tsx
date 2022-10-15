@@ -5,13 +5,13 @@ import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
 import { usePilot } from './use-pilot';
 import { PilotEvent, PilotStateProps } from './pilot';
 
-interface PilotAreaRendererProps {
+interface PilotRendererProps {
 	name?: string
 	persistError?: boolean
 	persistPlaceholder?: boolean
 	placeholder?: (visible: boolean) => ReactElement<PilotStateProps>
 }
-export const PilotAreaRenderer: FunctionComponent<PilotAreaRendererProps> = (props: PilotAreaRendererProps) => {
+export const PilotRenderer: FunctionComponent<PilotRendererProps> = (props: PilotRendererProps) => {
 	const { name, persistPlaceholder, placeholder } = props;
 	const pilot = usePilot(name);
 

@@ -5,7 +5,7 @@ import type { NextRouter } from 'next/router';
 import { FunctionComponent, ReactElement, useEffect } from 'react';
 import { PilotConfig, PilotRouter, PilotStateProps } from './pilot';
 import { PilotRoute, PilotRouteOptions } from './route';
-import { PilotAreaRenderer } from './area-renderer';
+import { PilotRenderer } from './renderer';
 import { usePilot } from './use-pilot';
 
 interface PilotAreaProps {
@@ -18,7 +18,7 @@ interface PilotAreaProps {
 	name?: string
 	persistPlaceholder?: boolean
 	placeholder?: (visible: boolean) => ReactElement<PilotStateProps>
-	renderContent?: boolean
+	render?: boolean
 	/**
 	 * @deprecated use config instead
 	 */
@@ -29,7 +29,7 @@ interface PilotAreaProps {
 	router?: PilotRouter
 }
 export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaProps) => {
-	const { children, config, logLevel, name, nextRouter, persistPlaceholder, placeholder, renderContent = true, router } = props;
+	const { children, config, logLevel, name, nextRouter, persistPlaceholder, placeholder, render = true, router } = props;
 	const pilot = usePilot(name);
 	pilot.config({ logLevel, nextRouter, router });
 	if (config) {
@@ -60,7 +60,7 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 	return (
 		<>
 			{ children }
-			{ renderContent && <PilotAreaRenderer name={name} persistPlaceholder={persistPlaceholder} placeholder={placeholder}/> }
+			{ render && <PilotRenderer name={name} persistPlaceholder={persistPlaceholder} placeholder={placeholder}/> }
 		</>
 	)
 };
