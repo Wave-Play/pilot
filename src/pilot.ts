@@ -6,7 +6,7 @@ import { ComponentProps, ComponentType, createElement, ReactElement } from 'reac
 import { PilotRouteOptions } from './route';
 import { RadixRouter } from './radix-router';
 import lru, { Lru } from 'tiny-lru';
-import { Default404, Default500, generateNumber } from './internal';
+import { DataMap, Default404, Default500, generateNumber, Url } from './internal';
 import pino from 'pino';
 
 interface ActionResult {
@@ -14,17 +14,11 @@ interface ActionResult {
 	redirect?: string
 }
 
-type DataMap = { [key: string]: string }
-
 interface FlightOptions {
 	action: (path: string) => Promise<ActionResult | null>
 	addToStack?: boolean
 }
 
-type Url = string | {
-	pathname: string
-	query?: DataMap
-}
 
 export interface PilotConfig {
 	id?: string

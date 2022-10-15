@@ -4,6 +4,7 @@
 
 // Export all non-internal, uh... exports ÒwÓ
 export * from './area';
+export * from './link';
 export * from './pilot';
 export * from './renderer';
 export * from './route';

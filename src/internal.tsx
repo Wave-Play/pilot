@@ -4,6 +4,13 @@
 import { FunctionComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+export type DataMap = { [key: string]: string }
+
+export type Url = string | {
+	pathname: string
+	query?: DataMap
+}
+
 let id = 0;
 export const generateNumber = () => id++;
 
