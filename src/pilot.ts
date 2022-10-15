@@ -6,7 +6,7 @@ import { ComponentProps, ComponentType, createElement, ReactElement } from 'reac
 import { PilotRouteOptions } from './route';
 import { RadixRouter } from './radix-router';
 import lru, { Lru } from 'tiny-lru';
-import { DataMap, Default404, Default500, generateNumber, Url } from './internal';
+import { DataMap, Default404, Default500, generateNumber, Url } from './_internal';
 import pino from 'pino';
 
 interface ActionResult {
@@ -18,7 +18,6 @@ interface FlightOptions {
 	action: (path: string) => Promise<ActionResult | null>
 	addToStack?: boolean
 }
-
 
 export interface PilotConfig {
 	id?: string
