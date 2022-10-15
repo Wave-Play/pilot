@@ -17,7 +17,7 @@
 	],
 	"sideEffects": false,
 	"main": "dist/index.js",
-	"module": "dist/pilot.esm.js",
+	"module": "dist/index.mjs",
 	"release": {
 		"branches": [
 			"main",
@@ -34,12 +34,8 @@
 		"README.md"
 	],
 	"scripts": {
-		"build": "tsdx build",
-		"format": "tsdx lint src --fix",
-		"lint": "tsdx lint src",
-		"semantic-release": "semantic-release",
-		"start": "tsdx watch",
-		"test": "tsdx test"
+		"build": "tsup",
+		"semantic-release": "semantic-release"
 	},
 	"resolutions": {
 		"typescript": "4.6.2"
@@ -70,8 +66,7 @@
 		"next": "^12.3.0",
 		"semantic-release": "18.0.1",
 		"semantic-release-cli": "5.4.4",
-		"tsdx": "^0.14.1",
-		"tslib": "2.3.1",
+		"tsup": "^6.2.3",
 		"typescript": "4.6.2"
 	},
 	"eslint": {
