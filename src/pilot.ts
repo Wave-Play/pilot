@@ -254,6 +254,15 @@ export class Pilot {
 		this._logger[level](`[${this._getId()}] ` + message, ...args);
 	}
 
+	/**
+	 * Alias for fly().
+	 * 
+	 * See {@link fly} for more details.
+	 */
+	public async push(url: Url, as?: string, options?: PilotFlyOptions) {
+		return this.fly(url, as, options);
+	}
+
 	public async reload() {
 		this._logger.debug(`[${this._getId()}] refresh()`);
 
