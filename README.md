@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[![GitHub license](https://img.shields.io/github/license/Wave-Play/pilot?style=flat)](https://github.com/Wave-Play/pilot/blob/main/LICENSE) [![Tests](https://github.com/Wave-Play/pilot/workflows/CI/badge.svg)](https://github.com/Wave-Play/pilot/actions) ![npm](https://img.shields.io/npm/v/@waveplay/pilot) [![minizipped size](https://badgen.net/bundlephobia/minzip/@waveplay/pilot)](https://bundlephobia.com/result?p=@waveplay/pilot)
+[![GitHub license](https://img.shields.io/github/license/Wave-Play/pilot?style=flat)](https://github.com/Wave-Play/pilot/blob/master/LICENSE) [![Tests](https://github.com/Wave-Play/pilot/workflows/CI/badge.svg)](https://github.com/Wave-Play/pilot/actions) ![npm](https://img.shields.io/npm/v/@waveplay/pilot) [![minizipped size](https://badgen.net/bundlephobia/minzip/@waveplay/pilot)](https://bundlephobia.com/result?p=@waveplay/pilot)
 
 **NextJS routing for Expo & React Native**
 
@@ -105,7 +105,7 @@ This project was originally developed as an internal router for [WavePlay](https
 
 ## Documentation
 
-- [Advanced setup for NextJS](https://github.com/Wave-Play/pilot/blob/main/docs/advanced-nextjs.md)
+- [Advanced setup for NextJS](https://github.com/Wave-Play/pilot/blob/master/docs/advanced-nextjs.md)
 
 ## License
 
