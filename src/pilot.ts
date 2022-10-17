@@ -7,7 +7,6 @@ import { PilotRouteOptions } from './route';
 import { RadixRouter } from './radix-router';
 import { lru, LRU } from 'tiny-lru';
 import { DataMap, Default404, Default500, generateNumber, Url } from './_internal';
-import pino from 'pino';
 
 interface ActionResult {
 	page?: PilotPage
@@ -19,6 +18,14 @@ interface FlightOptions {
 	addToStack?: boolean
 }
 
+export interface Logger {
+	debug: (...args: any[]) => void
+	error: (...args: any[]) => void
+	info: (...args: any[]) => void
+	warn: (...args: any[]) => void
+	trace: (...args: any[]) => void
+}
+
 export interface PilotConfig {
 	id?: string
 	cacheSize?: number
@@ -26,7 +33,7 @@ export interface PilotConfig {
 		defaultLocale: string
 		locales: string[]
 	}
-	logLevel?: 'trace' | 'debug' | 'info' | 'warn' | 'error'
+	logger?: Logger
 	nextRouter?: NextRouter | null
 	router?: PilotRouter
 }
@@ -89,9 +96,6 @@ export class Pilot {
 	// Loaded props cache
 	private _cache: LRU<any>;
 
-	// Handy lil' logger for debugging
-	private _logger = pino();
-
 	// Trackers
 	private _currentLocale?: string;
 	private _currentPage?: PilotPage;
@@ -100,9 +104,6 @@ export class Pilot {
 
 	constructor(config?: PilotConfig) {
 		this._config = config || {};
-
-		// Update log level based on preference
-		this._logger.level = config?.logLevel || 'warn';
 
 		// Create cache
 		this._cache = lru(config?.cacheSize || 100);
@@ -117,11 +118,11 @@ export class Pilot {
 			this._stack.push(config?.nextRouter.asPath);
 		}
 
-		this._logger.debug(`[${this._getId()}] New instance created`);
+		this.log('debug', `New instance created`);
 	}
 
 	public addHook(event: PilotEventType, callback: (path: string, event: PilotEvent) => void): number {
-		this._logger.debug(`[${this._getId()}] addHook()`);
+		this.log('debug', `addHook()`);
 		const id = generateNumber();
 		this._hooks.push({
 			callback,	id, type: event
@@ -130,13 +131,13 @@ export class Pilot {
 	}
 
 	public addRoute(route: PilotRouteOptions) {
-		this._logger.debug(`[${this._getId()}] addRoute(${JSON.stringify(route)})`);
+		this.log('debug', `addRoute(${JSON.stringify(route)})`);
 		if (!this._config.router) throw new Error('');
 		this._config.router.addRoute(route);
 	}
 
 	public async back() {
-		this._logger.debug(`[${this._getId()}] back()`);
+		this.log('debug', `back()`);
 
 		// Get previous page in stack
 		this._stack.pop();
@@ -159,7 +160,7 @@ export class Pilot {
 	}
 
 	public config(config: PilotConfig) {
-		this._logger.debug(`[${this._getId()}] config(${JSON.stringify(config)})`);
+		this.log('debug', `config(${JSON.stringify(config)})`);
 
 		// Update only defined properties from new config
 		// You can still remove/reset a property by setting it to null
@@ -171,7 +172,6 @@ export class Pilot {
 
 		// Update config for cache and logger separately
 		this._cache.max = config?.cacheSize !== undefined ? config.cacheSize : 100;
-		this._logger.level = config?.logLevel || 'warn';
 		this._currentLocale = config?.i18n?.defaultLocale;
 	}
 
@@ -180,22 +180,22 @@ export class Pilot {
 	}
 
 	public getLocale(): string | undefined {
-		this._logger.debug(`[${this._getId()}] getLocale()`);
+		this.log('debug', `getLocale()`);
 		return this._currentLocale;
 	}
 
 	public getLocales(): string[] | undefined {
-		this._logger.debug(`[${this._getId()}] getLocales()`);
+		this.log('debug', `getLocales()`);
 		return this._config.i18n?.locales;
 	}
 
 	public getParams(): DataMap {
-		this._logger.debug(`[${this._getId()}] getParams()`);
+		this.log('debug', `getParams()`);
 		return this._currentPage?.params || {};
 	}
 
 	public getPath(options?: { includeLocale?: boolean }): string {
-		this._logger.debug(`[${this._getId()}] getPath()`);
+		this.log('debug', `getPath()`);
 		const { includeLocale } = options || {};
 
 		if (this._config.nextRouter) {
@@ -208,12 +208,12 @@ export class Pilot {
 	}
 
 	public getProps(): any {
-		this._logger.debug(`[${this._getId()}] getProps()`);
+		this.log('debug', `getProps()`);
 		return this._currentPage?.props || {};
 	}
 
 	public getQuery(): DataMap {
-		this._logger.debug(`[${this._getId()}] getQuery()`);
+		this.log('debug', `getQuery()`);
 		if (this._config.nextRouter) {
 			return this._config.nextRouter.query as DataMap;
 		} else {
@@ -229,7 +229,7 @@ export class Pilot {
 	 * @param path 
 	 */
 	public async fly(url: Url, as?: string, options?: PilotFlyOptions) {
-		this._logger.debug(`[${this._getId()}] fly(${JSON.stringify(url)})`);
+		this.log('debug', `fly(${JSON.stringify(url)})`);
 
 		return this._fly(url, {
 			action: async (path: string) => {
@@ -250,7 +250,8 @@ export class Pilot {
 	}
 
 	public log(level: 'trace' | 'debug' | 'info' | 'warn' | 'error', message?: string, ...args: any[]) {
-		this._logger[level](`[${this._getId()}] ` + message, ...args);
+		const id = `PilotJS${this._config.id ? '-' + this._config.id : ''}`;
+		this._config.logger?.[level]?.(`[${id}] ` + message, ...args);
 	}
 
 	/**
@@ -263,7 +264,7 @@ export class Pilot {
 	}
 
 	public async reload() {
-		this._logger.debug(`[${this._getId()}] refresh()`);
+		this.log('debug', `refresh()`);
 
 		// Get previous page in stack
 		const path = this._stack[this._stack.length - 1];
@@ -285,18 +286,18 @@ export class Pilot {
 	}
 
 	public removeHook(id: number) {
-		this._logger.debug(`[${this._getId()}] removeHook(${id})`);
+		this.log('debug', `removeHook(${id})`);
 		const index = this._hooks.findIndex(hook => hook.id === id);
 		this._hooks.splice(index, 1);
 	}
 
 	public removeRoute(path: string) {
-		this._logger.debug(`[${this._getId()}] removeRoute(${path})`);
+		this.log('debug', `removeRoute(${path})`);
 		this._config.router?.removeRoute(path);
 	}
 
 	public render(): ReactElement | null {
-		this._logger.debug(`[${this._getId()}] render()`);
+		this.log('debug', `render()`);
 
 		// Can't render anything if no page has been set
 		if (!this._currentPage) return null;
@@ -308,8 +309,8 @@ export class Pilot {
 
 	public stats() {
 		return {
-			id: this._getId(),
-			logLevel: this._logger.level,
+			id: this._config.id,
+			logger: this._config.logger,
 			nextRouter: !!this._config.nextRouter,
 			path: this.getPath() || null,
 			params: this.getParams(),
@@ -345,7 +346,7 @@ export class Pilot {
 		const originalPath = path;
 		path = await this._notify(path, { type: 'load-start' });
 		if (path !== originalPath) {
-			this._logger.info(`[${this._getId()}] A hook has modified this path: ${path}`);
+			this.log('info', `A hook has modified this path: ${path}`);
 		}
 
 		try {
@@ -360,7 +361,7 @@ export class Pilot {
 			this._currentPage = result?.page;
 		} catch (e) {
 			// In case of error, exit early & notify listeners
-			this._logger.error(`[${this._getId()}] Error while executing action:`, e);
+			this.log('error', `Error while executing action:`, e);
 			this._notify(path, {
 				type: 'error',
 				page: undefined
@@ -370,7 +371,7 @@ export class Pilot {
 		// Add to stack
 		if (addToStack) {
 			this._stack.push(path);
-			this._logger.debug(`[${this._getId()}] New stack size: ${this._stack.length}`);
+			this.log('debug', `New stack size: ${this._stack.length}`);
 		}
 
 		// Notify listeners
@@ -378,13 +379,6 @@ export class Pilot {
 			type: this._config.nextRouter || this._currentPage ? 'load-complete' : 'error',
 			page: this._currentPage
 		});
-	}
-
-	/**
-	 * Convenience function to get the unique ID for this pilot.
-	 */
-	private _getId(): string {
-		return `pilot${this._config.id ? '-' + this._config.id : ''}`;
 	}
 
 	/**
@@ -409,7 +403,7 @@ export class Pilot {
 				|| (hasQuery && path.substring(0, path.indexOf('?')) === `/${locale}`)
 			);
 			if (locale && locale !== this._currentLocale) {
-				this._logger.debug(`[${this._getId()}] Locale changed from ${this._currentLocale} to ${locale}`);
+				this.log('debug', `Locale changed from ${this._currentLocale} to ${locale}`);
 				this._currentLocale = locale;
 			}
 
@@ -428,16 +422,16 @@ export class Pilot {
 
 		// If no route is found, load 404 page instead
 		if (route) {
-			this._logger.debug(`[${this._getId()}] Route found for path: ${path} ...`, route);
+			this.log('debug', `Route found for path: ${path} ...`, route);
 		} else if (path === '/404' || path === '/500') {
 			// Assign a default 404 page if none is found for convenience and to avoid infinite loops
-			this._logger.warn(`[${this._getId()}] Using default ${path} ...`);
+			this.log('warn', `Using default ${path} ...`);
 			route = {
 				component: path === '/404' ? Default404 : Default500,
 				path, params: {}, query: {}
 			};
 		} else {
-			this._logger.warn(`[${this._getId()}] No route found for path: ${path}`);
+			this.log('warn', `No route found for path: ${path}`);
 			return await this._load('/404');
 		}
 
@@ -447,18 +441,18 @@ export class Pilot {
 		try {
 			props = await this._loadProps(path, route);
 		} catch (e) {
-			this._logger.error(`[${this._getId()}] Error loading props for path: ${path}`, e);
+			this.log('error', `Error loading props for path: ${path}`, e);
 			this._notify(path, { error: e, type: 'error' });
 			return await this._load('/500');
 		}
 
 		if (props?.props) {
-			this._logger.info(`[${this._getId()}] Loaded props for ${path}:`, Object.keys(props.props));
+			this.log('info', `Loaded props for ${path}:`, Object.keys(props.props));
 		} else if (props?.notFound) {
-			this._logger.info(`[${this._getId()}] Route responded with "notFound": ${path}`);
+			this.log('info', `Route responded with "notFound": ${path}`);
 			return await this._load('/404');
 		} else if (props?.redirect?.destination) {
-			this._logger.info(`[${this._getId()}] Route responded with "redirect": ${path} -> ${props.redirect.destination}`);
+			this.log('info', `Route responded with "redirect": ${path} -> ${props.redirect.destination}`);
 			return {
 				redirect: props.redirect.destination
 			};
@@ -496,10 +490,10 @@ export class Pilot {
 		const cachedProps = this._cache.get(cacheKey);
 		const isExpired = !cachedProps || cachedProps?.__pilot?.expires < Date.now();
 		if (cachedProps && isExpired) {
-			this._logger.debug(`[${this._getId()}] Cached props for ${path} have expired, removing from cache...`);
+			this.log('debug', `Cached props for ${path} have expired, removing from cache...`);
 			this._cache.delete(cacheKey);
 		} else if (cachedProps && !isExpired) {
-			this._logger.debug(`[${this._getId()}] Found cached props for path: ${path}`);
+			this.log('debug', `Found cached props for path: ${path}`);
 			return cachedProps;
 		}
 		
@@ -516,7 +510,7 @@ export class Pilot {
 		// If a "revalidate" value is returned, cache the props for that amount of time
 		// This emulates ISR (Incremental Static Regeneration) from NextJS
 		if (props?.revalidate) {
-			this._logger.debug(`[${this._getId()}] Caching props for path: ${path} (revalidate: ${props.revalidate})`);
+			this.log('debug', `Caching props for path: ${path} (revalidate: ${props.revalidate})`);
 			this._cache.set(cacheKey, {
 				...props,
 				__pilot: {
@@ -537,7 +531,7 @@ export class Pilot {
 	 * @returns The modified path. If no hooks modify the path, this will be the same as the original.
 	 */
 	private async _notify(path: string, event: PilotEvent): Promise<string> {
-		this._logger.debug(`[${this._getId()}] _notify(${path})`);
+		this.log('debug', `_notify(${path})`);
 		for (let hook of this._hooks) {
 			if (hook.type === event.type || hook.type === '*') {
 				const result = hook.callback(path, event);
