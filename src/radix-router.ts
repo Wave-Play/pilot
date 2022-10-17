@@ -24,7 +24,6 @@ export class RadixRouter implements PilotRouter {
 
 		return route ? {
 			component: route.component,
-			default: route.default,
 			getProps: route.getProps,
 			params: route.params,
 			path: route.path,

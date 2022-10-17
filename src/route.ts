@@ -10,7 +10,6 @@ import { ComponentType, FunctionComponent } from 'react';
  */
 export interface PilotRouteOptions {
 	component: ComponentType
-	default?: boolean
 	getProps?: GetServerSideProps | GetStaticProps
 	path: string
 }

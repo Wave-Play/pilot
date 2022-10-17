@@ -137,7 +137,7 @@ const readPage = async (file: klaw.Item, readDirectory: string, logger: Logger):
 
 	// _document is very site-specific, so we don't want to include it
 	if (cleanPath === '/_document') {
-		logger.debug(`[PilotJS] Skipping "${file.path}"...`);
+		logger.debug(`[PilotJS] Skipping unsupported "${file.path}"...`);
 		return null;
 	}
 	

@@ -1,9 +1,8 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import type { NextRouter } from 'next/router';
 import { FunctionComponent, ReactElement, useEffect } from 'react';
-import { PilotConfig, PilotRouter, PilotStateProps } from './pilot';
+import { PilotConfig, PilotStateProps } from './pilot';
 import { PilotRoute, PilotRouteOptions } from './route';
 import { PilotRenderer } from './renderer';
 import { usePilot } from './use-pilot';
@@ -12,28 +11,25 @@ import { importPage, routes } from './_generated';
 interface PilotAreaProps {
 	children?: any
 	config?: PilotConfig
-	defaultRoute?: string
-	/**
-	 * @deprecated use config instead
-	 */
-	logLevel?: 'trace' | 'debug' | 'info' | 'warn' | 'error'
+	defaultPath?: string | null
 	name?: string
 	persistPlaceholder?: boolean
 	placeholder?: (visible: boolean) => ReactElement<PilotStateProps>
 	render?: boolean
-	/**
-	 * @deprecated use config instead
-	 */
-	nextRouter?: NextRouter | null
-	/**
-	 * @deprecated use config instead
-	 */
-	router?: PilotRouter
 }
 export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaProps) => {
-	const { children, config, defaultRoute = '/', logLevel, name, nextRouter, persistPlaceholder, placeholder, render = true, router } = props;
+	const {
+		children,
+		config,
+		defaultPath = '/',
+		name,
+		persistPlaceholder,
+		placeholder,
+		render = true
+	} = props;
+
+	//
 	const pilot = usePilot(name);
-	pilot.config({ logLevel, nextRouter, router });
 	if (config) {
 		pilot.config(config);
 	}
@@ -49,7 +45,6 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 					const page = await importPage(route.path);
 					paths.push({
 						component: page.default,
-						default: route.path === defaultRoute,
 						getProps: route.getProps ? page[route.getProps] : undefined,
 						path: route.path
 					});
@@ -74,12 +69,10 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 				pilot.addRoute(path);
 			}
 
-			// Automatically load the default route (if any)
-			const defaultPath = paths?.find((path: PilotRouteOptions) => path.default);
-			pilot.log('debug', defaultPath ? `Flying to default path: ${defaultPath.path}` : 'No default route was found');
-			
+			// Automatically load the default path (unless set to null)
+			pilot.log('debug', defaultPath ? `Flying to default path: ${defaultPath}` : 'No default route was found');
 			if (defaultPath) {
-				pilot.fly(defaultPath.path);
+				pilot.fly(defaultPath);
 			}
 		})();
 	}, []);
