@@ -18,12 +18,6 @@
 	"sideEffects": false,
 	"main": "dist/index.js",
 	"module": "dist/index.mjs",
-	"release": {
-		"branches": [
-			"main",
-			"next"
-		]
-	},
 	"publishConfig": {
 		"access": "public"
 	},
