@@ -8,7 +8,7 @@ module.exports = {
     }]
 	],
 	release: {
-		branches: ['main', 'next']
+		branches: ['main', 'next', 'beta', 'alpha']
 	},
 	repositoryUrl: 'https://github.com/Wave-Play/pilot'
 };
