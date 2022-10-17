@@ -6,7 +6,7 @@ module.exports = {
 		'@semantic-release/git'
 	],
 	release: {
-		branches: ['main', 'next', 'beta', 'alpha']
+		branches: ['main', 'beta', 'alpha']
 	},
 	repositoryUrl: 'https://github.com/Wave-Play/pilot'
 };
