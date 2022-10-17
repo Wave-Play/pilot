@@ -1,10 +1,20 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import { FunctionComponent } from 'react';
+import type { ComponentType, FunctionComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 export type DataMap = { [key: string]: string }
+
+export interface PageModule {
+	default: ComponentType
+}
+
+export interface PageRoute {
+	getProps?: string
+	importPath?: string
+	path: string
+}
 
 export type Url = string | {
 	pathname: string
