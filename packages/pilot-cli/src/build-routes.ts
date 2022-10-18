@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
