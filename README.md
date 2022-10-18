@@ -1,4 +1,4 @@
-<h1 align="center">Pilot</h1>
+<h1 align="center">PilotJS</h1>
 
 <div align="center">
 
@@ -48,6 +48,10 @@ router.push('/dashboard');
 // After
 const pilot = usePilot();
 pilot.fly('/dashboard');
+
+// Or
+const router = usePilot();
+router.push('/dashboard');
 ```
 
 ## Getting started for React Native
