@@ -82,6 +82,9 @@ typings/
 # Next.js build output
 .next
 
+# Pilot.js build output
+.pilot
+
 # Nuxt.js build / generate output
 .nuxt
 dist
