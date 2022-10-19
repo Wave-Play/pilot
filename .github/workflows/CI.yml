@@ -35,6 +35,11 @@ jobs:
           path: ${{ steps.yarn-cache.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
+      - name: Configure git credentials
+        uses: OleksiyRudenko/gha-git-credentials@v1
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+
       - name: Yarn install
         run: yarn install --frozen-lockfile --production=false
 
