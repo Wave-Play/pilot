@@ -28,7 +28,7 @@
 		"README.md"
 	],
 	"scripts": {
-		"build": "tsup && tsup src/cli.ts src/_generated.ts --format cjs",
+		"build": "tsup && tsup src/cli.ts src/_generated-pages.ts --format cjs",
 		"semantic-release": "semantic-release"
 	},
 	"bin": {
