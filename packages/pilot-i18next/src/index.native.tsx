@@ -8,7 +8,7 @@ import i18next from 'i18next';
 import type { AppProps as NextJsAppProps } from 'next/app';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { useMemo } from 'react';
-import importResource from './import-resource';
+import { importResource } from './import-resource';
 
 type AppProps = NextJsAppProps & {
   pageProps: any
