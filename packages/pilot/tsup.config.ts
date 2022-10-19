@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  entry: ['src', '!src/_generated-pages.ts', '!src/cli.ts'],
+  entry: ['src', '!src/_generated-pages.ts'],
 	external: ['react', 'react-native'],
 	format: ['esm', 'cjs'],
 	bundle: false,
