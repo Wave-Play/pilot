@@ -1,7 +1,7 @@
 {
 	"name": "pilotjs-cli",
 	"version": "2.0.0-beta.6",
-	"private": true,
+	"private": false,
 	"description": "NextJS-like routing for React Native",
 	"repository": {
 		"type": "git",
@@ -17,7 +17,8 @@
 	],
 	"sideEffects": false,
 	"publishConfig": {
-		"access": "public"
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
 	},
 	"files": [
 		"src/",

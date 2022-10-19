@@ -46,7 +46,7 @@ jobs:
 
       - name: Set git credentials
         run: |
-          git config --global user.email "dev@waveplay.com"
+          git config --global user.email "ci@waveplay.com"
           git config --global user.name "WavePlay"
 
       - name: Release
