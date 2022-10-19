@@ -1,6 +1,6 @@
 {
 	"name": "@waveplay/pilot-i18next",
-	"version": "2.0.0-beta.6",
+	"version": "2.0.0-beta.7",
 	"license": "MIT",
 	"private": false,
 	"description": "Support for i18next in Pilot router",
