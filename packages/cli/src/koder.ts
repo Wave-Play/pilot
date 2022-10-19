@@ -153,9 +153,9 @@ export class Kode {
 
 	public throw(error: string | Error): Kode {
 		if (typeof error === 'string') {
-			this._code += `throw '${error}';\n`;
+			this._code += `throw \`${error}\`;\n`;
 		} else {
-			this._code += `throw new Error('${error.message}');\n`;
+			this._code += `throw new Error(\`${error.message}\`);\n`;
 		}
 		return this;
 	}
