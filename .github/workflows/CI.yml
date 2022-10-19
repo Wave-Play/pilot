@@ -41,6 +41,11 @@ jobs:
       - name: Build
         run: yarn lerna run build
 
+      - name: Set git credentials
+        run: |
+          git config --global user.email "dev@waveplay.com"
+          git config --global user.name "WavePlay"
+
       - name: Release
         if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/next' || github.ref == 'refs/heads/beta' || github.ref == 'refs/heads/alpha')
         run: yarn lerna publish from-git --conventional-commits --yes
