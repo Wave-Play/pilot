@@ -7,6 +7,10 @@
 		"type": "git",
 		"url": "https://github.com/Wave-Play/pilot.git"
 	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	},
 	"engines": {
 		"node": ">=14"
 	},
@@ -18,9 +22,6 @@
 	"sideEffects": false,
 	"main": "dist/index.js",
 	"module": "dist/index.mjs",
-	"publishConfig": {
-		"access": "public"
-	},
 	"files": [
 		"src/",
 		"dist/",

@@ -6,7 +6,11 @@
 	"description": "Support for i18next in Pilot router",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Wave-Play/pilot-i18next.git"
+		"url": "https://github.com/Wave-Play/pilot.git"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
 	},
 	"engines": {
 		"node": ">=12"
@@ -23,9 +27,6 @@
 			"main",
 			"next"
 		]
-	},
-	"publishConfig": {
-		"access": "public"
 	},
 	"files": [
 		"src/",
