@@ -1,18 +1,31 @@
 {
-  "name": "pilotjs-project",
-  "version": "2.0.0-beta.3",
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
-  "engines": {
-    "node": ">=14.0.0"
-  },
-  "scripts": {
-    "lerna": "lerna"
-  },
-  "devDependencies": {
-    "conventional-changelog-cli": "^2.2.2",
-    "lerna": "^6.0.1"
-  }
+	"name": "pilotjs-project",
+	"version": "2.0.0-beta.3",
+	"private": true,
+	"workspaces": [
+		"packages/*"
+	],
+	"engines": {
+		"node": ">=14.0.0"
+	},
+	"scripts": {
+		"lerna": "lerna"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Wave-Play/pilot.git"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	},
+	"license": "MIT",
+	"author": "WavePlay <dev@waveplay.com> (waveplay.com)",
+	"contributors": [
+		"Pkmmte Xeleon <pk@waveplay.com>"
+	],
+	"devDependencies": {
+		"conventional-changelog-cli": "^2.2.2",
+		"lerna": "^6.0.1"
+	}
 }
