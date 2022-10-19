@@ -5,7 +5,7 @@
 import { Command } from 'commander';
 import koder from './koder';
 import buildLocales from './build-locales';
-import buildRoutes from './build-routes';
+import buildPages from './build-pages';
 
 koder.config({
 	indent: '\t'
@@ -15,5 +15,16 @@ new Command('pilot')
 	.description('Official CLI for the PilotJS framework')
 	.version('1.0.0')
 	.addCommand(buildLocales)
-	.addCommand(buildRoutes)
+	.addCommand(buildPages)
 	.parse(process.argv);
+
+export interface BuildManifest {
+	locales?: {
+		[key: string]: string[]
+	}
+	pages?: {
+		[key: string]: {
+			getProps: string | null
+		}
+	}
+}
