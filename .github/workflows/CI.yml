@@ -39,7 +39,7 @@ jobs:
         run: yarn install --frozen-lockfile --production=false
 
       - name: Build
-        run: yarn build
+        run: yarn lerna run build
 
       - name: Release
         if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/next' || github.ref == 'refs/heads/beta' || github.ref == 'refs/heads/alpha')
