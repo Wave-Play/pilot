@@ -6,11 +6,15 @@ import { Command, OptionValues } from 'commander';
 import fs from 'fs-extra';
 import klaw from 'klaw';
 import pino, { Logger } from 'pino';
-import { BuildManifest } from './';
+import { BuildManifest, syncManifest } from './';
 import koder from './koder';
 
 // Name of the file that will be generated
 const GENERATED_FILE = 'import-resource.js';
+
+// Locale directories to read & write to/from
+const LOCALES_ASSETS_DIR = appRoot + '/assets/locales';
+const LOCALES_PUBLIC_DIR = appRoot + '/public/locales';
 
 const command = new Command('build:locales')
 	.description('syncs locale files and generates static imports')
@@ -39,20 +43,27 @@ export async function action(options: OptionValues) {
 	// Copy all i18n files from /public into this library
 	// This is because React Native apps load from /assets instead, yet importing dynamically is a pain
 	logger.debug(`[PilotJS] Using root directory "${appRoot}"`);
-	await fs.copy(appRoot + '/public/locales', appRoot + '/assets/locales');
+	await fs.copy(LOCALES_PUBLIC_DIR, LOCALES_ASSETS_DIR);
 
 	// Register every file in a store first to prevent out-of-order imports
 	const store = await readAllLocales(logger);
 
 	// Generate the import file
 	await writeGeneratedFile(store, logger);
-	await syncManifest(store, logger);
+
+	// Apply newly read pages to the manifest
+	await syncManifest((manifest: BuildManifest) => {
+		manifest.locales = {};
+		for (const locale in store) {
+			manifest.locales[locale] = store[locale];
+		}
+	}, logger);
 	logger.info(`[PilotJS] Built ${Object.keys(store).length} locales in ${Date.now() - startTime}ms ✨`);
 };
 
 const readAllLocales = async (logger: Logger): Promise<any> => {
 	const store: any = {};
-	for await (const file of klaw(appRoot + '/assets/locales')) {
+	for await (const file of klaw(LOCALES_ASSETS_DIR)) {
 		// Skip directories
 		if (file.stats.isDirectory()) {
 			continue;
@@ -72,34 +83,6 @@ const readAllLocales = async (logger: Logger): Promise<any> => {
 	}
 
 	return store;
-};
-
-const syncManifest = async (store: any, logger: Logger): Promise<void> => {
-	let manifest: BuildManifest = {};
-	const manifestFile = appRoot + '/.pilot/build-manifest.json';
-
-	// Read existing manifest if it exists
-	if (await fs.pathExists(manifestFile)) {
-		const manifestContents = await fs.readFile(manifestFile, 'utf8');
-		manifest = JSON.parse(manifestContents);
-	}
-
-	// Apply newly read pages to the manifest
-	manifest.locales = {};
-	for (const locale in store) {
-		manifest.locales[locale] = store[locale];
-	}
-
-	// Sort the manifest object keys for cleanliness
-	manifest = Object.keys(manifest)
-		.sort()
-		.reduce((acc, key) => ({
-			...acc, [key]: manifest[key]
-		}), {});
-
-	// Write the manifest to .pilot/build-manifest.json
-	logger.debug(`[PilotJS] Synchronized build manifest`);
-	await fs.outputFile(manifestFile, JSON.stringify(manifest, null, 2));
 };
 
 const writeGeneratedFile = async (store: any, logger: Logger): Promise<void> => {

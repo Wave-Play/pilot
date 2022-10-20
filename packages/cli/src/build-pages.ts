@@ -9,7 +9,7 @@ import pino, { Logger } from 'pino';
 import { Options, transform } from '@swc/core';
 import evil from 'eval';
 import type { PageRoute } from '@waveplay/pilot/dist/_internal';
-import { BuildManifest } from './';
+import { BuildManifest, syncManifest } from './';
 import koder from './koder';
 
 // This is the number of directories to go up to get to the root of the project where pages are
@@ -77,7 +77,16 @@ export async function action(options: OptionValues) {
 
 	// Generate file containing info for all pages, including static imports
 	await writeGeneratedFile(pages, logger);
-	await syncManifest(pages, logger);
+
+	// Apply newly read pages to the manifest
+	await syncManifest((manifest: BuildManifest) => {
+		manifest.pages = {};
+		for (const page of pages) {
+			manifest.pages[page.path] = {
+				getProps: page.getProps
+			};
+		}
+	}, logger);
 	logger.info(`[PilotJS] Built ${pages.length} pages in ${Date.now() - startTime}ms ✨`);
 };
 
@@ -172,36 +181,6 @@ const readPage = async (file: klaw.Item, readDirectory: string, logger: Logger):
 		importPath: importPath.substring(0, importPath.lastIndexOf('.')),
 		path: route
 	};
-};
-
-const syncManifest = async (pages: PageRoute[], logger: Logger): Promise<void> => {
-	let manifest: BuildManifest = {};
-	const manifestFile = appRoot + '/.pilot/build-manifest.json';
-
-	// Read existing manifest if it exists
-	if (await fs.pathExists(manifestFile)) {
-		const manifestContents = await fs.readFile(manifestFile, 'utf8');
-		manifest = JSON.parse(manifestContents);
-	}
-
-	// Apply newly read pages to the manifest
-	manifest.pages = {};
-	for (const page of pages) {
-		manifest.pages[page.path] = {
-			getProps: page.getProps
-		};
-	}
-
-	// Sort the manifest object keys for cleanliness
-	manifest = Object.keys(manifest)
-		.sort()
-		.reduce((acc, key) => ({
-			...acc, [key]: manifest[key]
-		}), {});
-
-	// Write the manifest to .pilot/build-manifest.json
-	logger.debug(`[PilotJS] Synchronized build manifest`);
-	await fs.outputFile(manifestFile, JSON.stringify(manifest, null, 2));
 };
 
 const writeGeneratedFile = async (pages: PageRoute[], logger: Logger): Promise<void> => {
