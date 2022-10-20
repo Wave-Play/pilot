@@ -3,10 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - master
-      - next
-      - beta
-      - alpha
+      - canary
 
 jobs:
   ci:
@@ -49,9 +46,11 @@ jobs:
           git config --global user.email "ci@waveplay.com"
           git config --global user.name "WavePlay"
 
+      - name: Update versions
+        run: yarn lerna version prerelease --conventional-prerelease --preid canary --yes
+
       - name: Release
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/next' || github.ref == 'refs/heads/beta' || github.ref == 'refs/heads/alpha')
-        run: yarn lerna publish --canary --conventional-commits --no-private --yes
+        run: yarn lerna publish --canary --conventional-commits --preid canary --yes
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
