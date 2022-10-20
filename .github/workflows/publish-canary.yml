@@ -50,7 +50,7 @@ jobs:
         run: yarn lerna version prerelease --conventional-prerelease --preid canary --yes
 
       - name: Release
-        run: yarn lerna publish --canary --conventional-commits --preid canary --yes
+        run: yarn lerna publish --canary --conventional-commits --force-publish=* --preid canary --yes
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
