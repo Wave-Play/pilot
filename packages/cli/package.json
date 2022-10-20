@@ -1,6 +1,6 @@
 {
 	"name": "pilotjs-cli",
-	"version": "2.0.0-canary.2",
+	"version": "2.0.0-canary.3",
 	"private": false,
 	"description": "NextJS-like routing for React Native",
 	"repository": {
@@ -38,7 +38,7 @@
 		"@types/fs-extra": "9.0.13",
 		"@types/klaw": "3.0.3",
 		"@types/node": "18.11.0",
-		"@waveplay/pilot": "^2.0.0-canary.2",
+		"@waveplay/pilot": "^2.0.0-canary.3",
 		"app-root-path": "3.1.0",
 		"benchmark": "2.1.4",
 		"commander": "9.4.1",
