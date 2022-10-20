@@ -7,6 +7,7 @@ import koder from './koder';
 import build from './build';
 import buildLocales from './build-locales';
 import buildPages from './build-pages';
+import { version } from '../package.json';
 
 koder.config({
 	indent: '\t'
@@ -14,7 +15,7 @@ koder.config({
 
 new Command('pilot')
 	.description('Official CLI for the PilotJS framework')
-	.version('1.0.0')
+	.version(version)
 	.addCommand(build)
 	.addCommand(buildLocales)
 	.addCommand(buildPages)
