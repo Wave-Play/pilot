@@ -40,9 +40,15 @@ export async function action(options: OptionValues) {
 	});
 	logger.debug(`[PilotJS] Starting build:locales...`);
 
+	// Make sure the public locales directory exists and return early if it doesn't
+	logger.debug(`[PilotJS] Using root directory "${appRoot}"`);
+	if (!fs.existsSync(LOCALES_PUBLIC_DIR)) {
+		logger.warn(`[PilotJS] "/public/locales" does not exist! Skipping build:locales...`);
+		return;
+	}
+
 	// Copy all i18n files from /public into this library
 	// This is because React Native apps load from /assets instead, yet importing dynamically is a pain
-	logger.debug(`[PilotJS] Using root directory "${appRoot}"`);
 	await fs.copy(LOCALES_PUBLIC_DIR, LOCALES_ASSETS_DIR);
 
 	// Register every file in a store first to prevent out-of-order imports
