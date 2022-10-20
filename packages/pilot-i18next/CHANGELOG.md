@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 2.0.0-canary.4 (2022-10-20)
+
+
+### Bug Fixes
+
+* **cli:** warn instead of crashing when missing locales directory ([a135c0b](https://github.com/Wave-Play/pilot/commit/a135c0bffdd27a0f534678bdc4b82c3e19fc5273))
+
+
+
+
+
 # 2.0.0-canary.3 (2022-10-20)
 
 **Note:** Version bump only for package @waveplay/pilot-i18next
