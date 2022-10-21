@@ -303,9 +303,17 @@ export class Pilot {
 		// Can't render anything if no page has been set
 		if (!this._currentPage) return null;
 
+		// See if an _app component has been registered (without the unnecessary _load() overhead)
+		const appRoute = this._config.router?.find('/_app', { pilot: this });
+
 		// Render whatever is currently set, plus the props!
+		// If an _app component has been registered, wrap the page in it
 		const { Component, pageProps } = this._currentPage;
-		return createElement(Component, pageProps);
+		if (appRoute) {
+			return createElement(appRoute.Component, { Component, pageProps } as any); // safe to assume _app follows this prop signature
+		} else {
+			return createElement(Component, pageProps);
+		}
 	}
 
 	public stats() {
