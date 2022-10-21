@@ -19,7 +19,6 @@
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"allowSyntheticDefaultImports": true,
-		"jsx": "preserve",
 		"importHelpers": true,
 		"declaration": true,
 		"sourceMap": true,

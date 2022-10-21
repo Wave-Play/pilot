@@ -22,7 +22,7 @@
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"allowSyntheticDefaultImports": true,
-		"jsx": "preserve",
+		"jsx": "react-jsx",
 		"importHelpers": true,
 		"declaration": true,
 		"sourceMap": true,
