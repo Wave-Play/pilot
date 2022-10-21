@@ -201,7 +201,8 @@ export class Pilot {
 		if (this._config.nextRouter) {
 			return this._config.nextRouter.asPath;
 		} else if (includeLocale && this._currentLocale) {
-			return '/' + this._currentLocale + this._stack[this._stack.length - 1];
+			const path = this._stack[this._stack.length - 1];
+			return path ? '/' + this._currentLocale + path : undefined;
 		} else {
 			return this._stack[this._stack.length - 1];
 		}
