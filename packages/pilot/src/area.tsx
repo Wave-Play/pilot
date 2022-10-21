@@ -44,7 +44,7 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 				for (const route of pageRoutes) {
 					const page = await importPage(route.path);
 					paths.push({
-						component: page.default,
+						Component: page.default,
 						getProps: route.getProps ? page[route.getProps] : undefined,
 						path: route.path
 					});
@@ -64,7 +64,7 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 				paths = paths.concat(declaredRoutes);
 				pilot.log('debug', `Imported ${declaredRoutes.length} manually declared pages`);
 			}
-		
+
 			for (const path of paths) {
 				pilot.addRoute(path);
 			}

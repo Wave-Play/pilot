@@ -59,9 +59,9 @@ export interface PilotHook {
 }
 
 export interface PilotPage {
-	component: ComponentType
+	Component: ComponentType
+	pageProps: ComponentProps<any>
 	params: DataMap
-	props: ComponentProps<any>
 	query: DataMap
 }
 
@@ -132,7 +132,7 @@ export class Pilot {
 
 	public addRoute(route: PilotRouteOptions) {
 		this.log('debug', `addRoute(${JSON.stringify(route)})`);
-		if (!this._config.router) throw new Error('');
+		if (!this._config.router) throw new Error('No router configured');
 		this._config.router.addRoute(route);
 	}
 
@@ -210,7 +210,7 @@ export class Pilot {
 
 	public getProps(): any {
 		this.log('debug', `getProps()`);
-		return this._currentPage?.props || {};
+		return this._currentPage?.pageProps || {};
 	}
 
 	public getQuery(): DataMap {
@@ -304,8 +304,8 @@ export class Pilot {
 		if (!this._currentPage) return null;
 
 		// Render whatever is currently set, plus the props!
-		const { component, props } = this._currentPage;
-		return createElement(component, props);
+		const { Component, pageProps } = this._currentPage;
+		return createElement(Component, pageProps);
 	}
 
 	public stats() {
@@ -428,7 +428,7 @@ export class Pilot {
 			// Assign a default 404 page if none is found for convenience and to avoid infinite loops
 			this.log('warn', `Using default ${path} ...`);
 			route = {
-				component: path === '/404' ? Default404 : Default500,
+				Component: path === '/404' ? Default404 : Default500,
 				path, params: {}, query: {}
 			};
 		} else {
@@ -461,9 +461,9 @@ export class Pilot {
 
 		return {
 			page: {
-				component: route.component,
+				Component: route.Component,
 				params: route.params || {},
-				props: props?.props,
+				pageProps: props?.props,
 				query: route.query || {}
 			}
 		};

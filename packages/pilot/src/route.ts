@@ -9,7 +9,7 @@ import { ComponentType, FunctionComponent } from 'react';
  * The PilotProvider extracts these props and stores them for navigation.
  */
 export interface PilotRouteOptions {
-	component: ComponentType
+	Component: ComponentType
 	getProps?: GetServerSideProps | GetStaticProps
 	path: string
 }

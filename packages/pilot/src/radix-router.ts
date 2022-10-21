@@ -23,7 +23,7 @@ export class RadixRouter implements PilotRouter {
 		options.pilot.log('debug', `RadixRouter: Found matching page... ${JSON.stringify(route)}`);
 
 		return route ? {
-			component: route.component,
+			Component: route.Component,
 			getProps: route.getProps,
 			params: route.params,
 			path: route.path,
