@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 2.0.0-canary.9 (2022-10-21)
+
+
+### Features
+
+* **pilot:** now supports _app wrapper ([34fe73c](https://github.com/Wave-Play/pilot/commit/34fe73cbc50f9bf158082a5a337837a112852eea))
+
+
+
+
+
 # 2.0.0-canary.8 (2022-10-21)
 
 **Note:** Version bump only for package @waveplay/pilot-i18next
