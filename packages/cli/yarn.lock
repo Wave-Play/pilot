@@ -175,10 +175,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.0.tgz#f38c7139247a1d619f6cc6f27b072606af7c289d"
   integrity sha512-IOXCvVRToe7e0ny7HpT/X9Rb2RYtElG1a+VshjwT00HxrM2dWBApHQoqsI6WiY7Q03vdf2bCrIGzVrkF/5t10w==
 
-"@waveplay/pilot@^2.0.0-canary.4":
-  version "2.0.0-canary.5"
-  resolved "https://registry.yarnpkg.com/@waveplay/pilot/-/pilot-2.0.0-canary.5.tgz#e59727a10d7dcb328ec1825a7cef7807cba91db7"
-  integrity sha512-aJjoE/ijjbp6HcO4aSJPV6HQTnsjw2ZPVMYaEC2ZMPCB4kEEWxZ1QmNuuoM7Pk5mBNpnc3sUw07s3B5OioLMCg==
+"@waveplay/pilot@2.0.0-canary.7":
+  version "2.0.0-canary.7"
+  resolved "https://registry.yarnpkg.com/@waveplay/pilot/-/pilot-2.0.0-canary.7.tgz#30af9be8c0e0d6cca5d5212a6dc0840271a91448"
+  integrity sha512-hENf2e7zCbQ7ApTilSp83J/v5q3Klq0GNtPmyOXIWs4sjFUnzQVgr3dfENtYnOZFBCReqPH4fj91ghi0Xw7rkQ==
   dependencies:
     jotai "1.8.5"
     node-match-path "0.6.3"
