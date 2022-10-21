@@ -7,7 +7,7 @@ import fs from 'fs-extra';
 import klaw from 'klaw';
 import pino, { Logger } from 'pino';
 import { Options, transform } from '@swc/core';
-import evil from 'eval';
+import evil from 'safe-eval';
 import type { PageRoute } from '@waveplay/pilot/dist/_internal';
 import { BuildManifest, syncManifest } from './';
 import koder from './koder';
