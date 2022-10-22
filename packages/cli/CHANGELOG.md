@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 2.0.0-canary.11 (2022-10-22)
+
+
+### Bug Fixes
+
+* **i18n:** use proper NextApp type signature ([643ab84](https://github.com/Wave-Play/pilot/commit/643ab84dad297ade51e232d429ac7fb389df19db))
+
+
+### BREAKING CHANGES
+
+* **i18n:** appWithTranslation now uses `pageProps` rather than `props`, making it compatible only with _app wrappers.
+
+
+
+
+
 # 2.0.0-canary.10 (2022-10-21)
 
 **Note:** Version bump only for package pilotjs-cli
