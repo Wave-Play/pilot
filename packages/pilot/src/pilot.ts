@@ -113,6 +113,9 @@ export class Pilot {
 			this._config.router = new RadixRouter();
 		}
 
+		// Assign default locale if 18n is enabled
+		this._currentLocale = config?.i18n?.defaultLocale;
+
 		// Assign default path if router was provided
 		if (config?.nextRouter) {
 			this._stack.push(config?.nextRouter.asPath);
@@ -319,6 +322,7 @@ export class Pilot {
 	public stats() {
 		return {
 			id: this._config.id,
+			i18: this._config.i18n,
 			logger: this._config.logger,
 			nextRouter: !!this._config.nextRouter,
 			path: this.getPath() || null,
