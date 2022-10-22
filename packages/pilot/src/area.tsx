@@ -30,12 +30,13 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 		renderPlaceholder = 'always'
 	} = props;
 
-	//
-	const pilot = usePilot(name);
-	if (config) {
-		pilot.config(config);
-	}
+	// Get pilot instance
+	const pilot = usePilot({
+		...config || {},
+		id: name || config?.id
+	});
 
+	// Register routes and load the default page
 	useEffect(() => {
 		(async () => {
 			let paths: PilotRouteOptions[] = [];
