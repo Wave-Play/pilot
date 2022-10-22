@@ -1,93 +1,14 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import { NextRouter } from 'next/router';
-import { ComponentProps, ComponentType, createElement, ReactElement } from 'react';
-import { PilotRouteOptions } from './route';
+import { createElement, FunctionComponent, ReactElement } from 'react';
 import { RadixRouter } from './radix-router';
+import type { PilotRouteOptions } from './types';
 import { lru, LRU } from 'tiny-lru';
-import { DataMap, Default404, Default500, generateNumber, Url } from './_internal';
+import { ActionResult, DataMap, Default404, Default500, eventWaiter, FlightOptions, generateNumber, Url } from './_internal';
+import type { PilotConfig, PilotEvent, PilotEventType, PilotFlyOptions, PilotHook, PilotPage, PilotRouteResult } from './types';
 
-interface ActionResult {
-	page?: PilotPage
-	redirect?: string
-}
-
-interface FlightOptions {
-	action: (path: string) => Promise<ActionResult | null>
-	addToStack?: boolean
-}
-
-export interface Logger {
-	debug: (...args: any[]) => void
-	error: (...args: any[]) => void
-	info: (...args: any[]) => void
-	warn: (...args: any[]) => void
-	trace: (...args: any[]) => void
-}
-
-export interface PilotConfig {
-	id?: string
-	cacheSize?: number
-	i18n?: {
-		defaultLocale: string
-		locales: string[]
-	}
-	logger?: Logger
-	nextRouter?: NextRouter | null
-	router?: PilotRouter
-}
-
-export interface PilotFlyOptions {
-	locale?: string | false
-	scroll?: boolean
-	shallow?: boolean
-}
-
-export interface PilotEvent {
-	error?: any
-	page?: PilotPage
-	type: PilotEventType
-}
-
-export type PilotEventType = '*' | 'error' | 'load-complete' | 'load-start' | 'redirect'
-
-export interface PilotHook {
-	callback: (path: string, event: PilotEvent) => string | void
-	id: number
-	type: PilotEventType
-}
-
-export interface PilotPage {
-	Component: ComponentType
-	pageProps: ComponentProps<any>
-	params: DataMap
-	query: DataMap
-}
-
-export interface PilotRouter {
-	addRoute: (route: PilotRouteOptions) => void
-	find: (path: string, options: PilotRouterOptions) => PilotRouteResult
-	removeRoute: (path: string) => void
-	stats: () => {
-		key: string
-		numRoutes: number
-		routes: PilotRouteOptions[]
-	}
-}
-
-export interface PilotRouterOptions {
-	pilot: Pilot
-}
-
-export interface PilotRouteResult extends PilotRouteOptions {
-	params?: DataMap
-	query?: DataMap
-}
-
-export interface PilotStateProps {
-	visible?: boolean
-}
+export const PilotRoute: FunctionComponent<PilotRouteOptions> = () => null;
 
 export class Pilot {
 	// Constructor parameters
@@ -564,14 +485,3 @@ export class Pilot {
 		return path;
 	}
 }
-
-/**
- * Smol utility function meant to help us wait for a window event to fire.
- * This is super useful for waiting for window reload and back events!
- */
-const eventWaiter = async (event: string): Promise<any> => {
-	return new Promise<any>((resolve) => {
-		const callback = () => resolve(callback);
-		window.addEventListener(event, callback);
-	});
-};

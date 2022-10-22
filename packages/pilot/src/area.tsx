@@ -2,9 +2,9 @@
  * © 2022 WavePlay <dev@waveplay.com>
  */
 import { FunctionComponent, ReactElement, useEffect } from 'react';
-import { PilotConfig, PilotStateProps } from './pilot';
-import { PilotRoute, PilotRouteOptions } from './route';
+import { PilotRoute } from './pilot';
 import { PilotRenderer } from './renderer';
+import type { PilotConfig, PilotRouteOptions, PilotStateProps } from './types';
 import { usePilot } from './use-pilot';
 import { importPage, pageRoutes } from './_generated-pages';
 

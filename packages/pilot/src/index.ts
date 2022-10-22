@@ -7,7 +7,7 @@ export * from './area';
 export * from './link';
 export * from './pilot';
 export * from './renderer';
-export * from './route';
 export * from './radix-router';
 export * from './regex-router';
+export * from './types';
 export * from './use-pilot';

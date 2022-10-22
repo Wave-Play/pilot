@@ -3,7 +3,7 @@
  */
 import { FunctionComponent } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { Url } from './_internal';
+import type { Url } from './_internal';
 import { usePilot } from './use-pilot';
 
 interface LinkProps {
