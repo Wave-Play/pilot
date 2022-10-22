@@ -14,8 +14,9 @@ interface PilotAreaProps {
 	defaultPath?: string | null
 	name?: string
 	persistPlaceholder?: boolean
-	placeholder?: (visible: boolean) => ReactElement<PilotStateProps>
-	render?: boolean
+	Placeholder?: (visible: boolean) => ReactElement<PilotStateProps>
+	renderContent?: 'always' | 'first-load' | 'never'
+	renderPlaceholder?: 'always' | 'first-load' | 'never'
 }
 export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaProps) => {
 	const {
@@ -24,8 +25,9 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 		defaultPath = '/',
 		name,
 		persistPlaceholder,
-		placeholder,
-		render = true
+		Placeholder,
+		renderContent = 'always',
+		renderPlaceholder = 'always'
 	} = props;
 
 	//
@@ -80,7 +82,7 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 	return (
 		<>
 			{ children }
-			{ render && <PilotRenderer name={name} persistPlaceholder={persistPlaceholder} placeholder={placeholder}/> }
+			{ <PilotRenderer name={name} persistPlaceholder={persistPlaceholder} Placeholder={Placeholder} renderContent={renderContent} renderPlaceholder={renderPlaceholder}/> }
 		</>
 	)
 };

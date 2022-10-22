@@ -7,39 +7,55 @@ import { PilotEvent, PilotStateProps } from './pilot';
 
 interface PilotRendererProps {
 	name?: string
-	persistError?: boolean
 	persistPlaceholder?: boolean
-	placeholder?: (visible: boolean) => ReactElement<PilotStateProps>
+	Placeholder?: (visible: boolean) => ReactElement<PilotStateProps>
+	renderContent?: 'always' | 'first-load' | 'never'
+	renderPlaceholder?: 'always' | 'first-load' | 'never'
 }
 export const PilotRenderer: FunctionComponent<PilotRendererProps> = (props: PilotRendererProps) => {
-	const { name, persistPlaceholder, placeholder } = props;
+	const {
+		name,
+		persistPlaceholder,
+		Placeholder,
+		renderContent = 'always',
+		renderPlaceholder = 'always'
+	} = props;
 	const pilot = usePilot(name);
 
 	// Update content after navigating to a new page
-	const [ content, setContent ] = useState<ReactElement | null>(pilot.render());
+	const [ content, setContent ] = useState<ReactElement | null>(renderContent === 'always' || renderContent === 'first-load' ? pilot.render() : null);
 
 	// If enabled, show placeholder while we wait for a new load
-	// or, you know, an error if things... go bad
+	// Or you know, an error... if things... go bad
 	const [ showPlaceholder, setShowPlaceholder ] = useState(false);
 	useEffect(() => {
-		const hookId = pilot.addHook('*', (_path: string, event: PilotEvent) => {
+		const loadCompleteHookId = pilot.addHook('load-complete', (_, event: PilotEvent) => {
 			pilot.log('debug', `PilotAreaRenderer: Received event "${event.type}"`);
-			if (event.type === 'load-complete') {
-				setShowPlaceholder(false);
+			setShowPlaceholder(false);
+			if (renderContent === 'always' || (renderContent === 'first-load' && !content)) {
 				setContent(pilot.render());
-			} else if (event.type === 'load-start') {
-				setShowPlaceholder(true);
-			} else if (event.type === 'error') {
-				setShowPlaceholder(false);
 			}
 		});
-		return () => pilot.removeHook(hookId);
-	}, []);
+		const loadStartHookId = pilot.addHook('load-start', (_, event: PilotEvent) => {
+			pilot.log('debug', `PilotAreaRenderer: Received event "${event.type}"`);
+			setShowPlaceholder(true);
+		});
+		return () => {
+			pilot.removeHook(loadCompleteHookId);
+			pilot.removeHook(loadStartHookId);
+		};
+	}, [ renderContent ]);;
+
+	// Render placeholder if enabled
+	let PlaceholderElement = null;
+	if (Placeholder && (persistPlaceholder || showPlaceholder)) {
+		PlaceholderElement = Placeholder(showPlaceholder);
+	}
 
 	return (
 		<>
 			{ content }
-			{ (persistPlaceholder || showPlaceholder) && placeholder ? placeholder(showPlaceholder) : null }
+			{ (renderPlaceholder === 'always' || (renderPlaceholder === 'first-load' && !content)) ? PlaceholderElement : null }
 		</>
 	);
 };
