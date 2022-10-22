@@ -452,7 +452,14 @@ export class Pilot {
 		} catch (e) {
 			this.log('error', `Error loading props for path: ${path}`, e);
 			this._notify(path, { error: e, type: 'error' });
-			return await this._load('/500');
+
+			// If the 500 error page itself has errors, you've got a bigger problem... òwó
+			if (path === '/500') {
+				this._notify(path, { error: e, type: 'load-complete' });
+				throw e;
+			} else {
+				return await this._load('/500');
+			}
 		}
 
 		if (props?.props) {
