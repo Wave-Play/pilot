@@ -44,7 +44,8 @@ export const appWithTranslation = <Props extends AppProps = AppProps>(
   WrappedComponent: React.ComponentType<Props>
 ) => {
 	const AppWithTranslation = (props: Props) => {
-		const { _nextI18Next } = props as any || {};
+		const { pageProps } = props as any || {};
+		const { _nextI18Next } = pageProps || {};
 		const {
 			initialI18nStore,
 			initialLocale = props?.router?.locale ?? 'en'
