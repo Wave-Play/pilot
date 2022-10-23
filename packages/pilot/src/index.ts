@@ -4,9 +4,10 @@
 
 // Export all non-internal, uh... exports ÒwÓ
 export * from './area';
-export * from './area-renderer';
+export * from './link';
 export * from './pilot';
-export * from './route';
+export * from './renderer';
 export * from './radix-router';
 export * from './regex-router';
+export * from './types';
 export * from './use-pilot';

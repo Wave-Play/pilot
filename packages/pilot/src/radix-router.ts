@@ -1,8 +1,7 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import { PilotRouter, PilotRouteResult, PilotRouterOptions } from './pilot';
-import { PilotRouteOptions } from './route';
+import type { PilotRouter, PilotRouteOptions, PilotRouteResult, PilotRouterOptions } from './types';
 import { createRouter } from 'radix3';
 
 export class RadixRouter implements PilotRouter {
@@ -23,8 +22,7 @@ export class RadixRouter implements PilotRouter {
 		options.pilot.log('debug', `RadixRouter: Found matching page... ${JSON.stringify(route)}`);
 
 		return route ? {
-			component: route.component,
-			default: route.default,
+			Component: route.Component,
 			getProps: route.getProps,
 			params: route.params,
 			path: route.path,

@@ -1,11 +1,50 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import { FunctionComponent } from 'react';
+import type { ComponentType, FunctionComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import type { PilotPage } from './types';
+
+export interface ActionResult {
+	page?: PilotPage
+	redirect?: string
+}
+
+export type DataMap = { [key: string]: string }
+
+export interface FlightOptions {
+	action: (path: string) => Promise<ActionResult | null>
+	addToStack?: boolean
+}
+
+export interface PageModule {
+	default: ComponentType
+}
+
+export interface PageRoute {
+	getProps?: string
+	importPath?: string
+	path: string
+}
+
+export type Url = string | {
+	pathname: string
+	query?: DataMap
+}
 
 let id = 0;
 export const generateNumber = () => id++;
+
+/**
+ * Smol utility function meant to help us wait for a window event to fire.
+ * This is super useful for waiting for window reload and back events!
+ */
+export const eventWaiter = async (event: string): Promise<any> => {
+	return new Promise<any>((resolve) => {
+		const callback = () => resolve(callback);
+		window.addEventListener(event, callback);
+	});
+};
 
 export const Default404: FunctionComponent = () => {
 	return (

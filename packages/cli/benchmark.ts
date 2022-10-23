@@ -1,7 +1,7 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import { Pilot, PilotRouteOptions, RadixRouter, RegexRouter } from './dist';
+import { Pilot, PilotRouteOptions, RadixRouter, RegexRouter } from '@waveplay/pilot';
 import Benchmark from 'benchmark';
 
 const ROUTES: PilotRouteOptions[] = [

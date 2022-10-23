@@ -5,36 +5,40 @@ Simply add **`<PilotArea/>`** as a top-level component. `_app.js` is the perfect
 
 Check out the [NextJS Documentation](https://nextjs.org/docs/advanced-features/custom-app) if you don't already have one set up.
 
-```tsx
+> `/pages/_app.js`
+```jsx
 import { PilotArea } from '@waveplay/pilot';
 
 const App = ({ Component, pageProps }) => {
-	return (
-		<PilotArea>
-			<Component {...pageProps}/>
-		</PilotArea>
-	);
+  return (
+    <PilotArea renderContent={'never'}>
+      <Component {...pageProps}/>
+    </PilotArea>
+  );
 };
 export default App;
 ```
 
-Setting this up allows you to use other Pilot features, such as customizing the rendering area for more control, custom NextJS router, custom Pilot routers, placeholders, and so much more!
+Setting this up allows you to use other **PilotJS** features, such as customizing the rendering area for more control, custom NextJS router, custom native routers, placeholders, and so much more!
 
-```tsx
+> `/pages/_app.js`
+```jsx
 const radixRouter = new RadixRouter();
 const router = useRouter();
 
 return (
-	<PilotArea
-		nextRouter={router}
-		renderContent={false}
-		router={radixRouter}>
-		<Component {...pageProps}/>
-		<PilotAreaRenderer
-			persistPlaceholder={true}
-			placeholder={(visible) =>
-				<CustomPlaceholder visible={visible}/>
-			}/>
-	</PilotArea>
+  <PilotArea
+    config={{
+      logger: pino({ level: 'debug' }),
+      nextRouter: router,
+      router: radixRouter
+    }}
+    renderContent={'never'}
+    renderPlaceholder={'never'}>
+    <Component {...pageProps}/>
+    <PilotRenderer
+      persistPlaceholder={true}
+      Placeholder={(visible) => <CustomPlaceholder visible={visible}/>}/>
+  </PilotArea>
 );
 ```

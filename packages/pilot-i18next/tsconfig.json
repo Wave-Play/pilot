@@ -8,6 +8,9 @@
 			"dom.iterable",
 			"esnext"
 		],
+		"types": [
+			"node"
+		],
 		"baseUrl": ".",
 		"allowJs": true,
 		"skipLibCheck": true,
@@ -19,11 +22,11 @@
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"allowSyntheticDefaultImports": true,
-		"jsx": "preserve",
+		"jsx": "react-jsx",
 		"importHelpers": true,
 		"declaration": true,
 		"sourceMap": true,
-		"rootDir": ".",
+		"rootDir": "./src",
 		"noUnusedLocals": true,
 		"moduleResolution": "node",
 		"outDir": "dist"
