@@ -47,7 +47,7 @@ jobs:
           git config --global user.name "WavePlay"
 
       - name: Update versions
-        run: yarn lerna version release --conventional-commits --yes
+        run: yarn lerna version --conventional-commits --yes
 
       - name: Release
         run: yarn lerna publish --conventional-commits --force-publish=* --yes
