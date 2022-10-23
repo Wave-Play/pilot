@@ -32,10 +32,12 @@ export const usePilot = (config?: PilotConfig | string): Pilot => {
 	// Create a new pilot atom if one doesn't exist for this area
 	let pilotAtom = pilots[areaKey];
 	if (!pilotAtom) {
-		pilotAtom = atom(new Pilot(typeof config === 'string' ? {
+		const safeConfig = (typeof config === 'string' ? undefined : config) || {};
+		pilotAtom = atom(new Pilot({
+			...safeConfig,
 			id: areaKey === DEFAULT_AREA ? undefined : areaKey,
 			nextRouter: nextRouter
-		} : config));
+		}));
 		pilots[areaKey] = pilotAtom;
 	}
 
