@@ -49,7 +49,7 @@ const App = () => {
 export default App;
 ```
 
-Use the **PilotJS** CLI to build your routes.
+Use the official CLI to build your routes.
 
 ```bash
 npx pilotjs-cli build
@@ -91,8 +91,8 @@ pilot.getQuery();
 | `/pages`             | <center>✅</center> | Automatically finds routes from `/pages` or `/src/pages` directory via `pilotjs-cli build` command. |
 | `getServerSideProps` | <center>✅</center> | Calls this function and delegates props if it exists when loading new route. |
 | `getStaticProps`     | <center>✅</center> | Calls this function and delegates props if it exists when loading new route. May be skipped if props were cached. |
-| `revalidate`         | <center>✅</center> | Uses this field returned by your `getStaticProps` function to skip future loading for the time specified. |
 | `i18n`               | <center>✅</center> | Supports `defaultLocale` and `locales` from next.config.js `i18n` fields. `locale` is passed as a variable in your getProps functions. See pilot-i18next package for full locale support. |
+| `revalidate`         | <center>✅</center> | Uses this field returned by your `getStaticProps` function to skip future loading for the time specified. |
 | `context`            | <center>🕒</center> | `context` is passed to `getServerSideProps` and `getStaticProps` functions.<br/><br/>Fields not supported yet:<br/>`preview`, `previewData`, `req`, `res` |
 | `<Link>`             | <center>🕒</center> | Supports most functionality that `next/link` provides.<br/><br/>Props not supported yet:<br/>`passHref`, `prefetch`, `replace`, `scroll`, `shallow` |
 | `redirects`             | <center>🕒</center> | Redirects are supported by returning a `redirect` object.<br/><br/>Redirects defined in `next.config.js` are not supported yet. |
