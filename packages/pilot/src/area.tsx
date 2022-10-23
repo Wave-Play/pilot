@@ -9,6 +9,7 @@ import { usePilot } from './use-pilot';
 import { importPage, pageRoutes } from './_generated-pages';
 
 interface PilotAreaProps {
+	autoLoad?: boolean
 	children?: any
 	config?: PilotConfig
 	defaultPath?: string | null
@@ -21,6 +22,7 @@ interface PilotAreaProps {
 }
 export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaProps) => {
 	const {
+		autoLoad = true,
 		children,
 		config,
 		defaultPath = '/',
@@ -40,6 +42,11 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 	});
 
 	useEffect(() => {
+		// Skip if autoLoad is disabled
+		if (!autoLoad) {
+			return pilot.log('debug', `PilotArea${logTag}: Skipped loading...`);
+		}
+
 		// Register routes and load the default page
 		(async () => {
 			let paths: PilotRouteOptions[] = [];
@@ -81,7 +88,7 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 				pilot.fly(defaultPath);
 			}
 		})();
-	}, []);
+	}, [ autoLoad ]);
 
 	return (
 		<>
