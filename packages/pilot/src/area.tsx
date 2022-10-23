@@ -2,39 +2,52 @@
  * © 2022 WavePlay <dev@waveplay.com>
  */
 import { FunctionComponent, ReactElement, useEffect } from 'react';
-import { PilotConfig, PilotStateProps } from './pilot';
-import { PilotRoute, PilotRouteOptions } from './route';
+import { PilotRoute } from './pilot';
 import { PilotRenderer } from './renderer';
+import type { PilotConfig, PilotRouteOptions, PilotStateProps } from './types';
 import { usePilot } from './use-pilot';
 import { importPage, pageRoutes } from './_generated-pages';
 
 interface PilotAreaProps {
+	autoLoad?: boolean
 	children?: any
 	config?: PilotConfig
 	defaultPath?: string | null
 	name?: string
 	persistPlaceholder?: boolean
-	placeholder?: (visible: boolean) => ReactElement<PilotStateProps>
-	render?: boolean
+	Placeholder?: (visible: boolean) => ReactElement<PilotStateProps>
+	renderContent?: 'always' | 'first-load' | 'never'
+	renderPlaceholder?: 'always' | 'first-load' | 'never'
+	tag?: string
 }
 export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaProps) => {
 	const {
+		autoLoad = true,
 		children,
 		config,
 		defaultPath = '/',
 		name,
 		persistPlaceholder,
-		placeholder,
-		render = true
+		Placeholder,
+		renderContent = 'always',
+		renderPlaceholder = 'always',
+		tag
 	} = props;
+	const logTag = tag ? `#${tag}` : '';
 
-	//
-	const pilot = usePilot(name);
-	if (config) {
-		pilot.config(config);
-	}
+	// Get pilot instance
+	const pilot = usePilot({
+		...config || {},
+		id: name || config?.id
+	});
 
 	useEffect(() => {
+		// Skip if autoLoad is disabled
+		if (!autoLoad) {
+			return pilot.log('debug', `PilotArea${logTag}: Skipped loading...`);
+		}
+
+		// Register routes and load the default page
 		(async () => {
 			let paths: PilotRouteOptions[] = [];
 
@@ -49,7 +62,7 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 						path: route.path
 					});
 				}
-				pilot.log('debug', `Imported ${paths.length} automatically generated pages`);
+				pilot.log('debug', `PilotArea${logTag}: Imported ${paths.length} automatically generated pages`);
 			}
 
 			// Add all routes defined by the user using <PilotRoute> components in this area
@@ -62,7 +75,7 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 
 			if (declaredRoutes.length) {
 				paths = paths.concat(declaredRoutes);
-				pilot.log('debug', `Imported ${declaredRoutes.length} manually declared pages`);
+				pilot.log('debug', `PilotArea${logTag}: Imported ${declaredRoutes.length} manually declared pages`);
 			}
 
 			for (const path of paths) {
@@ -70,17 +83,17 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 			}
 
 			// Automatically load the default path (unless set to null)
-			pilot.log('debug', defaultPath ? `Flying to default path: ${defaultPath}` : 'No default route was found');
+			pilot.log('debug', `PilotArea${logTag}: ` + defaultPath ? `Flying to default path: "${defaultPath}"` : 'No default route was found');
 			if (defaultPath) {
 				pilot.fly(defaultPath);
 			}
 		})();
-	}, []);
+	}, [ autoLoad ]);
 
 	return (
 		<>
 			{ children }
-			{ render && <PilotRenderer name={name} persistPlaceholder={persistPlaceholder} placeholder={placeholder}/> }
+			{ <PilotRenderer name={name} persistPlaceholder={persistPlaceholder} Placeholder={Placeholder} renderContent={renderContent} renderPlaceholder={renderPlaceholder} tag={tag}/> }
 		</>
 	)
 };
