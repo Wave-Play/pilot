@@ -1,6 +1,6 @@
 {
 	"name": "pilotjs-cli",
-	"version": "2.0.0-next.5",
+	"version": "2.0.0",
 	"private": false,
 	"description": "NextJS-like routing for React Native",
 	"repository": {
