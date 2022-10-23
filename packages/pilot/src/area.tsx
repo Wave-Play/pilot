@@ -17,6 +17,7 @@ interface PilotAreaProps {
 	Placeholder?: (visible: boolean) => ReactElement<PilotStateProps>
 	renderContent?: 'always' | 'first-load' | 'never'
 	renderPlaceholder?: 'always' | 'first-load' | 'never'
+	tag?: string
 }
 export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaProps) => {
 	const {
@@ -27,8 +28,10 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 		persistPlaceholder,
 		Placeholder,
 		renderContent = 'always',
-		renderPlaceholder = 'always'
+		renderPlaceholder = 'always',
+		tag
 	} = props;
+	const logTag = tag ? `#${tag}` : '';
 
 	// Get pilot instance
 	const pilot = usePilot({
@@ -36,8 +39,8 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 		id: name || config?.id
 	});
 
-	// Register routes and load the default page
 	useEffect(() => {
+		// Register routes and load the default page
 		(async () => {
 			let paths: PilotRouteOptions[] = [];
 
@@ -52,7 +55,7 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 						path: route.path
 					});
 				}
-				pilot.log('debug', `Imported ${paths.length} automatically generated pages`);
+				pilot.log('debug', `PilotArea${logTag}: Imported ${paths.length} automatically generated pages`);
 			}
 
 			// Add all routes defined by the user using <PilotRoute> components in this area
@@ -65,7 +68,7 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 
 			if (declaredRoutes.length) {
 				paths = paths.concat(declaredRoutes);
-				pilot.log('debug', `Imported ${declaredRoutes.length} manually declared pages`);
+				pilot.log('debug', `PilotArea${logTag}: Imported ${declaredRoutes.length} manually declared pages`);
 			}
 
 			for (const path of paths) {
@@ -73,7 +76,7 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 			}
 
 			// Automatically load the default path (unless set to null)
-			pilot.log('debug', defaultPath ? `Flying to default path: ${defaultPath}` : 'No default route was found');
+			pilot.log('debug', `PilotArea${logTag}: ` + defaultPath ? `Flying to default path: "${defaultPath}"` : 'No default route was found');
 			if (defaultPath) {
 				pilot.fly(defaultPath);
 			}
@@ -83,7 +86,7 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 	return (
 		<>
 			{ children }
-			{ <PilotRenderer name={name} persistPlaceholder={persistPlaceholder} Placeholder={Placeholder} renderContent={renderContent} renderPlaceholder={renderPlaceholder}/> }
+			{ <PilotRenderer name={name} persistPlaceholder={persistPlaceholder} Placeholder={Placeholder} renderContent={renderContent} renderPlaceholder={renderPlaceholder} tag={tag}/> }
 		</>
 	)
 };
