@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 2.0.0-canary.13 (2022-10-23)
+
+
+### Features
+
+* **pilot:** new autoLoad prop in PilotArea ([e60e04b](https://github.com/Wave-Play/pilot/commit/e60e04bd28ac37bfeafc64cd98d455fb03733bf4))
+
+
+
+
+
 # 2.0.0-canary.12 (2022-10-22)
 
 **Note:** Version bump only for package pilotjs-cli
