@@ -1,27 +1,30 @@
 {
   "name": "basic-example",
   "version": "1.0.0",
+  "license": "MIT",
   "scripts": {
     "build:next": "next build",
+    "build:pilot": "npx pilotjs-cli build",
+    "postinstall": "yarn build:pilot",
     "start:expo": "expo start",
     "start:next": "next dev"
   },
   "dependencies": {
     "@expo/next-adapter": "4.0.12",
-    "@waveplay/pilot": "1.0.2",
-    "expo": "46.0.9",
-    "next": "12.2.5",
+    "@waveplay/pilot": "2.0.0",
+    "expo": "46.0.16",
+    "next": "13.0.0",
     "react": "18.0.0",
     "react-dom": "18.0.0",
-    "react-native": "0.69.5",
+    "react-native": "0.69.6",
     "react-native-web": "0.18.9"
   },
   "devDependencies": {
-    "@babel/core": "7.12.9",
-    "@nissy-dev/swc-plugin-react-native-web": "0.2.4",
+    "@babel/core": "7.19.6",
+    "@nissy-dev/swc-plugin-react-native-web": "0.2.5",
     "next-build-id": "3.0.0",
     "next-compose-plugins": "2.2.1",
-    "next-transpile-modules": "9.0.0",
+    "next-transpile-modules": "9.1.0",
     "webpack": "5.74.0"
   }
 }
