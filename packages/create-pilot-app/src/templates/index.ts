@@ -40,9 +40,10 @@ export const installTemplate = async ({
     version: '0.1.0',
     private: true,
     scripts: {
-      dev: 'next dev',
-      build: 'next build',
-      start: 'next start',
+      'dev:web': 'next dev',
+      build: 'next build && npx pilotjs-cli build',
+      'start:native': 'expo start',
+      'start:web': 'next start',
       lint: 'next lint',
     },
   }
@@ -61,7 +62,7 @@ export const installTemplate = async ({
   /**
    * Default dependencies.
    */
-  const dependencies = ['react', 'react-dom', 'next']
+  const dependencies = ['@babel/core', '@expo/next-adapter', '@nissy-dev/swc-plugin-react-native-web', 'expo', 'react', 'react-dom', 'react-native', 'react-native-web', 'next', 'next-build-id', 'next-compose-plugins', 'next-transpile-modules', '@waveplay/pilot', 'webpack']
   /**
    * TypeScript projects will have type definitions and other devDependencies.
    */

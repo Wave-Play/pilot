@@ -60,7 +60,7 @@ const program = new Commander.Command(packageJson.name)
     `
 
   An example to bootstrap the app with. You can use an example name
-  from the official Next.js repo or a GitHub URL. The URL can use
+  from the official Pilot.js repo or a GitHub URL. The URL can use
   any branch and/or subdirectory
 `
   )
@@ -115,7 +115,7 @@ async function run(): Promise<void> {
           '<project-directory>'
         )}\n` +
         'For example:\n' +
-        `  ${chalk.cyan(program.name())} ${chalk.green('my-next-app')}\n\n` +
+        `  ${chalk.cyan(program.name())} ${chalk.green('my-pilot-app')}\n\n` +
         `Run ${chalk.cyan(`${program.name()} --help`)} to see all options.`
     )
     process.exit(1)
@@ -250,13 +250,13 @@ async function notifyUpdate(): Promise<void> {
     if (res?.latest) {
       const updateMessage =
         packageManager === 'yarn'
-          ? 'yarn global add create-next-app'
+          ? 'yarn global add create-pilot-app'
           : packageManager === 'pnpm'
-          ? 'pnpm add -g create-next-app'
-          : 'npm i -g create-next-app'
+          ? 'pnpm add -g create-pilot-app'
+          : 'npm i -g create-pilot-app'
 
       console.log(
-        chalk.yellow.bold('A new version of `create-next-app` is available!') +
+        chalk.yellow.bold('A new version of `create-pilot-app` is available!') +
           '\n' +
           'You can update by running: ' +
           chalk.cyan(updateMessage) +
