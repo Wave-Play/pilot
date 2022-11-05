@@ -38,19 +38,11 @@ jobs:
       - name: Yarn install
         run: yarn install --frozen-lockfile --production=false
 
-      - name: Build
-        run: yarn lerna run build
-
-      - name: Set git credentials
-        run: |
-          git config --global user.email "ci@waveplay.com"
-          git config --global user.name "WavePlay"
-
-      - name: Update versions
-        run: yarn lerna version prerelease --conventional-prerelease --preid next --yes
-
-      - name: Release
-        run: yarn lerna publish from-package --canary --conventional-commits --dist-tag next --force-publish=* --preid next --yes
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          publish: yarn publish-packages-next
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

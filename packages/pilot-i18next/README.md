@@ -24,13 +24,13 @@ yarn add @waveplay/pilot-i18next next-i18next
 
 ## Getting started
 
-Register your translations with this module using the built-in CLI. We assume that your i18n translations are inside the `/public/locales` directory. 
+Register your translations with this module using the **PilotJS** CLI. We assume that your i18n translations are inside the `/public/locales` directory. 
 
 ```bash
-pilot-i18next build
+npx pilotjs-cli build:locales
 ```
 
-> All this command does is copy those translations into the module and generate a `import-resource.js` for internal use.
+> All this command does is copy those translations into `/assets` and generate a `import-resource.js` for internal use.
 
 ## Basic usage
 

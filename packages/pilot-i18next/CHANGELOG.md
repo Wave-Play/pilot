@@ -4,6 +4,50 @@ All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 # 2.0.0-canary.14 (2022-10-23)
+# [2.0.0-next.5](https://github.com/Wave-Play/pilot/compare/@waveplay/pilot-i18next@2.0.0-next.4...@waveplay/pilot-i18next@2.0.0-next.5) (2022-10-23)
+
+**Note:** Version bump only for package @waveplay/pilot-i18next
+
+
+
+
+
+# 2.0.0-next.4 (2022-10-23)
+
+
+### Bug Fixes
+
+* **ci:** removed explicit lerna version string ([5cec497](https://github.com/Wave-Play/pilot/commit/5cec4970782814295db8471ef7ca88df13404c85))
+
+
+
+
+
+# 2.0.0-next.3 (2022-10-23)
+
+**Note:** Version bump only for package @waveplay/pilot-i18next
+
+
+
+
+
+# 2.0.0-next.2 (2022-10-23)
+
+**Note:** Version bump only for package @waveplay/pilot-i18next
+
+
+
+
+
+# 2.0.0-next.1 (2022-10-23)
+
+**Note:** Version bump only for package @waveplay/pilot-i18next
+
+
+
+
+
+# 2.0.0-next.0 (2022-10-23)
 
 **Note:** Version bump only for package @waveplay/pilot-i18next
 
@@ -49,6 +93,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 # 2.0.0-canary.10 (2022-10-21)
 
 **Note:** Version bump only for package @waveplay/pilot-i18next
+
+
+
+
+
+# 2.0.0-next.0 (2022-10-21)
 
 
 

@@ -2,22 +2,20 @@
 
 <div align="center">
 
-[![GitHub license](https://img.shields.io/github/license/Wave-Play/pilot?style=flat)](https://github.com/Wave-Play/pilot/blob/master/LICENSE) [![Tests](https://github.com/Wave-Play/pilot/workflows/CI/badge.svg)](https://github.com/Wave-Play/pilot/actions) ![npm](https://img.shields.io/npm/v/@waveplay/pilot) [![minizipped size](https://badgen.net/bundlephobia/minzip/@waveplay/pilot)](https://bundlephobia.com/result?p=@waveplay/pilot)
+[![GitHub license](https://img.shields.io/github/license/Wave-Play/pilot?style=flat)](https://github.com/Wave-Play/pilot/blob/main/LICENSE) [![Tests](https://github.com/Wave-Play/pilot/workflows/CI/badge.svg)](https://github.com/Wave-Play/pilot/actions) ![npm](https://img.shields.io/npm/v/@waveplay/pilot) [![minizipped size](https://badgen.net/bundlephobia/minzip/@waveplay/pilot)](https://bundlephobia.com/result?p=@waveplay/pilot)
 
-**NextJS routing for Expo & React Native**
+**NextJS for Expo & React Native**
+
+Customizable, fast, and lightweight drop-in support for **[NextJS](https://nextjs.org/)** on native platforms
 
 </div>
 
 ## Features
 
-- Drop-in replacement for Next Router
-- Compatible with React Native, falls back to Next Router for web
-- Support for `getServerSideProps` and `getStaticProps`
-- Automatic caching based on `revalidate` prop
+- Supports most **NextJS** features on native (powered by **NextJS** on web)
 - Hooks for loading events with ability to override routes
-- Optional placeholder component during loading
-- Extremelly customizable and fast
-- Can be used to control areas instead of whole screen
+- Optional placeholders during load events
+- Can be used to control individual areas rather than entire screen
 
 ## Install
 
@@ -33,62 +31,42 @@ Using Yarn
 yarn add @waveplay/pilot
 ```
 
-## Getting started for NextJS
+## Quick start
 
-No setup is necessary! Just switch your `useRouter` code over to `usePilot` and it'll just automatically work.
+Update your `App.js` entry component to render `PilotArea`.
 
-Check out the full documentation if you'd like to use more features such as **area navigation**, custom router, placeholders, configuration, controlled rendering, and more!
-
-
-```ts
-// Before
-const router = useRouter();
-router.push('/dashboard');
-
-// After
-const pilot = usePilot();
-pilot.fly('/dashboard');
-
-// Or
-const router = usePilot();
-router.push('/dashboard');
-```
-
-## Getting started for React Native
-
-Import each page from your `/pages` directory like the example below.
-
-Pass your `getServerSideProps` or `getStaticProps` as the `getProps` (optional) component for each route and they'll be executed once routed.
-
-If your `getStaticProps` returns a `revalidate` value, Pilot will attempt to cache the result for faster loading later on using [Tiny LRU](https://github.com/avoidwork/tiny-lru).
-
-```tsx
-import * as DashboardPage from 'src/pages/dashboard';
-import * as HomePage from 'src/pages';
-import * as UserPage from 'src/pages/user/[handle]';
+> `App.js`
+```jsx
+import { PilotArea } from '@waveplay/pilot';
 
 const App = () => {
-	return (
-		<PilotArea>
-			<PilotRoute path={'/'} component={HomePage.default}/>
-			<PilotRoute path={'/dashboard'} component={DashboardPage.default} getProps={DashboardPage.getServerSideProps}/>
-			<PilotRoute path={'/user/:handle'} component={UserPage.default} getProps={UserPage.getStaticProps}/>
-		</PilotArea>
+  // ... your code
+
+  return (
+    <PilotArea/>
   );
 };
 export default App;
 ```
 
+Use the official CLI to build your routes.
+
+```bash
+npx pilotjs-cli build
+```
+
+You're now ready to use **PilotJS**!
+
 ## Basic usage
 
-You can use Pilot the same way as Next Router, except it now works on React Native and Expo projects!
+You can use **PilotJS** the same way as Next Router, except it now works on React Native and Expo projects!
 
 ```ts
 // const router = useRouter();
 const pilot = usePilot();
 
 // router.push('/dashboard');
-pilot.fly('/dashboard');
+pilot.fly('/dashboard'); // or pilot.push('/dashboard');
 
 // router.back();
 pilot.back();
@@ -103,13 +81,40 @@ pilot.getPath();
 pilot.getQuery();
 ```
 
+## Supported NextJS features
+
+| Feature              | Support             | Description |
+|----------------------|---------------------|-------------|
+| `/_app`               | <center>✅</center> | Optional app wrapper is applied on pages when the `_app` route is registered. |
+| `/404`               | <center>✅</center> | Rendered when page route cannot be found or when `notFound` is returned as `true` while loading props. |
+| `/500`               | <center>✅</center> | Rendered when an error is thrown while loading props. |
+| `/pages`             | <center>✅</center> | Automatically finds routes from `/pages` or `/src/pages` directory via `pilotjs-cli build` command. |
+| `getServerSideProps` | <center>✅</center> | Calls this function and delegates props if it exists when loading new route. |
+| `getStaticProps`     | <center>✅</center> | Calls this function and delegates props if it exists when loading new route. May be skipped if props were cached. |
+| `i18n`               | <center>✅</center> | Supports `defaultLocale` and `locales` from next.config.js `i18n` fields. `locale` is passed as a variable in your getProps functions. See pilot-i18next package for full locale support. |
+| `revalidate`         | <center>✅</center> | Uses this field returned by your `getStaticProps` function to skip future loading for the time specified. |
+| `context`            | <center>🕒</center> | `context` is passed to `getServerSideProps` and `getStaticProps` functions.<br/><br/>Fields not supported yet:<br/>`preview`, `previewData`, `req`, `res` |
+| `<Link>`             | <center>🕒</center> | Supports most functionality that `next/link` provides.<br/><br/>Props not supported yet:<br/>`passHref`, `prefetch`, `replace`, `scroll`, `shallow` |
+| `redirects`             | <center>🕒</center> | Redirects are supported by returning a `redirect` object.<br/><br/>Redirects defined in `next.config.js` are not supported yet. |
+| `useRouter`          | <center>🕒</center> | Supports most functionality using the `usePilot()` hook.<br/><br/>Fields not supported yet:<br/>`basePath`, `domainLocales`, `isFallback`, `isReady`, `isPreview`.<br/><br/>Functions not supported yet:<br/>`beforePopState()`, `events()`, `prefetch()`, `replace()` |
+| `/api`     | <center>❌</center> | Not supported yet. |
+| `getStaticPaths`     | <center>❌</center> | Not supported yet. |
+| `getInitialProps`    | <center>❌</center> | Not supported yet. |
+| `middleware`           | <center>❌</center> | Not supported yet. |
+| `rewrites`           | <center>❌</center> | Not supported yet. |
+| `withRouter`         | <center>❌</center> | Not supported yet. |
+
+If a feature is not in the table above, that likely means there are no plans to support it or we simply missed it. 
+
+Native apps work much differently than a server which means some features may not be possible to support. Please open an issue if you'd like to see a feature added.
+
 ## Credits
 
 This project was originally developed as an internal router for [WavePlay](https://waveplay.com).
 
 ## Documentation
 
-- [Advanced setup for NextJS](https://github.com/Wave-Play/pilot/blob/master/docs/advanced-nextjs.md)
+- [Advanced setup for NextJS](https://github.com/Wave-Play/pilot/blob/main/docs/advanced-nextjs.md)
 
 ## License
 
