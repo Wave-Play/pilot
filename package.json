@@ -10,7 +10,9 @@
 	},
 	"scripts": {
 		"lerna": "lerna",
-		"publish-packages": "turbo run build && changeset version && changeset publish"
+		"publish-packages": "turbo run build && changeset version && changeset publish",
+		"publish-packages-canary": "turbo run build && changeset version --snapshot canary --tag canary && changeset publish",
+		"publish-packages-next": "turbo run build && changeset version --snapshot next --tag next && changeset publish"
 	},
 	"repository": {
 		"type": "git",
