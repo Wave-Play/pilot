@@ -31,6 +31,50 @@ export const installTemplate = async ({
   eslint,
 }: InstallTemplateArgs) => {
   console.log(chalk.bold(`Using ${packageManager}.`))
+  /**
+   * Create an app.json for the new project.
+   */
+  const appJson = {
+		expo: {
+			name: appName,
+			slug: appName,
+			version: '0.1.0',
+			orientation: 'portrait',
+			icon: './assets/icon.png',
+			userInterfaceStyle: 'light',
+			splash: {
+				image: './assets/splash.png',
+				resizeMode: 'contain',
+				backgroundColor: '#ffffff'
+			},
+			updates: {
+				fallbackToCacheTimeout: 0
+			},
+			assetBundlePatterns: [
+				'**/*'
+			],
+			ios: {
+				supportsTablet: true
+			},
+			android: {
+				adaptiveIcon: {
+					foregroundImage: './assets/adaptive-icon.png',
+					backgroundColor: '#FFFFFF'
+				}
+			},
+			web: {
+				favicon: './assets/favicon.png'
+			}
+		}
+	}
+	
+  /**
+   * Write it to disk.
+   */
+  fs.writeFileSync(
+    path.join(root, 'app.json'),
+    JSON.stringify(appJson, null, 2) + os.EOL
+  )
 
   /**
    * Create a package.json for the new project.
@@ -40,12 +84,13 @@ export const installTemplate = async ({
     version: '0.1.0',
     private: true,
     scripts: {
+      'dev:native': 'pilotjs-cli build && expo start',
       'dev:web': 'next dev',
-      build: 'next build && npx pilotjs-cli build',
+      build: 'next build && pilotjs-cli build',
       'start:native': 'expo start',
       'start:web': 'next start',
-      lint: 'next lint',
-    },
+      lint: 'next lint'
+    }
   }
   /**
    * Write it to disk.
@@ -62,12 +107,13 @@ export const installTemplate = async ({
   /**
    * Default dependencies.
    */
-  const dependencies = ['@babel/core', '@expo/next-adapter', '@nissy-dev/swc-plugin-react-native-web', 'expo', 'react', 'react-dom', 'react-native', 'react-native-web', 'next', 'next-build-id', 'next-compose-plugins', 'next-transpile-modules', '@waveplay/pilot', 'webpack']
+  const dependencies = ['@expo/next-adapter', 'expo@46.0.16', 'react@18.0.0', 'react-dom@18.0.0', 'react-native@0.69.6', 'react-native-web', 'next', '@waveplay/pilot']
+  const devDependencies = ['@babel/core', '@nissy-dev/swc-plugin-react-native-web', 'next-transpile-modules', 'pilotjs-cli', 'webpack']
   /**
    * TypeScript projects will have type definitions and other devDependencies.
    */
   if (mode === 'ts') {
-    dependencies.push(
+    devDependencies.push(
       'typescript',
       '@types/react',
       '@types/node',
@@ -79,7 +125,7 @@ export const installTemplate = async ({
    * Default eslint dependencies.
    */
   if (eslint) {
-    dependencies.push('eslint', 'eslint-config-next')
+    devDependencies.push('eslint', 'eslint-config-next')
   }
   /**
    * Install package.json dependencies if they exist.
@@ -93,6 +139,19 @@ export const installTemplate = async ({
     console.log()
 
     await install(root, dependencies, installFlags)
+  }
+  /**
+   * Install package.json devDependencies if they exist.
+   */
+  if (devDependencies.length) {
+    console.log()
+    console.log('Installing devDependencies:')
+    for (const dependency of devDependencies) {
+      console.log(`- ${chalk.cyan(dependency)}`)
+    }
+    console.log()
+
+    await install(root, devDependencies, { ...installFlags, devDependencies: true })
   }
   /**
    * Copy the template files to the target directory.

@@ -1,5 +1,4 @@
 const withTM = require('next-transpile-modules')(['@expo/next-adapter', '@waveplay/pilot', 'react-native-web']);
-const nextBuildId = require('next-build-id');
 
 const nextConfig = {
 	experimental: {
@@ -9,7 +8,6 @@ const nextConfig = {
 			['@nissy-dev/swc-plugin-react-native-web', { 'commonjs': false }]
 		]
 	},
-	generateBuildId: () => nextBuildId({ dir: __dirname, describe: true }),
 	webpack: (config) => {
 		return {
 			...config,

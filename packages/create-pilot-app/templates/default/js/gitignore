@@ -12,6 +12,9 @@
 /.next/
 /out/
 
+# pilot.js
+/.pilot/
+
 # production
 /build
 
