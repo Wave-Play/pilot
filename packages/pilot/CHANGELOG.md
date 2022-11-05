@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 2.0.0-canary.14 (2022-10-23)
 # [2.0.0-next.5](https://github.com/Wave-Play/pilot/compare/@waveplay/pilot@2.0.0-next.4...@waveplay/pilot@2.0.0-next.5) (2022-10-23)
 
 **Note:** Version bump only for package @waveplay/pilot
