@@ -1,6 +1,6 @@
 {
 	"name": "pilotjs-project",
-	"version": "2.0.0-beta.3",
+	"version": "0.0.0",
 	"private": true,
 	"workspaces": [
 		"packages/*"
@@ -9,10 +9,7 @@
 		"node": ">=14.0.0"
 	},
 	"scripts": {
-		"lerna": "lerna",
-		"publish-packages": "turbo run build && changeset version && changeset publish",
-		"publish-packages-canary": "turbo run build && changeset version --snapshot canary --tag canary && changeset publish",
-		"publish-packages-next": "turbo run build && changeset version --snapshot next --tag next && changeset publish"
+		"publish-packages": "turbo run build && changeset publish"
 	},
 	"repository": {
 		"type": "git",
@@ -28,8 +25,6 @@
 		"Pkmmte Xeleon <pk@waveplay.com>"
 	],
 	"devDependencies": {
-		"conventional-changelog-cli": "^2.2.2",
-		"lerna": "^6.0.1",
 		"turbo": "1.6.3"
 	},
 	"dependencies": {

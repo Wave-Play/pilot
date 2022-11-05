@@ -44,7 +44,11 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: yarn publish-packages-next
+          commit: "chore(release): changesets versioning & publication"
+          createGithubReleases: true
+          publish: yarn publish-packages
+          title: "Changesets: Versioning & Publication"
+          version: yarn changeset version --snapshot next --tag next
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
