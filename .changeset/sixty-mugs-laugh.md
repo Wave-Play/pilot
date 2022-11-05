@@ -2,4 +2,4 @@
 "create-pilot-app": patch
 ---
 
-testing canary releases
+testing canary ci releases
