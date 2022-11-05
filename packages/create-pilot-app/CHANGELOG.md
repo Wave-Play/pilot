@@ -1,5 +1,11 @@
 # create-pilot-app
 
+## 0.0.0-canary-20221105193115
+
+### Patch Changes
+
+- 562083f: testing canary ci releases
+
 ## 2.0.4
 
 ### Patch Changes
