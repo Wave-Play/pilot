@@ -3,6 +3,7 @@
  */
 
 // Export all non-internal, uh... exports ÒwÓ
+export * from './api-handler';
 export * from './area';
 export * from './link';
 export * from './pilot';
