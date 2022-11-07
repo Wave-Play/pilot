@@ -5,7 +5,7 @@ import type { GetServerSideProps, GetStaticProps } from 'next';
 import type { NextRouter } from 'next/router';
 import type { ComponentProps, ComponentType } from 'react';
 import { Pilot } from './pilot';
-import { DataMap } from './_internal';
+import { DataMap } from './_internal/types';
 
 export interface Logger {
 	debug: (...args: any[]) => void

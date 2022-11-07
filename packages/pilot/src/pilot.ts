@@ -5,7 +5,9 @@ import { createElement, FunctionComponent, ReactElement } from 'react';
 import { RadixRouter } from './radix-router';
 import type { PilotRouteOptions } from './types';
 import { lru, LRU } from 'tiny-lru';
-import { ActionResult, DataMap, Default404, Default500, eventWaiter, FlightOptions, generateNumber, Url } from './_internal';
+import { ActionResult, DataMap, FlightOptions, Url } from './_internal/types';
+import { Default404, Default500 } from './_internal/ui';
+import { eventWaiter, generateNumber } from './_internal/utils';
 import type { PilotConfig, PilotEvent, PilotEventType, PilotFlyOptions, PilotHook, PilotPage, PilotRouteResult } from './types';
 
 export const PilotRoute: FunctionComponent<PilotRouteOptions> = () => null;
