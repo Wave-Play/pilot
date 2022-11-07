@@ -61,6 +61,7 @@ export interface PilotPage {
 export interface PilotRouteOptions {
 	Component: ComponentType
 	getProps?: GetServerSideProps | GetStaticProps
+	getPropsType?: 'getStaticProps' | 'getServerSideProps'
 	path: string
 }
 

@@ -24,6 +24,7 @@ export class RadixRouter implements PilotRouter {
 		return route ? {
 			Component: route.Component,
 			getProps: route.getProps,
+			getPropsType: route.getPropsType,
 			params: route.params,
 			path: route.path,
 			query: hasQuery ? parseQuery(path) : {}
