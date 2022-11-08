@@ -6,11 +6,12 @@ import appRoot from 'app-root-path';
 import { Command } from 'commander';
 import fs from 'fs-extra';
 import { Logger } from 'pino';
-import build from './build';
-import buildLocales from './build-locales';
-import buildPages from './build-pages';
+import build from './commands/build';
+import buildLocales from './commands/build/locales';
+import buildPages from './commands/build/pages';
 import koder from './koder';
 import { version } from '../package.json';
+import type { BuildManifest } from './types';
 
 // Indent using tabs because we're not uncultured savages
 koder.config({
@@ -19,16 +20,6 @@ koder.config({
 
 // Manifest file to sync changes with
 export const MANIFEST_FILE = appRoot + '/.pilot/build-manifest.json';
-export interface BuildManifest {
-	locales?: {
-		[key: string]: string[]
-	}
-	pages?: {
-		[key: string]: {
-			getProps: string | null
-		}
-	}
-}
 
 export const syncManifest = async (action: (manifest: BuildManifest) => void, logger: Logger): Promise<void> => {
 	let manifest: BuildManifest = {};

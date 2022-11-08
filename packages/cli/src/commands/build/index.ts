@@ -3,11 +3,11 @@
  */
 import { Command, OptionValues } from 'commander';
 import pino from 'pino';
-import { action as buildLocales } from './build-locales';
-import { action as buildPages } from './build-pages';
+import { action as buildLocales } from './locales';
+import { action as buildPages } from './pages';
 
 const command = new Command('build')
-	.description('creates an optimized build of PilotJS for your application')
+	.description('creates an optimized build of Pilot.js for your application')
 	.option('-s --silent', 'do not print anything')
 	.option('-v --verbose', 'print more information for debugging')
 	.action(action);
