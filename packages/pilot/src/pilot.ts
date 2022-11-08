@@ -247,6 +247,7 @@ export class Pilot {
 
 	public stats() {
 		return {
+			host: this._config.host,
 			id: this._config.id,
 			i18: this._config.i18n,
 			logger: this._config.logger,
@@ -419,6 +420,8 @@ export class Pilot {
 	 * This basically emulates NextJS' getServerSideProps() or getStaticProps() function.
 	 * If a "revalidate" value is returned, it will be stored in our LRU memory cache.
 	 * 
+	 * On native, these props are called on the server-side if "host" is set, otherwise they are called on the app.
+	 * 
 	 * @param path Path to load.
 	 * @param route Route for the specified path.
 	 * @returns Props for the specified path.
@@ -431,38 +434,55 @@ export class Pilot {
 			return props;
 		}
 
-		// See if we can find a cached version of this page's props
-		const cacheKey = (this._currentLocale || '') + path + JSON.stringify(route.query);
-		const cachedProps = this._cache.get(cacheKey);
-		const isExpired = !cachedProps || cachedProps?.__pilot?.expires < Date.now();
-		if (cachedProps && isExpired) {
-			this.log('debug', `Cached props for ${path} have expired, removing from cache...`);
-			this._cache.delete(cacheKey);
-		} else if (cachedProps && !isExpired) {
-			this.log('debug', `Found cached props for path: ${path}`);
-			return cachedProps;
-		}
-		
-		// Get props from route's getProps() function
-		props = await route.getProps({
-			locale: this._currentLocale,
-			params: route.params || {},
-			query: route.query || {},
-			req: {} as any,
-			res: {} as any,
-			resolvedUrl: path
-		});
-
-		// If a "revalidate" value is returned, cache the props for that amount of time
-		// This emulates ISR (Incremental Static Regeneration) from NextJS
-		if (props?.revalidate) {
-			this.log('debug', `Caching props for path: ${path} (revalidate: ${props.revalidate})`);
-			this._cache.set(cacheKey, {
-				...props,
-				__pilot: {
-					expires: Date.now() + props.revalidate * 1000
-				}
+		if (this._config.host) {
+			this.log('debug', `Loading props remotely for path:`, path);
+			const response = await fetch(this._config.host + '/api/pilot/get-props', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					locale: this._currentLocale,
+					path
+				})
 			});
+			props = await response.json();
+		} else {
+			this.log('debug', `Loading props natively for path:`, path);
+
+			// See if we can find a cached version of this page's props
+			const cacheKey = (this._currentLocale || '') + path + JSON.stringify(route.query);
+			const cachedProps = this._cache.get(cacheKey);
+			const isExpired = !cachedProps || cachedProps?.__pilot?.expires < Date.now();
+			if (cachedProps && isExpired) {
+				this.log('debug', `Cached props for ${path} have expired, removing from cache...`);
+				this._cache.delete(cacheKey);
+			} else if (cachedProps && !isExpired) {
+				this.log('debug', `Found cached props for path: ${path}`);
+				return cachedProps;
+			}
+			
+			// Get props from route's getProps() function
+			props = await route.getProps({
+				locale: this._currentLocale,
+				params: route.params || {},
+				query: route.query || {},
+				req: {} as any,
+				res: {} as any,
+				resolvedUrl: path
+			});
+
+			// If a "revalidate" value is returned, cache the props for that amount of time
+			// This emulates ISR (Incremental Static Regeneration) from NextJS
+			if (props?.revalidate) {
+				this.log('debug', `Caching props for path: ${path} (revalidate: ${props.revalidate})`);
+				this._cache.set(cacheKey, {
+					...props,
+					__pilot: {
+						expires: Date.now() + props.revalidate * 1000
+					}
+				});
+			}
 		}
 
 		return props;

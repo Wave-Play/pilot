@@ -18,6 +18,7 @@ export interface Logger {
 export interface PilotConfig {
 	id?: string
 	cacheSize?: number
+	host?: string
 	i18n?: {
 		defaultLocale: string
 		locales: string[]
