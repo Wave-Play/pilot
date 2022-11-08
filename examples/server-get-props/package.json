@@ -1,13 +1,15 @@
 {
-  "name": "basic-example",
+  "name": "server-get-props",
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "build:next": "next build",
     "build:pilot": "pilotjs-cli build",
+    "dev:native": "expo start",
+    "dev:web": "next dev",
     "postinstall": "yarn build:pilot",
-    "start:expo": "expo start",
-    "start:next": "next dev"
+    "start:native": "expo start",
+    "start:web": "next"
   },
   "dependencies": {
     "@expo/next-adapter": "4.0.12",
@@ -22,8 +24,6 @@
   "devDependencies": {
     "@babel/core": "7.19.6",
     "@nissy-dev/swc-plugin-react-native-web": "0.2.5",
-    "next-build-id": "3.0.0",
-    "next-compose-plugins": "2.2.1",
     "next-transpile-modules": "9.1.0",
     "pilotjs-cli": "^2.0.0",
     "webpack": "5.74.0"

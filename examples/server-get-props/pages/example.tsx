@@ -2,16 +2,21 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { usePilot } from '@waveplay/pilot';
 import Head from 'next/head';
+import { GetServerSideProps } from 'next';
 
-const ExamplePage = () => {
-	const pilot = usePilot();
+interface ExamplePageProps {
+	title?: string
+}
+const ExamplePage = (props: ExamplePageProps) => {
+	const { title } = props
+	const pilot = usePilot()
 
 	return (
 		<View style={styles.container}>
 			<Head>
-				<title>Pilot - Example Page</title>
+				<title>Pilot - {title}</title>
 			</Head>
-			<Text style={styles.title}>Example Page</Text>
+			<Text style={styles.title}>{title}</Text>
 			<TouchableOpacity style={styles.button} onPress={() => pilot.back()}>
 				<Text style={styles.buttonText}>Go back</Text>
 			</TouchableOpacity>
@@ -20,10 +25,10 @@ const ExamplePage = () => {
 };
 export default ExamplePage;
 
-export const getStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
 	return {
 		props: {
-			poop: 'poop'
+			title: 'Example Page'
 		}
 	}
 };
@@ -57,4 +62,3 @@ const styles = StyleSheet.create({
 		fontWeight: '400'
 	}
 });
-
