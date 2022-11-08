@@ -29,7 +29,7 @@
 		"README.md"
 	],
 	"scripts": {
-		"build": "tsup && tsup src/_generated-pages.ts --format cjs",
+		"build": "tsup && tsup src/_generated src/_generated-pages.ts --format cjs",
 		"semantic-release": "semantic-release"
 	},
 	"dependencies": {
