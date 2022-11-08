@@ -14,3 +14,7 @@ export interface BuildManifest {
 		}
 	}
 }
+
+export interface Config {
+	host?: string
+}

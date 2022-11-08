@@ -3,6 +3,7 @@
  */
 import { Command, OptionValues } from 'commander';
 import pino from 'pino';
+import { buildConfig } from './config';
 import { action as buildLocales } from './locales';
 import { action as buildPages } from './pages';
 
@@ -29,6 +30,9 @@ export async function action(options: OptionValues) {
 		}
 	});
 	logger.debug(`[PilotJS] Starting build...`);
+
+	// Prepare configuration first
+	await buildConfig(logger);
 
 	// Execute all build commands
 	await buildPages(options);
