@@ -21,7 +21,7 @@ export interface PageModule {
 }
 
 export interface PageRoute {
-	getProps?: 'getStaticProps' | 'getServerSideProps'
+	getPropsType?: 'getStaticProps' | 'getServerSideProps'
 	importPath?: string
 	path: string
 }

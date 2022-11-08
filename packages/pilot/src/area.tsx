@@ -58,7 +58,7 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 					const page = await importPage(route.path);
 					paths.push({
 						Component: page.default,
-						getProps: route.getProps ? page[route.getProps] : undefined,
+						getProps: route.getPropsType ? page[route.getPropsType] : undefined,
 						path: route.path
 					});
 				}
