@@ -156,6 +156,12 @@ const readPage = async (file: klaw.Item, readDirectory: string, logger: Logger):
 		return null;
 	}
 
+	// API routes don't count as pages
+	if (cleanPath.startsWith('/api')) {
+		logger.debug(`[PilotJS] Skipping API route "${file.path}"...`);
+		return null;
+	}
+	
 	// Transform path into a route that can be used by the router including wildcards routes
 	let route = cleanPath.replace(/\[\.\.\.([^\]]+)\]/g, '**').replace(/\[([^\]]+)\]/g, ':$1');
 
