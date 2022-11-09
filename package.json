@@ -9,7 +9,9 @@
 		"node": ">=14.0.0"
 	},
 	"scripts": {
-		"publish-packages": "turbo run build && changeset publish"
+		"publish-canary": "turbo run build && changeset publish --tag canary",
+		"publish-next": "turbo run build && changeset publish --tag next",
+		"publish-release": "turbo run build && changeset publish"
 	},
 	"repository": {
 		"type": "git",

@@ -1,3 +1,3 @@
-import { createHandler } from '@waveplay/pilot';
+import { createHandler } from '@waveplay/pilot/api';
 
 export default createHandler();

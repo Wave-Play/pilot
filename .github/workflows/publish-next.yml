@@ -46,7 +46,7 @@ jobs:
         with:
           commit: "chore(release): changesets versioning & publication"
           createGithubReleases: true
-          publish: yarn publish-packages
+          publish: yarn publish-next
           title: "Changesets: Versioning & Publication"
           version: yarn changeset version --snapshot next --tag next
         env:

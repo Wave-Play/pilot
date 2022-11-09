@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { usePilot } from '@waveplay/pilot';
 import Head from 'next/head';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
 
 interface ExamplePageProps {
 	title?: string
@@ -25,7 +25,7 @@ const ExamplePage = (props: ExamplePageProps) => {
 };
 export default ExamplePage;
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
 	return {
 		props: {
 			title: 'Example Page'

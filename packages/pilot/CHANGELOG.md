@@ -1,5 +1,17 @@
 # Change Log
 
+## 0.0.0-canary-20221109054532
+
+### Patch Changes
+
+- canary version bump
+
+## 0.0.0-canary-20221109053356
+
+### Patch Changes
+
+- refactor: separate /api "subpackage" to avoid causing bundler issues
+
 ## 0.0.0-canary-20221108091630
 
 ### Patch Changes
