@@ -2,11 +2,11 @@
  * © 2022 WavePlay <dev@waveplay.com>
  */
 import { FunctionComponent, ReactElement, useEffect } from 'react';
-import { PilotRoute } from './pilot';
+import { PilotRoute } from '../core/pilot';
 import { PilotRenderer } from './renderer';
-import type { PilotConfig, PilotRouteOptions, PilotStateProps } from './types';
-import { usePilot } from './use-pilot';
-import { importPage, pageRoutes } from './_generated-pages';
+import type { PilotConfig, PilotRouteOptions, PilotStateProps } from '../types';
+import { usePilot } from '../core/use-pilot';
+import { importPage, pageRoutes } from '../../_generated-pages';
 
 interface PilotAreaProps {
 	autoLoad?: boolean

@@ -3,7 +3,7 @@
  */
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { handleGetProps } from './get-props';
-import { Pilot } from '../pilot';
+import { Pilot } from '../client/core/pilot';
 
 interface HandlerOptions {
 	pilot?: Pilot

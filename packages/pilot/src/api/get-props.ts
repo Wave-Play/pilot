@@ -3,8 +3,8 @@
  */
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { importPage, pageRoutes } from '../_generated-pages'
-import type { Pilot } from '../pilot'
-import { RadixRouter } from '../radix-router'
+import type { Pilot } from '../client/core/pilot'
+import { RadixRouter } from '../client/core/radix-router'
 
 // Create router using generated routes
 const router = createRouter();

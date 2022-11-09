@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.0.0-canary-20221109062830
+
+### Patch Changes
+
+- Updated dependencies
+  - @waveplay/pilot@0.0.0-canary-20221109062830
+
 ## 0.0.0-canary-20221109054532
 
 ### Patch Changes

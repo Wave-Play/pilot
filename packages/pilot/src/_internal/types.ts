@@ -2,7 +2,7 @@
  * © 2022 WavePlay <dev@waveplay.com>
  */
 import type { ComponentType } from 'react';
-import type { PilotPage } from '../types';
+import type { PilotPage } from '../client/types';
 
 export interface ActionResult {
 	page?: PilotPage

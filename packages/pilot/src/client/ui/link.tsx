@@ -3,8 +3,8 @@
  */
 import { FunctionComponent } from 'react';
 import { TouchableOpacity } from 'react-native';
-import type { Url } from './_internal/types';
-import { usePilot } from './use-pilot';
+import type { Url } from '../../_internal/types';
+import { usePilot } from '../core/use-pilot';
 
 interface LinkProps {
 	area?: string

@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.0-canary-20221109062830
+
+### Patch Changes
+
+- refactor: reorganized internal packages for better bundling (does not affect external usage)
+
 ## 0.0.0-canary-20221109054532
 
 ### Patch Changes

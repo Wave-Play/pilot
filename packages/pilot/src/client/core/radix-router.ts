@@ -1,7 +1,7 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import type { PilotRouter, PilotRouteOptions, PilotRouteResult, PilotRouterOptions } from './types';
+import type { PilotRouter, PilotRouteOptions, PilotRouteResult, PilotRouterOptions } from '../types';
 import { createRouter } from 'radix3';
 
 export class RadixRouter implements PilotRouter {
