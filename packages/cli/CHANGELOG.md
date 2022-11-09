@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.0.2
+
+### Patch Changes
+
+- version bump
+- Updated dependencies
+  - @waveplay/pilot@2.0.2
+
 ## 2.0.1
 
 ### Patch Changes

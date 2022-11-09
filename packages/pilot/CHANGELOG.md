@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.0.2
+
+### Patch Changes
+
+- version bump
+
 ## 2.0.1
 
 ### Patch Changes
