@@ -1,6 +1,6 @@
 {
 	"name": "create-pilot-app",
-	"version": "0.0.0-canary-20221105193115",
+	"version": "0.0.0-canary-20221109063910",
 	"private": false,
 	"keywords": [
 		"react",
@@ -24,10 +24,6 @@
 		"Pkmmte Xeleon <pk@waveplay.com>"
 	],
 	"sideEffects": false,
-	"publishConfig": {
-		"access": "public",
-		"registry": "https://registry.npmjs.org/"
-	},
 	"main": "dist/index.js",
 	"files": [
 		"dist/",

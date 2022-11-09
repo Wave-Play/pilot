@@ -1,5 +1,13 @@
 # Change Log
 
+## 0.0.0-canary-20221109063910
+
+### Patch Changes
+
+- chore: node engine version bump & cleaned up package.json files
+- Updated dependencies
+  - @waveplay/pilot@0.0.0-canary-20221109063910
+
 ## 0.0.0-canary-20221109062830
 
 ### Patch Changes

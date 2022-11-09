@@ -1,5 +1,11 @@
 # create-pilot-app
 
+## 0.0.0-canary-20221109063910
+
+### Patch Changes
+
+- chore: node engine version bump & cleaned up package.json files
+
 ## 0.0.0-canary-20221105193115
 
 ### Patch Changes
