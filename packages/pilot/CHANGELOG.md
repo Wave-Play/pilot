@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.0-canary-20221110065829
+
+### Patch Changes
+
+- fix: use correct entry file
+
 ## 0.0.0-canary-20221109063910
 
 ### Patch Changes
