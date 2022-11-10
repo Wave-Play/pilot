@@ -97,4 +97,3 @@ export const PilotArea: FunctionComponent<PilotAreaProps> = (props: PilotAreaPro
 		</>
 	)
 };
-export default PilotArea;
