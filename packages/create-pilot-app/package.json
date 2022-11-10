@@ -16,6 +16,10 @@
 		"url": "https://github.com/Wave-Play/pilot.git",
 		"directory": "packages/create-pilot-app"
 	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	},
 	"workspaces": {
     "nohoist": ["**"]
   },

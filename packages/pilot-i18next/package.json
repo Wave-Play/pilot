@@ -9,6 +9,10 @@
 		"url": "https://github.com/Wave-Play/pilot.git",
 		"directory": "packages/pilot-i18next"
 	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	},
 	"engines": {
 		"node": ">=14.6.0"
 	},
