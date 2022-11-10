@@ -1,6 +1,7 @@
 {
 	"name": "@waveplay/pilot-i18next",
 	"version": "0.0.0-canary-20221109063910",
+	"private": false,
 	"license": "MIT",
 	"description": "Support for i18next in Pilot router",
 	"repository": {

@@ -7,7 +7,7 @@
 		"packages": ["packages/*"]
 	},
 	"engines": {
-		"node": ">=14.0.0"
+		"node": ">=14.6.0"
 	},
 	"scripts": {
 		"publish-canary": "turbo run build && changeset publish --tag canary",
