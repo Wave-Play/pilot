@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.0-canary-20221111070614
+
+### Minor Changes
+
+- 8fc6ea6: feat: cache SSG and ISG data in local file system
+
 ## 0.0.0-canary-20221110065829
 
 ### Patch Changes
