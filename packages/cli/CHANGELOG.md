@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.0-canary-20221111071730
+
+### Patch Changes
+
+- 3b647a2: fix: prevent missing config files from stopping build
+
 ## 0.0.0-canary-20221111070614
 
 ### Minor Changes
