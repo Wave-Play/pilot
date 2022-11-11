@@ -16,5 +16,10 @@ export interface BuildManifest {
 }
 
 export interface Config {
+	cacheSize?: number
 	host?: string
+	i18n?: {
+		defaultLocale: string
+		locales: string[]
+	}
 }
