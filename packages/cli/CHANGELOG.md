@@ -1,5 +1,16 @@
 # Change Log
 
+## 0.0.0-canary-20221111070614
+
+### Minor Changes
+
+- d00ad75: feat: CLI now also reads next.config.js for i18n config
+
+### Patch Changes
+
+- Updated dependencies [8fc6ea6]
+  - @waveplay/pilot@0.0.0-canary-20221111070614
+
 ## 0.0.0-canary-20221111063657
 
 ### Minor Changes
