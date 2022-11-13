@@ -41,6 +41,23 @@
 ### Patch Changes
 
 - 2bb228b: refactor: renamed internal "getProps" to "getPropsType" in generated files
+## 2.0.2
+
+### Patch Changes
+
+- version bump
+
+## 2.0.1
+
+### Patch Changes
+
+- version bump
+
+## 2.0.0
+
+### Patch Changes
+
+- version bump
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.

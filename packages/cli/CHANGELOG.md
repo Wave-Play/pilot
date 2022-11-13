@@ -65,6 +65,29 @@
 - c7182c2: fix: exclude api routes from generated pages
 - Updated dependencies [2bb228b]
   - @waveplay/pilot@0.0.0-canary-20221108091630
+## 2.0.2
+
+### Patch Changes
+
+- version bump
+- Updated dependencies
+  - @waveplay/pilot@2.0.2
+
+## 2.0.1
+
+### Patch Changes
+
+- version bump
+- Updated dependencies
+  - @waveplay/pilot@2.0.1
+
+## 2.0.0
+
+### Patch Changes
+
+- version bump
+- Updated dependencies
+  - @waveplay/pilot@2.0.0
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
