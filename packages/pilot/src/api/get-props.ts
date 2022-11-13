@@ -16,8 +16,16 @@ const ROOT_DIR = process.cwd() + '/.pilot'
 // Create router using generated routes
 const router = createRouter()
 
+type GetPropsContext = {
+	defaultLocale?: string
+	locale?: string
+	locales?: string[]
+	path: string
+}
+
 export async function handleGetProps (req: NextApiRequest, res: NextApiResponse, pilot: Pilot): Promise<void> {
-	const { locale, path } = req.body
+	const context = req.body as GetPropsContext
+	const { defaultLocale, locale, locales, path } = context
 
 	// Validate path
 	if (!path) {
@@ -43,7 +51,7 @@ export async function handleGetProps (req: NextApiRequest, res: NextApiResponse,
 	}
 
 	// Lookup cached props if this is a static page and return as long as it's not stale
-	const cache = await getCache(path, pilot)
+	const cache = await getCache(context, pilot)
 	if (cache.status === 'HIT') {
 		return res.status(200).json(cache.props)
 	}
@@ -51,7 +59,7 @@ export async function handleGetProps (req: NextApiRequest, res: NextApiResponse,
 	// Load props for page
 	const page = await importPage(route.path)
 	const props = await page[getPropsType]({
-		locale, req, res,
+		defaultLocale, locale, locales, req, res,
 		params: route.params ?? {},
 		query: route.query ?? {},
 		resolvedUrl: path
@@ -97,9 +105,14 @@ type CachedProps = GetStaticPropsResult<unknown> & {
 	}
 }
 
-async function getCache(path: string, pilot: Pilot): Promise<Cache> {
+async function getCache(context: GetPropsContext, pilot: Pilot): Promise<Cache> {
+	const { locale, path } = context
+
+	// Create cache entry with locale prefix and without query params
+	const cleanPath = path.includes('?') ? path.split('?')[0] : path
+	const localePrefix = locale ? '/' + locale : ''
 	const cache: Cache = {
-		file: ROOT_DIR + `/cache/static${path}.json`,
+		file: ROOT_DIR + `/cache/static${localePrefix}${cleanPath}.json`,
 		status: 'MISS'
 	}
 

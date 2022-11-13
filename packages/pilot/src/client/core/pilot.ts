@@ -458,7 +458,7 @@ export class Pilot {
 			this.log('debug', `Loading props natively for path:`, path);
 
 			// See if we can find a cached version of this page's props
-			const cacheKey = (this._currentLocale || '') + path + JSON.stringify(route.query);
+			const cacheKey = (this._currentLocale || '') + path;
 			const cachedProps = this._cache.get(cacheKey);
 			const isExpired = !cachedProps || cachedProps?.__pilot?.expires < Date.now();
 			if (cachedProps && isExpired) {
