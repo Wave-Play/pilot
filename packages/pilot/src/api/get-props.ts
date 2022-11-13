@@ -72,17 +72,17 @@ export async function handleGetProps (req: NextApiRequest, res: NextApiResponse,
 }
 
 function createRouter() {
-	const router = new RadixRouter()
+	const radixRouter = new RadixRouter()
 
 	for (const route of pageRoutes) {
-		router.addRoute({
+		radixRouter.addRoute({
 			getPropsType: route.getPropsType,
 			path: route.path,
 			Component: null
 		})
 	}
 
-	return router
+	return radixRouter
 }
 
 interface Cache {

@@ -3,9 +3,9 @@
  */
 import { createElement, FunctionComponent, ReactElement } from 'react';
 import { lru, LRU } from 'tiny-lru';
-import { ActionResult, DataMap, FlightOptions, Url } from '../../_internal/types';
+import { ActionResult, DataMap, FlightOptions, PilotHookCallback, Url } from '../../_internal/types';
 import { Default404, Default500 } from '../../_internal/ui';
-import { eventWaiter, generateNumber } from '../../_internal/utils';
+import { eventWaiter, generateNumber, matchesLocale } from '../../_internal/utils';
 import { RadixRouter } from './radix-router';
 import { config as defaultConfig } from '../../_generated/config';
 import type { PilotConfig, PilotEvent, PilotEventType, PilotFlyOptions, PilotHook, PilotPage, PilotRouteOptions, PilotRouteResult } from '../types';
@@ -50,7 +50,7 @@ export class Pilot {
 		this.log('debug', `New instance created`);
 	}
 
-	public addHook(event: PilotEventType, callback: (path: string, event: PilotEvent) => void): number {
+	public addHook(event: PilotEventType, callback: PilotHookCallback): number {
 		this.log('debug', `addHook()`);
 		const id = generateNumber();
 		this._hooks.push({
@@ -70,9 +70,9 @@ export class Pilot {
 
 		// Get previous page in stack
 		this._stack.pop();
-		const path = this._stack[this._stack.length - 1];
+		const previousPath = this._stack[this._stack.length - 1];
 
-		return this._fly(path, {
+		return this._fly(previousPath, {
 			action: async (path: string) => {
 				// Delegate to NextJS router if one exists; use internal otherwise
 				if (this._config.nextRouter) {
@@ -196,10 +196,10 @@ export class Pilot {
 	public async reload() {
 		this.log('debug', `refresh()`);
 
-		// Get previous page in stack
-		const path = this._stack[this._stack.length - 1];
+		// Get current page in stack
+		const currentPath = this._stack[this._stack.length - 1];
 
-		return this._fly(path, {
+		return this._fly(currentPath, {
 			action: async (path: string) => {
 				// Delegate to NextJS router if one exists; use internal otherwise
 				if (this._config.nextRouter) {
@@ -337,11 +337,8 @@ export class Pilot {
 		// Handle locale prefix only as long as caller doesn't opt out
 		if (options?.locale !== false) {
 			// If this path starts with another registered locale, make sure to update the current locale
-			const locale = options?.locale || this._config.i18n?.locales?.find(locale => 
-				path.startsWith(`/${locale}/`)
-				|| path === `/${locale}`
-				|| (hasQuery && path.substring(0, path.indexOf('?')) === `/${locale}`)
-			);
+			const locale = options?.locale ?? matchesLocale(path, this._config.i18n?.locales, hasQuery);
+
 			if (locale && locale !== this._currentLocale) {
 				this.log('debug', `Locale changed from ${this._currentLocale} to ${locale}`);
 				this._currentLocale = locale;

@@ -15,3 +15,11 @@ export const eventWaiter = async (event: string): Promise<any> => {
 		window.addEventListener(event, callback);
 	});
 };
+
+export function matchesLocale(path: string, locales?: string[], hasQuery?: boolean): string | undefined {
+	return locales?.find(locale => 
+		path.startsWith(`/${locale}/`)
+		|| path === `/${locale}`
+		|| (hasQuery && path.substring(0, path.indexOf('?')) === `/${locale}`)
+	);
+}

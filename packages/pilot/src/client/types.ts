@@ -5,7 +5,7 @@ import type { GetServerSideProps, GetStaticProps } from 'next';
 import type { NextRouter } from 'next/router';
 import type { ComponentProps, ComponentType } from 'react';
 import type { Pilot } from './core/pilot';
-import type { DataMap } from '../_internal/types';
+import type { DataMap, PilotHookCallback } from '../_internal/types';
 
 export interface Logger {
 	debug: (...args: any[]) => void
@@ -43,7 +43,7 @@ export interface PilotEvent {
 export type PilotEventType = '*' | 'error' | 'load-complete' | 'load-start' | 'redirect'
 
 export interface PilotHook {
-	callback: (path: string, event: PilotEvent) => string | void
+	callback: PilotHookCallback
 	id: number
 	type: PilotEventType
 }

@@ -46,7 +46,7 @@ jobs:
         with:
           commit: "chore(release): changesets versioning & publication"
           createGithubReleases: true
-          publish: yarn publish-canary
+          publish: yarn publish:canary
           title: "Changesets: Versioning & Publication"
           version: yarn changeset version --snapshot canary --tag canary
         env:

@@ -2,7 +2,7 @@
  * © 2022 WavePlay <dev@waveplay.com>
  */
 import type { ComponentType } from 'react';
-import type { PilotPage } from '../client/types';
+import type { PilotEvent, PilotPage } from '../client/types';
 
 export interface ActionResult {
 	page?: PilotPage
@@ -25,6 +25,8 @@ export interface PageRoute {
 	importPath?: string
 	path: string
 }
+
+export type PilotHookCallback = (path: string, event: PilotEvent) => string | void
 
 export type Url = string | {
 	pathname: string
