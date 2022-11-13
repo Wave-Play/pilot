@@ -88,8 +88,13 @@ export class Pilot {
 		});
 	}
 
-	public config(config: PilotConfig) {
+	public config(config?: PilotConfig): PilotConfig {
 		this.log('debug', `config(${JSON.stringify(config)})`);
+
+		// It's perfectly fine to use this method just to get the current config
+		if (!config) {
+			return this._config;
+		}
 
 		// Update only defined properties from new config
 		// You can still remove/reset a property by setting it to null
@@ -102,6 +107,8 @@ export class Pilot {
 		// Update config for cache and logger separately
 		this._cache.max = config?.cacheSize !== undefined ? config.cacheSize : 100;
 		this._currentLocale = config?.i18n?.defaultLocale;
+
+		return this._config;
 	}
 
 	public getDefaultLocale(): string | undefined {
