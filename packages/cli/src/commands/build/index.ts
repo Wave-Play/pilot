@@ -42,11 +42,7 @@ export async function action(options: OptionValues) {
 
 	// Prepare configuration first
 	logger.debug(`[PilotJS] Starting build...`);
-	try {
-		await buildConfig(logger);
-	} catch (e) {
-		logger.debug('[PilotJS] Could not find a valid pilot.config.js file...');
-	}
+	await buildConfig(logger);
 
 	// Execute all build commands
 	await buildPages(options);

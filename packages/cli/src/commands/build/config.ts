@@ -4,6 +4,7 @@
 import type { PilotConfig } from '@waveplay/pilot';
 import appRoot from 'app-root-path';
 import fs from 'fs-extra';
+import type { NextConfig } from 'next';
 import path from 'path';
 import type { Logger } from 'pino';
 import { syncManifest } from '../..';
@@ -12,14 +13,26 @@ import type { BuildManifest, Config } from '../../types';
 
 const GENERATED_FILE = 'config.js';
 
+const readConfig = async <T = any>(logger: Logger, file: string): Promise<T> => {
+	try {
+		const config = await import(path.join(process.cwd(), file));
+		return config?.default
+	} catch (e) {
+		logger.info(`[PilotJS] Could not read config file: ${file}`);
+		return {} as T;
+	}
+}
+
 export const buildConfig = async (logger: Logger) => {
 	// Read the config file
 	logger.debug(`[PilotJS] Reading config...`);
-	const config = (await import(path.join(process.cwd(), 'pilot.config.js')))?.default as Config;
-	const nextConfig = (await import(path.join(process.cwd(), 'next.config.js')))?.default;
+	const [ config, nextConfig ] = await Promise.all([
+		readConfig<Config>(logger, `pilot.config.js`),
+		readConfig<NextConfig>(logger, `next.config.js`)
+	]);
 
 	// Steal some Next.js config values
-	if (!config?.i18n && nextConfig?.i18n) {
+	if (!config.i18n && nextConfig.i18n) {
 		config.i18n = nextConfig.i18n;
 	}
 
