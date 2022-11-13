@@ -1,7 +1,7 @@
 
 ## Advanced setup for NextJS
 
-Simply add **`<PilotArea/>`** as a top-level component. `_app.js` is the perfect place to use it in.
+Add **`<PilotArea/>`** as a top-level component. `_app.js` is the perfect place to use it in.
 
 Check out the [NextJS Documentation](https://nextjs.org/docs/advanced-features/custom-app) if you don't already have one set up.
 

@@ -1,8 +1,10 @@
 {
 	"name": "create-pilot-app",
-	"version": "0.0.0-canary-20221105193115",
+	"version": "0.0.0-canary-20221109063910",
 	"private": false,
+	"description": "Create Pilot.js-powered Next.js React apps with one command",
 	"keywords": [
+		"create app",
 		"react",
 		"next",
 		"next.js",
@@ -14,7 +16,13 @@
 		"url": "https://github.com/Wave-Play/pilot.git",
 		"directory": "packages/create-pilot-app"
 	},
-	"description": "Create Pilot.js-powered Next.js React apps with one command",
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	},
+	"workspaces": {
+    "nohoist": ["**"]
+  },
 	"engines": {
 		"node": ">=14.6.0"
 	},
@@ -24,10 +32,6 @@
 		"Pkmmte Xeleon <pk@waveplay.com>"
 	],
 	"sideEffects": false,
-	"publishConfig": {
-		"access": "public",
-		"registry": "https://registry.npmjs.org/"
-	},
 	"main": "dist/index.js",
 	"files": [
 		"dist/",

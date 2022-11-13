@@ -104,7 +104,7 @@ pilot.getQuery();
 | `rewrites`           | <center>❌</center> | Not supported yet. |
 | `withRouter`         | <center>❌</center> | Not supported yet. |
 
-If a feature is not in the table above, that likely means there are no plans to support it or we simply missed it. 
+If a feature is not in the table above, that likely means there are no plans to support it or we may have missed it. 
 
 Native apps work much differently than a server which means some features may not be possible to support. Please open an issue if you'd like to see a feature added.
 

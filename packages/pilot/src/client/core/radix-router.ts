@@ -1,7 +1,7 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import type { PilotRouter, PilotRouteOptions, PilotRouteResult, PilotRouterOptions } from './types';
+import type { PilotRouter, PilotRouteOptions, PilotRouteResult, PilotRouterOptions } from '../types';
 import { createRouter } from 'radix3';
 
 export class RadixRouter implements PilotRouter {
@@ -24,6 +24,7 @@ export class RadixRouter implements PilotRouter {
 		return route ? {
 			Component: route.Component,
 			getProps: route.getProps,
+			getPropsType: route.getPropsType,
 			params: route.params,
 			path: route.path,
 			query: hasQuery ? parseQuery(path) : {}

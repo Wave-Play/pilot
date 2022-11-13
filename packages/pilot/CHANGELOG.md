@@ -1,5 +1,46 @@
 # Change Log
 
+## 0.0.0-canary-20221111070614
+
+### Minor Changes
+
+- 8fc6ea6: feat: cache SSG and ISG data in local file system
+
+## 0.0.0-canary-20221110065829
+
+### Patch Changes
+
+- fix: use correct entry file
+
+## 0.0.0-canary-20221109063910
+
+### Patch Changes
+
+- chore: node engine version bump & cleaned up package.json files
+
+## 0.0.0-canary-20221109062830
+
+### Patch Changes
+
+- refactor: reorganized internal packages for better bundling (does not affect external usage)
+
+## 0.0.0-canary-20221109054532
+
+### Patch Changes
+
+- canary version bump
+
+## 0.0.0-canary-20221109053356
+
+### Patch Changes
+
+- refactor: separate /api "subpackage" to avoid causing bundler issues
+
+## 0.0.0-canary-20221108091630
+
+### Patch Changes
+
+- 2bb228b: refactor: renamed internal "getProps" to "getPropsType" in generated files
 ## 2.0.2
 
 ### Patch Changes

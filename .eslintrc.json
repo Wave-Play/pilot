@@ -1,0 +1,162 @@
+{
+  "root": true,
+  "parser": "@babel/eslint-parser",
+  "plugins": ["react", "react-hooks", "jest", "import"],
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "node": true
+  },
+  "parserOptions": {
+    "requireConfigFile": false,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/internal-regex": "^next/"
+  },
+  "overrides": [
+    {
+      "files": ["test/**/*.js", "test/**/*.ts", "**/*.test.ts"],
+      "extends": ["plugin:jest/recommended"],
+      "rules": {
+        "jest/expect-expect": "off",
+        "jest/no-disabled-tests": "off",
+        "jest/no-conditional-expect": "off",
+        "jest/valid-title": "off",
+        "jest/no-interpolation-in-snapshots": "off",
+        "jest/no-export": "off"
+      }
+    },
+    { "files": ["**/__tests__/**"], "env": { "jest": true } },
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module",
+        "ecmaFeatures": {
+          "jsx": true
+        },
+        "warnOnUnsupportedTypeScriptVersion": false
+      },
+      "plugins": ["@typescript-eslint"],
+      "rules": {
+        // Already handled by TS
+        "no-dupe-class-members": "off",
+        "no-undef": "off",
+
+        // Add TypeScript specific rules (and turn off ESLint equivalents)
+        "@typescript-eslint/consistent-type-assertions": "warn",
+        "no-array-constructor": "off",
+        "@typescript-eslint/no-array-constructor": "warn",
+        "@typescript-eslint/no-namespace": "error",
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": "off",
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": [
+          "warn",
+          {
+            "args": "none",
+            "ignoreRestSiblings": true
+          }
+        ],
+        "no-unused-expressions": "off",
+        "@typescript-eslint/no-unused-expressions": [
+          "error",
+          {
+            "allowShortCircuit": true,
+            "allowTernary": true,
+            "allowTaggedTemplates": true
+          }
+        ],
+        "no-useless-constructor": "off",
+        "@typescript-eslint/no-useless-constructor": "warn",
+        "@typescript-eslint/prefer-literal-enum-member": "error",
+        "@typescript-eslint/prefer-namespace-keyword": "error"
+      }
+    },
+    {
+      "files": [
+        "test/**/*",
+        "examples/**/*",
+        "packages/create-next-app/templates/**/*"
+      ],
+      "rules": { "react/react-in-jsx-scope": "off" }
+    },
+    {
+      "files": ["examples/**/*"],
+      "rules": {
+        "@typescript-eslint/no-use-before-define": "off",
+        "import/no-anonymous-default-export": [
+          "error",
+          {
+            // React components:
+            "allowArrowFunction": false,
+            "allowAnonymousClass": false,
+            "allowAnonymousFunction": false,
+
+            // Non-React stuff:
+            "allowArray": true,
+            "allowCallExpression": true,
+            "allowLiteral": true,
+            "allowObject": true
+          }
+        ]
+      }
+    },
+    {
+      "files": ["packages/**"],
+      "rules": {
+        "no-shadow": ["warn", { "builtinGlobals": false }],
+        "import/no-extraneous-dependencies": [
+          "error",
+          { "devDependencies": false }
+        ]
+      }
+    },
+    {
+      "files": ["packages/**/*.tsx", "packages/**/*.ts"],
+      "rules": {
+        "@typescript-eslint/no-unused-vars": [
+          "warn",
+          {
+            "args": "all",
+            "argsIgnorePattern": "^_",
+            "ignoreRestSiblings": true
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "packages/eslint-plugin-next/**/*.js",
+        "test/unit/eslint-plugin-next/**/*.test.ts"
+      ],
+      "extends": ["plugin:eslint-plugin/recommended"],
+      "parserOptions": {
+        "sourceType": "script"
+      },
+      "rules": {
+        "eslint-plugin/prefer-replace-text": "error",
+        "eslint-plugin/report-message-format": [
+          "error",
+          ".+\\. See: https://nextjs.org/docs/messages/[a-z\\-]+$"
+        ],
+        "eslint-plugin/require-meta-docs-description": [
+          "error",
+          {
+            "pattern": ".+"
+          }
+        ],
+        "eslint-plugin/require-meta-docs-url": "error"
+      }
+    }
+	]
+}

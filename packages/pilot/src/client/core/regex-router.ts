@@ -1,7 +1,7 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import type { PilotRouter, PilotRouteOptions, PilotRouteResult, PilotRouterOptions } from './types';
+import type { PilotRouter, PilotRouteOptions, PilotRouteResult, PilotRouterOptions } from '../types';
 import { match } from 'node-match-path';
 
 export class RegexRouter implements PilotRouter {

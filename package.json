@@ -2,14 +2,24 @@
 	"name": "pilotjs-project",
 	"version": "0.0.0",
 	"private": true,
-	"workspaces": [
-		"packages/*"
-	],
+	"workspaces": {
+		"nohoist": [
+			"**"
+		],
+		"packages": [
+			"packages/*"
+		]
+	},
 	"engines": {
-		"node": ">=14.0.0"
+		"node": ">=14.6.0"
 	},
 	"scripts": {
-		"publish-packages": "turbo run build && changeset publish"
+		"lint": "yarn lint:eslint && yarn lint:language",
+		"lint:eslint": "eslint . --ext js,jsx,ts,tsx --max-warnings=0 --config .eslintrc.json --no-eslintrc",
+		"lint:language": "alex .",
+		"publish:canary": "yarn lint && turbo run build && changeset publish --tag canary",
+		"publish:next": "yarn lint && turbo run build && changeset publish --tag next",
+		"publish:release": "yarn lint && turbo run build && changeset publish"
 	},
 	"repository": {
 		"type": "git",
@@ -25,7 +35,19 @@
 		"Pkmmte Xeleon <pk@waveplay.com>"
 	],
 	"devDependencies": {
-		"turbo": "1.6.3"
+		"@babel/core": "^7.20.2",
+		"@babel/eslint-parser": "^7.19.1",
+		"@typescript-eslint/eslint-plugin": "^5.42.1",
+		"@typescript-eslint/parser": "^5.42.1",
+		"alex": "11.0.0",
+		"eslint": "8.27.0",
+		"eslint-plugin-eslint-plugin": "^5.0.6",
+		"eslint-plugin-import": "^2.26.0",
+		"eslint-plugin-jest": "^27.1.5",
+		"eslint-plugin-react": "^7.31.10",
+		"eslint-plugin-react-hooks": "^4.6.0",
+		"turbo": "1.6.3",
+		"typescript": "^4.8.4"
 	},
 	"dependencies": {
 		"@changesets/cli": "2.25.2"

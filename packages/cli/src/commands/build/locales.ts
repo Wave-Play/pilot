@@ -6,8 +6,9 @@ import { Command, OptionValues } from 'commander';
 import fs from 'fs-extra';
 import klaw from 'klaw';
 import pino, { Logger } from 'pino';
-import { BuildManifest, syncManifest } from './';
-import koder from './koder';
+import { syncManifest } from '../..';
+import koder from '../../koder';
+import type { BuildManifest } from '../../types';
 
 // Name of the file that will be generated
 const GENERATED_FILE = 'import-resource.js';

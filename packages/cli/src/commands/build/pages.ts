@@ -8,9 +8,10 @@ import klaw from 'klaw';
 import pino, { Logger } from 'pino';
 import { Options, transform } from '@swc/core';
 import evil from 'safe-eval';
-import type { PageRoute } from '@waveplay/pilot/dist/_internal';
-import { BuildManifest, syncManifest } from './';
-import koder from './koder';
+import type { PageRoute } from '@waveplay/pilot/dist/_internal/types';
+import { syncManifest } from '../..';
+import koder from '../../koder';
+import type { BuildManifest } from '../../types';
 
 // This is the number of directories to go up to get to the root of the project where pages are
 // Because we can't guarantee where the CLI is being run from, we assume 4 directories up is the root
@@ -83,14 +84,14 @@ export async function action(options: OptionValues) {
 		manifest.pages = {};
 		for (const page of pages) {
 			manifest.pages[page.path] = {
-				getProps: page.getProps
+				getPropsType: page.getPropsType
 			};
 		}
 	}, logger);
 	logger.info(`[PilotJS] Built ${pages.length} pages in ${Date.now() - startTime}ms ✨`);
 };
 
-const findGetProps = async (filePath: string): Promise<string | null> => {
+const findGetPropsType = async (filePath: string): Promise<'getServerSideProps' | 'getStaticProps' | null> => {
 	// Read the file
 	const fileContents = await fs.readFile(filePath, 'utf8');
 
@@ -149,9 +150,15 @@ const readPage = async (file: klaw.Item, readDirectory: string, logger: Logger):
 	// Create duplicate with file extension removed for comparison purposes
 	const cleanPath = path.substring(0, path.lastIndexOf('.'));
 
-	// _document is very site-specific, so we don't want to include it
+	// _document is very web-specific, so we don't want to include it
 	if (cleanPath === '/_document') {
 		logger.debug(`[PilotJS] Skipping unsupported page "${file.path}"...`);
+		return null;
+	}
+
+	// API routes don't count as pages
+	if (cleanPath.startsWith('/api')) {
+		logger.debug(`[PilotJS] Skipping API route "${file.path}"...`);
 		return null;
 	}
 	
@@ -173,11 +180,11 @@ const readPage = async (file: klaw.Item, readDirectory: string, logger: Logger):
 	
 	// Check to see if this page contains getServerSideProps or getStaticProps
 	// If it does, we need to include it in the build
-	const getProps = await findGetProps(file.path);
+	const getPropsType = await findGetPropsType(file.path);
 
 	// Add page stats to the list
 	return {
-		getProps: getProps,
+		getPropsType: getPropsType,
 		importPath: importPath.substring(0, importPath.lastIndexOf('.')),
 		path: route
 	};
@@ -188,7 +195,7 @@ const writeGeneratedFile = async (pages: PageRoute[], logger: Logger): Promise<v
 		// Export const containing all page info
 		.const('pageRoutes', { export: true })
 		.value(pages.map(page => ({
-			getProps: page.getProps,
+			getPropsType: page.getPropsType,
 			path: page.path
 		})))
 		.newline()

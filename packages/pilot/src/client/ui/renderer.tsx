@@ -2,8 +2,8 @@
  * © 2022 WavePlay <dev@waveplay.com>
  */
 import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
-import type { PilotEvent, PilotStateProps } from './types';
-import { usePilot } from './use-pilot';
+import type { PilotEvent, PilotStateProps } from '../types';
+import { usePilot } from '../core/use-pilot';
 
 interface PilotRendererProps {
 	name?: string

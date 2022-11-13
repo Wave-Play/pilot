@@ -1,5 +1,70 @@
 # Change Log
 
+## 0.0.0-canary-20221111071730
+
+### Patch Changes
+
+- 3b647a2: fix: prevent missing config files from stopping build
+
+## 0.0.0-canary-20221111070614
+
+### Minor Changes
+
+- d00ad75: feat: CLI now also reads next.config.js for i18n config
+
+### Patch Changes
+
+- Updated dependencies [8fc6ea6]
+  - @waveplay/pilot@0.0.0-canary-20221111070614
+
+## 0.0.0-canary-20221111063657
+
+### Minor Changes
+
+- feat: auto remove cache during builds
+
+## 0.0.0-canary-20221109063910
+
+### Patch Changes
+
+- chore: node engine version bump & cleaned up package.json files
+- Updated dependencies
+  - @waveplay/pilot@0.0.0-canary-20221109063910
+
+## 0.0.0-canary-20221109062830
+
+### Patch Changes
+
+- Updated dependencies
+  - @waveplay/pilot@0.0.0-canary-20221109062830
+
+## 0.0.0-canary-20221109054532
+
+### Patch Changes
+
+- canary version bump
+- Updated dependencies
+  - @waveplay/pilot@0.0.0-canary-20221109054532
+
+## 0.0.0-canary-20221109053356
+
+### Patch Changes
+
+- Updated dependencies
+  - @waveplay/pilot@0.0.0-canary-20221109053356
+
+## 0.0.0-canary-20221108091630
+
+### Minor Changes
+
+- c7182c2: feat: pilot.config.js can now be used to provide a default runtime config
+
+### Patch Changes
+
+- 2bb228b: refactor: renamed internal "getProps" to "getPropsType" in generated files
+- c7182c2: fix: exclude api routes from generated pages
+- Updated dependencies [2bb228b]
+  - @waveplay/pilot@0.0.0-canary-20221108091630
 ## 2.0.2
 
 ### Patch Changes

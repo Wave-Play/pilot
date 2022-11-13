@@ -1,20 +1,24 @@
 {
 	"name": "@waveplay/pilot-i18next",
-	"version": "2.0.0-canary.14",
-	"license": "MIT",
+	"version": "0.0.0-canary-20221109063910",
 	"private": false,
+	"license": "MIT",
 	"description": "Support for i18next in Pilot router",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Wave-Play/pilot.git"
+		"url": "https://github.com/Wave-Play/pilot.git",
+		"directory": "packages/pilot-i18next"
 	},
 	"publishConfig": {
 		"access": "public",
 		"registry": "https://registry.npmjs.org/"
 	},
 	"engines": {
-		"node": ">=12"
+		"node": ">=14.6.0"
 	},
+	"workspaces": {
+    "nohoist": ["**"]
+  },
 	"author": "WavePlay <dev@waveplay.com> (waveplay.com)",
 	"contributors": [
 		"Pkmmte Xeleon <pk@waveplay.com>"
@@ -22,12 +26,6 @@
 	"sideEffects": false,
 	"main": "dist/index.js",
 	"module": "dist/index.mjs",
-	"release": {
-		"branches": [
-			"main",
-			"next"
-		]
-	},
 	"files": [
 		"src/",
 		"dist/",
@@ -35,8 +33,7 @@
 		"README.md"
 	],
 	"scripts": {
-		"build": "tsup && tsup src/import-resource.ts --dts --sourcemap --format cjs",
-		"semantic-release": "semantic-release"
+		"build": "tsup && tsup src/import-resource.ts --dts --sourcemap --format cjs"
 	},
 	"dependencies": {
 		"hoist-non-react-statics": "3.3.2"
@@ -54,8 +51,6 @@
 		"@typescript-eslint/parser": "5.6.0",
 		"eslint-plugin-import": "2.25.4",
 		"eslint-plugin-jest": "25.3.0",
-		"semantic-release": "18.0.1",
-		"semantic-release-cli": "5.4.4",
 		"tsup": "6.2.3",
 		"typescript": "4.6.2"
 	},

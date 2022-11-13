@@ -4,8 +4,8 @@
 import type { GetServerSideProps, GetStaticProps } from 'next';
 import type { NextRouter } from 'next/router';
 import type { ComponentProps, ComponentType } from 'react';
-import { Pilot } from './pilot';
-import { DataMap } from './_internal';
+import type { Pilot } from './core/pilot';
+import type { DataMap, PilotHookCallback } from '../_internal/types';
 
 export interface Logger {
 	debug: (...args: any[]) => void
@@ -18,6 +18,7 @@ export interface Logger {
 export interface PilotConfig {
 	id?: string
 	cacheSize?: number
+	host?: string
 	i18n?: {
 		defaultLocale: string
 		locales: string[]
@@ -42,7 +43,7 @@ export interface PilotEvent {
 export type PilotEventType = '*' | 'error' | 'load-complete' | 'load-start' | 'redirect'
 
 export interface PilotHook {
-	callback: (path: string, event: PilotEvent) => string | void
+	callback: PilotHookCallback
 	id: number
 	type: PilotEventType
 }
@@ -61,6 +62,7 @@ export interface PilotPage {
 export interface PilotRouteOptions {
 	Component: ComponentType
 	getProps?: GetServerSideProps | GetStaticProps
+	getPropsType?: 'getStaticProps' | 'getServerSideProps'
 	path: string
 }
 

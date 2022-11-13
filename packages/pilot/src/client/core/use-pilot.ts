@@ -5,7 +5,7 @@ import { atom, Atom, useAtom } from 'jotai';
 import { Platform } from 'react-native';
 import { useRouter } from 'next/router';
 import { Pilot } from './pilot';
-import { PilotConfig } from './types';
+import { PilotConfig } from '../types';
 
 // Fleet of lazy pilots. Or rather, lazy atoms containing pilots.
 // This enables us to create new pilots on demand per area that needs them.

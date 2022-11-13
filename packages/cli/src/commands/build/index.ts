@@ -1,13 +1,16 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
+import appRoot from 'app-root-path';
 import { Command, OptionValues } from 'commander';
 import pino from 'pino';
-import { action as buildLocales } from './build-locales';
-import { action as buildPages } from './build-pages';
+import { buildConfig } from './config';
+import { action as buildLocales } from './locales';
+import { action as buildPages } from './pages';
+import fs from 'fs-extra';
 
 const command = new Command('build')
-	.description('creates an optimized build of PilotJS for your application')
+	.description('creates an optimized build of Pilot.js for your application')
 	.option('-s --silent', 'do not print anything')
 	.option('-v --verbose', 'print more information for debugging')
 	.action(action);
@@ -28,7 +31,22 @@ export async function action(options: OptionValues) {
 			}
 		}
 	});
+
+	// Clear existing cache
+	logger.debug(`[PilotJS] Clearing cache...`);
+	try {
+		await fs.remove(appRoot + '/.pilot/cache');
+	} catch (e) {
+		logger.error('[PilotJS] Failed to clear cache');
+	}
+
+	// Prepare configuration first
 	logger.debug(`[PilotJS] Starting build...`);
+	try {
+		await buildConfig(logger);
+	} catch (e) {
+		logger.debug('[PilotJS] Could not find a valid pilot.config.js file...');
+	}
 
 	// Execute all build commands
 	await buildPages(options);

@@ -2,11 +2,13 @@
  * © 2022 WavePlay <dev@waveplay.com>
  */
 import { createElement, FunctionComponent, ReactElement } from 'react';
-import { RadixRouter } from './radix-router';
-import type { PilotRouteOptions } from './types';
 import { lru, LRU } from 'tiny-lru';
-import { ActionResult, DataMap, Default404, Default500, eventWaiter, FlightOptions, generateNumber, Url } from './_internal';
-import type { PilotConfig, PilotEvent, PilotEventType, PilotFlyOptions, PilotHook, PilotPage, PilotRouteResult } from './types';
+import { ActionResult, DataMap, FlightOptions, PilotHookCallback, Url } from '../../_internal/types';
+import { Default404, Default500 } from '../../_internal/ui';
+import { eventWaiter, generateNumber, matchesLocale } from '../../_internal/utils';
+import { RadixRouter } from './radix-router';
+import { config as defaultConfig } from '../../_generated/config';
+import type { PilotConfig, PilotEvent, PilotEventType, PilotFlyOptions, PilotHook, PilotPage, PilotRouteOptions, PilotRouteResult } from '../types';
 
 export const PilotRoute: FunctionComponent<PilotRouteOptions> = () => null;
 
@@ -24,7 +26,10 @@ export class Pilot {
 	private readonly _stack: string[] = [];
 
 	constructor(config?: PilotConfig) {
-		this._config = config || {};
+		this._config = {
+			...defaultConfig,
+			...config || {}
+		};
 
 		// Create cache
 		this._cache = lru(config?.cacheSize || 100);
@@ -45,7 +50,7 @@ export class Pilot {
 		this.log('debug', `New instance created`);
 	}
 
-	public addHook(event: PilotEventType, callback: (path: string, event: PilotEvent) => void): number {
+	public addHook(event: PilotEventType, callback: PilotHookCallback): number {
 		this.log('debug', `addHook()`);
 		const id = generateNumber();
 		this._hooks.push({
@@ -65,9 +70,9 @@ export class Pilot {
 
 		// Get previous page in stack
 		this._stack.pop();
-		const path = this._stack[this._stack.length - 1];
+		const previousPath = this._stack[this._stack.length - 1];
 
-		return this._fly(path, {
+		return this._fly(previousPath, {
 			action: async (path: string) => {
 				// Delegate to NextJS router if one exists; use internal otherwise
 				if (this._config.nextRouter) {
@@ -191,10 +196,10 @@ export class Pilot {
 	public async reload() {
 		this.log('debug', `refresh()`);
 
-		// Get previous page in stack
-		const path = this._stack[this._stack.length - 1];
+		// Get current page in stack
+		const currentPath = this._stack[this._stack.length - 1];
 
-		return this._fly(path, {
+		return this._fly(currentPath, {
 			action: async (path: string) => {
 				// Delegate to NextJS router if one exists; use internal otherwise
 				if (this._config.nextRouter) {
@@ -242,6 +247,7 @@ export class Pilot {
 
 	public stats() {
 		return {
+			host: this._config.host,
 			id: this._config.id,
 			i18: this._config.i18n,
 			logger: this._config.logger,
@@ -331,11 +337,8 @@ export class Pilot {
 		// Handle locale prefix only as long as caller doesn't opt out
 		if (options?.locale !== false) {
 			// If this path starts with another registered locale, make sure to update the current locale
-			const locale = options?.locale || this._config.i18n?.locales?.find(locale => 
-				path.startsWith(`/${locale}/`)
-				|| path === `/${locale}`
-				|| (hasQuery && path.substring(0, path.indexOf('?')) === `/${locale}`)
-			);
+			const locale = options?.locale ?? matchesLocale(path, this._config.i18n?.locales, hasQuery);
+
 			if (locale && locale !== this._currentLocale) {
 				this.log('debug', `Locale changed from ${this._currentLocale} to ${locale}`);
 				this._currentLocale = locale;
@@ -414,6 +417,8 @@ export class Pilot {
 	 * This basically emulates NextJS' getServerSideProps() or getStaticProps() function.
 	 * If a "revalidate" value is returned, it will be stored in our LRU memory cache.
 	 * 
+	 * On native, these props are called on the server-side if "host" is set, otherwise they are called on the app.
+	 * 
 	 * @param path Path to load.
 	 * @param route Route for the specified path.
 	 * @returns Props for the specified path.
@@ -426,38 +431,55 @@ export class Pilot {
 			return props;
 		}
 
-		// See if we can find a cached version of this page's props
-		const cacheKey = (this._currentLocale || '') + path + JSON.stringify(route.query);
-		const cachedProps = this._cache.get(cacheKey);
-		const isExpired = !cachedProps || cachedProps?.__pilot?.expires < Date.now();
-		if (cachedProps && isExpired) {
-			this.log('debug', `Cached props for ${path} have expired, removing from cache...`);
-			this._cache.delete(cacheKey);
-		} else if (cachedProps && !isExpired) {
-			this.log('debug', `Found cached props for path: ${path}`);
-			return cachedProps;
-		}
-		
-		// Get props from route's getProps() function
-		props = await route.getProps({
-			locale: this._currentLocale,
-			params: route.params || {},
-			query: route.query || {},
-			req: {} as any,
-			res: {} as any,
-			resolvedUrl: path
-		});
-
-		// If a "revalidate" value is returned, cache the props for that amount of time
-		// This emulates ISR (Incremental Static Regeneration) from NextJS
-		if (props?.revalidate) {
-			this.log('debug', `Caching props for path: ${path} (revalidate: ${props.revalidate})`);
-			this._cache.set(cacheKey, {
-				...props,
-				__pilot: {
-					expires: Date.now() + props.revalidate * 1000
-				}
+		if (this._config.host) {
+			this.log('debug', `Loading props remotely for path:`, path);
+			const response = await fetch(this._config.host + '/api/pilot/get-props', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					locale: this._currentLocale,
+					path
+				})
 			});
+			props = await response.json();
+		} else {
+			this.log('debug', `Loading props natively for path:`, path);
+
+			// See if we can find a cached version of this page's props
+			const cacheKey = (this._currentLocale || '') + path + JSON.stringify(route.query);
+			const cachedProps = this._cache.get(cacheKey);
+			const isExpired = !cachedProps || cachedProps?.__pilot?.expires < Date.now();
+			if (cachedProps && isExpired) {
+				this.log('debug', `Cached props for ${path} have expired, removing from cache...`);
+				this._cache.delete(cacheKey);
+			} else if (cachedProps && !isExpired) {
+				this.log('debug', `Found cached props for path: ${path}`);
+				return cachedProps;
+			}
+			
+			// Get props from route's getProps() function
+			props = await route.getProps({
+				locale: this._currentLocale,
+				params: route.params || {},
+				query: route.query || {},
+				req: {} as any,
+				res: {} as any,
+				resolvedUrl: path
+			});
+
+			// If a "revalidate" value is returned, cache the props for that amount of time
+			// This emulates ISR (Incremental Static Regeneration) from NextJS
+			if (props?.revalidate) {
+				this.log('debug', `Caching props for path: ${path} (revalidate: ${props.revalidate})`);
+				this._cache.set(cacheKey, {
+					...props,
+					__pilot: {
+						expires: Date.now() + props.revalidate * 1000
+					}
+				});
+			}
 		}
 
 		return props;
