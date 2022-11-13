@@ -13,13 +13,13 @@ yarn install
 To run this example on the web:
 
 ```bash
-yarn start:next
+yarn dev:web
 ```
 
 To run this example on native:
 
 ```bash
-yarn start:expo
+yarn dev:native
 ```
 
-You can run both `start:next` and `start:expo` at the same time.
+You can run both `dev:web` and `dev:native` at the same time.

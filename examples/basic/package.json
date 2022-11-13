@@ -1,5 +1,5 @@
 {
-  "name": "server-get-props",
+  "name": "basic-example",
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
@@ -9,11 +9,11 @@
     "dev:web": "next dev",
     "postinstall": "yarn build:pilot",
     "start:native": "expo start",
-    "start:web": "next"
+    "start:web": "next start"
   },
   "dependencies": {
     "@expo/next-adapter": "4.0.12",
-    "@waveplay/pilot": "/Users/pkmmte/Documents/GitHub/pilot/packages/pilot",
+    "@waveplay/pilot": "0.0.0-canary-20221111070614",
     "expo": "46.0.16",
     "next": "13.0.0",
     "react": "18.0.0",
@@ -24,8 +24,11 @@
   "devDependencies": {
     "@babel/core": "7.19.6",
     "@nissy-dev/swc-plugin-react-native-web": "0.2.5",
+    "@types/react": "18.0.25",
+    "@types/react-native": "0.69.6",
     "next-transpile-modules": "9.1.0",
-    "pilotjs-cli": "^2.0.0",
+    "pilotjs-cli": "0.0.0-canary-20221111071730",
+    "typescript": "4.8.4",
     "webpack": "5.74.0"
   }
 }

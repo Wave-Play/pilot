@@ -29,7 +29,8 @@ export const getStaticProps: GetStaticProps = async () => {
 	return {
 		props: {
 			title: 'Example Page'
-		}
+		},
+		revalidate: 10
 	}
 };
 
