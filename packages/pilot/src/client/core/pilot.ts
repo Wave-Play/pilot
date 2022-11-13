@@ -447,8 +447,10 @@ export class Pilot {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({
+					defaultLocale: this._config.i18n?.defaultLocale,
 					locale: this._currentLocale,
-					path
+					locales: this._config.i18n?.locales,
+					path: path
 				})
 			});
 			props = await response.json();
@@ -469,9 +471,11 @@ export class Pilot {
 			
 			// Get props from route's getProps() function
 			props = await route.getProps({
+				defaultLocale: this._config.i18n?.defaultLocale,
 				locale: this._currentLocale,
-				params: route.params || {},
-				query: route.query || {},
+				locales: this._config.i18n?.locales,
+				params: route.params ?? {},
+				query: route.query ?? {},
 				req: {} as any,
 				res: {} as any,
 				resolvedUrl: path
