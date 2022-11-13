@@ -49,7 +49,7 @@ export async function handleGetProps (req: NextApiRequest, res: NextApiResponse,
 	}
 
 	// Load props for page
-	const page = await importPage(path)
+	const page = await importPage(route.path)
 	const props = await page[getPropsType]({
 		locale, req, res,
 		params: route.params ?? {},
