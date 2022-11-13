@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.0.0-canary-20221113041838
+
+### Patch Changes
+
+- Updated dependencies
+  - @waveplay/pilot@0.0.0-canary-20221113041838
+
 ## 0.0.0-canary-20221111071730
 
 ### Patch Changes
@@ -65,6 +72,7 @@
 - c7182c2: fix: exclude api routes from generated pages
 - Updated dependencies [2bb228b]
   - @waveplay/pilot@0.0.0-canary-20221108091630
+
 ## 2.0.2
 
 ### Patch Changes

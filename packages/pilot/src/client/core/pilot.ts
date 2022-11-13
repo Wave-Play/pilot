@@ -376,7 +376,7 @@ export class Pilot {
 		// This will emulate a NextJS page load, but without the usual server parameters, so be aware
 		let props: any;
 		try {
-			props = await this._loadProps(path, route);
+			props = await this._loadProps(path, route, options);
 		} catch (e) {
 			this.log('error', `Error loading props for path: ${path}`, e);
 			this._notify(path, { error: e, type: 'error' });
@@ -423,7 +423,8 @@ export class Pilot {
 	 * @param route Route for the specified path.
 	 * @returns Props for the specified path.
 	 */
-	private async _loadProps(path: string, route: PilotRouteResult): Promise<any> {
+	private async _loadProps(path: string, route: PilotRouteResult, options?: PilotFlyOptions): Promise<any> {
+		const { webProps = 'auto' } = options ?? {};
 		let props: any = null;
 
 		// Return early if there's nothing to load
@@ -431,7 +432,7 @@ export class Pilot {
 			return props;
 		}
 
-		if (this._config.host) {
+		if (webProps === 'always' || (webProps === 'auto' && this._config.host)) {
 			this.log('debug', `Loading props remotely for path:`, path);
 			const response = await fetch(this._config.host + '/api/pilot/get-props', {
 				method: 'POST',
