@@ -1,5 +1,21 @@
 # Change Log
 
+## 2.1.0
+
+### Minor Changes
+
+- 778ce99: feat: props can now be loaded via Next.js API routes
+
+  feat: new `createHandler` export from `@waveplay/pilot/api` to create a Next.js API route handler
+
+  refactor: renamed internal "getProps" to "getPropsType" in generated files
+
+  refactor: reorganized internal packages for better bundling (does not affect external usage)
+
+  chore: node engine version bump & cleaned up package.json
+
+  feat: new webProps option to control how prop loading works
+
 ## 0.0.0-canary-20221111070614
 
 ### Minor Changes
@@ -41,6 +57,7 @@
 ### Patch Changes
 
 - 2bb228b: refactor: renamed internal "getProps" to "getPropsType" in generated files
+
 ## 2.0.2
 
 ### Patch Changes

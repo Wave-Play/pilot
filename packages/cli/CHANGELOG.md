@@ -1,5 +1,26 @@
 # Change Log
 
+## 2.1.0
+
+### Minor Changes
+
+- 778ce99: feat: CLI now also reads next.config.js for i18n config
+
+  feat: auto remove cache during builds
+
+  chore: node engine version bump & cleaned up package.json
+
+  feat: pilot.config.js can now be used to provide a default runtime config
+
+  refactor: renamed internal "getProps" to "getPropsType" in generated files
+
+  fix: exclude api routes from generated pages
+
+### Patch Changes
+
+- Updated dependencies [778ce99]
+  - @waveplay/pilot@2.1.0
+
 ## 0.0.0-canary-20221111071730
 
 ### Patch Changes
