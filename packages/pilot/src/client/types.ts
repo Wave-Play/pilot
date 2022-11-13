@@ -32,6 +32,17 @@ export interface PilotFlyOptions {
 	locale?: string | false
 	scroll?: boolean
 	shallow?: boolean
+
+	/**
+	 * Decides when to load props using the web version of this app.
+	 * 
+	 * `'always'` - Always load props using the web version of this app. Will fail if not available or set up.
+	 * 
+	 * `'auto'` - Will load props using the web version of this app only as long as it's set up. (`host` in config)
+	 * 
+	 * `'never'` - Will instead load props using the native app's runtime. Be careful when using Node APIs or environment secrets with this option.
+	*/
+	webProps?: 'always' | 'auto' | 'never'
 }
 
 export interface PilotEvent {
