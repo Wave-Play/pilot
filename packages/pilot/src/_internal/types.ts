@@ -1,8 +1,8 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import type { ComponentType } from 'react';
-import type { PilotEvent, PilotPage } from '../client/types';
+import type { ComponentType } from 'react'
+import type { PilotEvent, PilotPage } from '../client/types'
 
 export interface ActionResult {
 	page?: PilotPage
@@ -28,7 +28,9 @@ export interface PageRoute {
 
 export type PilotHookCallback = (path: string, event: PilotEvent) => string | void
 
-export type Url = string | {
-	pathname: string
-	query?: DataMap
-}
+export type Url =
+	| string
+	| {
+			pathname: string
+			query?: DataMap
+	  }

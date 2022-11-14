@@ -23,7 +23,7 @@ type GetPropsContext = {
 	path: string
 }
 
-export async function handleGetProps (req: NextApiRequest, res: NextApiResponse, pilot: Pilot): Promise<void> {
+export async function handleGetProps(req: NextApiRequest, res: NextApiResponse, pilot: Pilot): Promise<void> {
 	const context = req.body as GetPropsContext
 	const { defaultLocale, locale, locales, path } = context
 
@@ -59,7 +59,11 @@ export async function handleGetProps (req: NextApiRequest, res: NextApiResponse,
 	// Load props for page
 	const page = await importPage(route.path)
 	const props = await page[getPropsType]({
-		defaultLocale, locale, locales, req, res,
+		defaultLocale,
+		locale,
+		locales,
+		req,
+		res,
 		params: route.params ?? {},
 		query: route.query ?? {},
 		resolvedUrl: path
@@ -68,12 +72,19 @@ export async function handleGetProps (req: NextApiRequest, res: NextApiResponse,
 
 	// Cache props if this is a static page
 	if (getPropsType === 'getStaticProps' && props) {
-		await fs.outputFile(cache.file, JSON.stringify({
-			...props,
-			[NS]: {
-				updatedAt: Date.now()
-			}
-		}, undefined, 2))
+		await fs.outputFile(
+			cache.file,
+			JSON.stringify(
+				{
+					...props,
+					[NS]: {
+						updatedAt: Date.now()
+					}
+				},
+				undefined,
+				2
+			)
+		)
 	}
 
 	res.status(200).json(props)
@@ -130,7 +141,8 @@ async function getCache(context: GetPropsContext, pilot: Pilot): Promise<Cache> 
 
 		// Check if cache is stale
 		if (typeof props.revalidate === 'number') {
-			cache.status = props[NS]?.updatedAt && props[NS].updatedAt < Date.now() - props.revalidate * 1000 ? 'STALE' : 'HIT'
+			cache.status =
+				props[NS]?.updatedAt && props[NS].updatedAt < Date.now() - props.revalidate * 1000 ? 'STALE' : 'HIT'
 		} else if (!props.revalidate) {
 			cache.status = 'HIT'
 		}

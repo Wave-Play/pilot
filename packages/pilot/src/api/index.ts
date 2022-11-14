@@ -2,17 +2,15 @@
  * © 2022 WavePlay <dev@waveplay.com>
  */
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { handleGetProps } from './get-props';
-import { Pilot } from '../client/core/pilot';
+import { handleGetProps } from './get-props'
+import { Pilot } from '../client/core/pilot'
 
 interface HandlerOptions {
 	pilot?: Pilot
 }
 
 export const createHandler = (options?: HandlerOptions) => {
-	const {
-		pilot = new Pilot({ id: '__server' })
-	} = options || {};
+	const { pilot = new Pilot({ id: '__server' }) } = options || {}
 
 	return async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
 		const { route } = req.query

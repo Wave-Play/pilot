@@ -1,10 +1,10 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import { FunctionComponent } from 'react';
-import { TouchableOpacity } from 'react-native';
-import type { Url } from '../../_internal/types';
-import { usePilot } from '../core/use-pilot';
+import { FunctionComponent } from 'react'
+import { TouchableOpacity } from 'react-native'
+import type { Url } from '../../_internal/types'
+import { usePilot } from '../core/use-pilot'
 
 interface LinkProps {
 	area?: string
@@ -16,18 +16,16 @@ interface LinkProps {
 	shallow?: boolean
 }
 export const Link: FunctionComponent<LinkProps> = (props: LinkProps) => {
-	const { area, as, children, href, locale, scroll, shallow } = props;
-	const pilot = usePilot(area);
+	const { area, as, children, href, locale, scroll, shallow } = props
+	const pilot = usePilot(area)
 
 	const onPress = () => {
 		pilot.fly(href, as, {
-			locale, scroll, shallow
-		});
-	};
+			locale,
+			scroll,
+			shallow
+		})
+	}
 
-	return (
-		<TouchableOpacity onPress={onPress}>
-			{ children }
-		</TouchableOpacity>
-	);
-};
+	return <TouchableOpacity onPress={onPress}>{children}</TouchableOpacity>
+}
