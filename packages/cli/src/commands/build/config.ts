@@ -1,7 +1,7 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import type { PilotConfig } from '@waveplay/pilot';
+import type { Config } from '@waveplay/pilot';
 import appRoot from 'app-root-path';
 import fs from 'fs-extra';
 import type { NextConfig } from 'next';
@@ -9,7 +9,7 @@ import path from 'path';
 import type { Logger } from 'pino';
 import { syncManifest } from '../..';
 import koder, { Kode } from '../../koder';
-import type { BuildManifest, Config } from '../../types';
+import type { BuildManifest } from '../../types';
 
 const GENERATED_FILE = 'config.js';
 
@@ -57,7 +57,7 @@ export const buildConfig = async (logger: Logger) => {
 	});
 };
 
-const writeConfig = async (logger: Logger, kode: Kode, value: PilotConfig) => {
+const writeConfig = async (logger: Logger, kode: Kode, value: Config) => {
 	// Write the generated config file
 	const file = appRoot + '/node_modules/@waveplay/pilot/dist/_generated/' + GENERATED_FILE;
 	await fs.outputFile(file, kode.value(value).toString());
