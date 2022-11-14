@@ -88,8 +88,13 @@ export class Pilot {
 		});
 	}
 
-	public config(config: PilotConfig) {
+	public config(config?: PilotConfig): PilotConfig {
 		this.log('debug', `config(${JSON.stringify(config)})`);
+
+		// It's perfectly fine to use this method just to get the current config
+		if (!config) {
+			return this._config;
+		}
 
 		// Update only defined properties from new config
 		// You can still remove/reset a property by setting it to null
@@ -102,6 +107,8 @@ export class Pilot {
 		// Update config for cache and logger separately
 		this._cache.max = config?.cacheSize !== undefined ? config.cacheSize : 100;
 		this._currentLocale = config?.i18n?.defaultLocale;
+
+		return this._config;
 	}
 
 	public getDefaultLocale(): string | undefined {
@@ -424,7 +431,9 @@ export class Pilot {
 	 * @returns Props for the specified path.
 	 */
 	private async _loadProps(path: string, route: PilotRouteResult, options?: PilotFlyOptions): Promise<any> {
-		const { webProps = 'auto' } = options ?? {};
+		const {
+			webProps = this._config.webProps?.[route.path] ?? 'auto'
+		} = options ?? {};
 		let props: any = null;
 
 		// Return early if there's nothing to load
@@ -440,8 +449,10 @@ export class Pilot {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({
+					defaultLocale: this._config.i18n?.defaultLocale,
 					locale: this._currentLocale,
-					path
+					locales: this._config.i18n?.locales,
+					path: path
 				})
 			});
 			props = await response.json();
@@ -449,7 +460,7 @@ export class Pilot {
 			this.log('debug', `Loading props natively for path:`, path);
 
 			// See if we can find a cached version of this page's props
-			const cacheKey = (this._currentLocale || '') + path + JSON.stringify(route.query);
+			const cacheKey = (this._currentLocale || '') + path;
 			const cachedProps = this._cache.get(cacheKey);
 			const isExpired = !cachedProps || cachedProps?.__pilot?.expires < Date.now();
 			if (cachedProps && isExpired) {
@@ -462,9 +473,11 @@ export class Pilot {
 			
 			// Get props from route's getProps() function
 			props = await route.getProps({
+				defaultLocale: this._config.i18n?.defaultLocale,
 				locale: this._currentLocale,
-				params: route.params || {},
-				query: route.query || {},
+				locales: this._config.i18n?.locales,
+				params: route.params ?? {},
+				query: route.query ?? {},
 				req: {} as any,
 				res: {} as any,
 				resolvedUrl: path

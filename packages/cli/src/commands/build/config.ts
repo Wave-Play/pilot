@@ -1,25 +1,43 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import type { PilotConfig } from '@waveplay/pilot';
+import type { Config } from '@waveplay/pilot';
 import appRoot from 'app-root-path';
 import fs from 'fs-extra';
+import type { NextConfig } from 'next';
 import path from 'path';
 import type { Logger } from 'pino';
 import { syncManifest } from '../..';
 import koder, { Kode } from '../../koder';
-import type { BuildManifest, Config } from '../../types';
+import type { BuildManifest } from '../../types';
 
 const GENERATED_FILE = 'config.js';
 
-export const buildConfig = async (logger: Logger) => {
+const readConfig = async <T = any>(logger: Logger, file: string): Promise<T> => {
+	try {
+		const config = await import(path.join(process.cwd(), file));
+		return config?.default
+	} catch (e) {
+		logger.info(`[PilotJS] Could not read config file: ${file}`);
+		return {} as T;
+	}
+}
+
+export const buildConfig = async (logger: Logger): Promise<Config> => {
 	// Read the config file
 	logger.debug(`[PilotJS] Reading config...`);
-	const config = (await import(path.join(process.cwd(), 'pilot.config.js')))?.default as Config;
-	const nextConfig = (await import(path.join(process.cwd(), 'next.config.js')))?.default;
+	const [ config, nextConfig ] = await Promise.all([
+		readConfig<Config>(logger, `pilot.config.js`),
+		readConfig<NextConfig>(logger, `next.config.js`)
+	]);
+
+	// Warn if both "include" and "exclude" are defined
+	if (config.pages?.include?.length && config.pages?.exclude?.length) {
+		logger.warn(`[PilotJS] Both "include" and "exclude" are defined in the config. "exclude" will filter out "include"`);
+	}
 
 	// Steal some Next.js config values
-	if (!config?.i18n && nextConfig?.i18n) {
+	if (!config.i18n && nextConfig.i18n) {
 		config.i18n = nextConfig.i18n;
 	}
 
@@ -31,7 +49,7 @@ export const buildConfig = async (logger: Logger) => {
 	if (!Object.keys(config).length) {
 		logger.debug(`[PilotJS] No config found`);
 		await writeConfig(logger, kode, {});
-		return;
+		return config;
 	}
 	logger.debug(`[PilotJS] Loaded config file`, config);
 
@@ -40,11 +58,15 @@ export const buildConfig = async (logger: Logger) => {
 	await writeConfig(logger, kode, {
 		cacheSize: config.cacheSize,
 		host: config.host,
-		i18n: config.i18n
+		i18n: config.i18n,
+		pages: config.pages,
+		webProps: config.webProps
 	});
+
+	return config;
 };
 
-const writeConfig = async (logger: Logger, kode: Kode, value: PilotConfig) => {
+const writeConfig = async (logger: Logger, kode: Kode, value: Config) => {
 	// Write the generated config file
 	const file = appRoot + '/node_modules/@waveplay/pilot/dist/_generated/' + GENERATED_FILE;
 	await fs.outputFile(file, kode.value(value).toString());

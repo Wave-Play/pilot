@@ -42,14 +42,10 @@ export async function action(options: OptionValues) {
 
 	// Prepare configuration first
 	logger.debug(`[PilotJS] Starting build...`);
-	try {
-		await buildConfig(logger);
-	} catch (e) {
-		logger.debug('[PilotJS] Could not find a valid pilot.config.js file...');
-	}
+	const config = await buildConfig(logger);
 
 	// Execute all build commands
-	await buildPages(options);
+	await buildPages(options, config);
 	await buildLocales(options);
 	logger.info(`[PilotJS] Built in ${Date.now() - startTime}ms ✨`);
 };
