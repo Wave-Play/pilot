@@ -2,6 +2,9 @@
 **/_next/**
 **/dist/**
 *.md
+*.yaml
+*.yml
+.yarn
 build
 coverage
 dist

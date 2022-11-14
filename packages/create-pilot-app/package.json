@@ -21,8 +21,10 @@
 		"registry": "https://registry.npmjs.org/"
 	},
 	"workspaces": {
-    "nohoist": ["**"]
-  },
+		"nohoist": [
+			"**"
+		]
+	},
 	"engines": {
 		"node": ">=14.6.0"
 	},
