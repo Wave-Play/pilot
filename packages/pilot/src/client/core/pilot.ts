@@ -431,7 +431,9 @@ export class Pilot {
 	 * @returns Props for the specified path.
 	 */
 	private async _loadProps(path: string, route: PilotRouteResult, options?: PilotFlyOptions): Promise<any> {
-		const { webProps = 'auto' } = options ?? {};
+		const {
+			webProps = this._config.webProps?.[route.path] ?? 'auto'
+		} = options ?? {};
 		let props: any = null;
 
 		// Return early if there's nothing to load
