@@ -1,5 +1,19 @@
 # Change Log
 
+## 2.2.0
+
+### Minor Changes
+
+- f1295cb: feat: page-level webProps setting
+- ed4416f: feat: pilot.config() can now be used as a getter function
+
+### Patch Changes
+
+- 0098f10: refactor: new Config type for pilot.config.js typing
+- dc327fd: fix: use correct path when importing pages in getProps API
+- b5dc3b1: patch: getProps functions now include "defaultLocales" and "locales" fields
+- f32f118: patch: improved cache keys in server getStaticProps
+
 ## 2.1.0
 
 ### Minor Changes
