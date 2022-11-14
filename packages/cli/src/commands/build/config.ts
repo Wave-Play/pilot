@@ -23,13 +23,18 @@ const readConfig = async <T = any>(logger: Logger, file: string): Promise<T> => 
 	}
 }
 
-export const buildConfig = async (logger: Logger) => {
+export const buildConfig = async (logger: Logger): Promise<Config> => {
 	// Read the config file
 	logger.debug(`[PilotJS] Reading config...`);
 	const [ config, nextConfig ] = await Promise.all([
 		readConfig<Config>(logger, `pilot.config.js`),
 		readConfig<NextConfig>(logger, `next.config.js`)
 	]);
+
+	// Warn if both "include" and "exclude" are defined
+	if (config.pages?.include?.length && config.pages?.exclude?.length) {
+		logger.warn(`[PilotJS] Both "include" and "exclude" are defined in the config. "exclude" will filter out "include"`);
+	}
 
 	// Steal some Next.js config values
 	if (!config.i18n && nextConfig.i18n) {
@@ -44,7 +49,7 @@ export const buildConfig = async (logger: Logger) => {
 	if (!Object.keys(config).length) {
 		logger.debug(`[PilotJS] No config found`);
 		await writeConfig(logger, kode, {});
-		return;
+		return config;
 	}
 	logger.debug(`[PilotJS] Loaded config file`, config);
 
@@ -53,8 +58,12 @@ export const buildConfig = async (logger: Logger) => {
 	await writeConfig(logger, kode, {
 		cacheSize: config.cacheSize,
 		host: config.host,
-		i18n: config.i18n
+		i18n: config.i18n,
+		pages: config.pages,
+		webProps: config.webProps
 	});
+
+	return config;
 };
 
 const writeConfig = async (logger: Logger, kode: Kode, value: Config) => {

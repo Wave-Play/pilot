@@ -12,6 +12,7 @@ import type { PageRoute } from '@waveplay/pilot/dist/_internal/types';
 import { syncManifest } from '../..';
 import koder from '../../koder';
 import type { BuildManifest } from '../../types';
+import type { Config } from '@waveplay/pilot';
 
 // This is the number of directories to go up to get to the root of the project where pages are
 // Because we can't guarantee where the CLI is being run from, we assume 4 directories up is the root
@@ -44,7 +45,7 @@ const command = new Command('build:pages')
 	.action(action);
 export default command;
 
-export async function action(options: OptionValues) {
+export async function action(options: OptionValues, config?: Config) {
 	const startTime = Date.now();
 
 	// Create a logger
@@ -65,7 +66,7 @@ export async function action(options: OptionValues) {
 	let pages: PageRoute[] = [];
 	logger.debug(`[PilotJS] Using root directory "${appRoot}"`);
 	try {
-		pages = await readAllPages('/pages', logger);
+		pages = await readAllPages('/pages', logger, config);
 	} catch (e) {
 		logger.debug('[PilotJS] Could not find "/pages" directory');
 	}
@@ -73,7 +74,7 @@ export async function action(options: OptionValues) {
 	// If none were found, try scanning the /src/pages directory instead
 	// Both of these directions are supported by NextJS, so we should support them too
 	if (!pages.length) {
-		pages = await readAllPages('/src/pages', logger);
+		pages = await readAllPages('/src/pages', logger, config);
 	}
 
 	// Generate file containing info for all pages, including static imports
@@ -119,7 +120,7 @@ const findGetPropsType = async (filePath: string): Promise<'getServerSideProps' 
 	return null;
 };
 
-const readAllPages = async (directory: string, logger: Logger): Promise<PageRoute[]> => {
+const readAllPages = async (directory: string, logger: Logger, config?: Config): Promise<PageRoute[]> => {
 	logger.debug(`[PilotJS] Reading pages from "${directory}" directory...`);
 	const pages: PageRoute[] = [];
 	const readDirectory = appRoot + directory;
@@ -132,13 +133,26 @@ const readAllPages = async (directory: string, logger: Logger): Promise<PageRout
 
 		// Store page info only as long as it exists (null === skip)
 		const page = await readPage(file, readDirectory, logger);
-		if (page) {
+		if (!page) {
+			continue;
+		}
+
+		// Include if no "includes" is defined or if the page is in the "includes"
+		if (!config?.pages?.include?.length || config.pages.include?.includes(page.path)) {
 			pages.push(page);
 		}
 	}
 
 	// Sort pages by alphabetical route order before returning them
-	return pages.sort((a, b) => a.path.localeCompare(b.path));
+	pages.sort((a, b) => a.path.localeCompare(b.path));
+
+	// Filter out pages that are in the "excludes" list
+	if (config?.pages?.exclude?.length) {
+		return pages.filter(page => !config.pages.exclude?.includes(page.path));
+	}
+
+	// Sort pages by alphabetical route order before returning them
+	return pages;
 };
 
 const readPage = async (file: klaw.Item, readDirectory: string, logger: Logger): Promise<PageRoute | null> => {

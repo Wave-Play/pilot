@@ -42,10 +42,10 @@ export async function action(options: OptionValues) {
 
 	// Prepare configuration first
 	logger.debug(`[PilotJS] Starting build...`);
-	await buildConfig(logger);
+	const config = await buildConfig(logger);
 
 	// Execute all build commands
-	await buildPages(options);
+	await buildPages(options, config);
 	await buildLocales(options);
 	logger.info(`[PilotJS] Built in ${Date.now() - startTime}ms ✨`);
 };
