@@ -1,5 +1,23 @@
 # Change Log
 
+## 0.0.0-canary-20221114052652
+
+### Minor Changes
+
+- 91ef4e7: feat: exclude and/or include pages using config
+
+### Patch Changes
+
+- 0098f10: refactor: new Config type for pilot.config.js typing
+- d074472: fix: read from next.config.js even when pilot.config.js was not found
+- Updated dependencies [f1295cb]
+- Updated dependencies [0098f10]
+- Updated dependencies [ed4416f]
+- Updated dependencies [dc327fd]
+- Updated dependencies [b5dc3b1]
+- Updated dependencies [f32f118]
+  - @waveplay/pilot@0.0.0-canary-20221114052652
+
 ## 2.1.0
 
 ### Minor Changes
