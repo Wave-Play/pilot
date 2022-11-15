@@ -5,24 +5,16 @@ import type { GetServerSideProps, GetStaticProps } from 'next'
 import type { NextRouter } from 'next/router'
 import type { ComponentProps, ComponentType } from 'react'
 import type { Pilot } from './core/pilot'
-import type { DataMap, PilotHookCallback } from '../_internal/types'
+import type { BaseConfig, DataMap, PilotHookCallback } from '../_internal/types'
 
 /**
  * pilot.config.js
  */
-export interface Config {
-	cacheSize?: number
-	host?: string
-	i18n?: {
-		defaultLocale: string
-		locales: string[]
+export interface Config extends BaseConfig {
 	}
 	pages?: {
 		exclude?: string[]
 		include?: string[]
-	}
-	webProps?: {
-		[key: string]: 'always' | 'auto' | 'never'
 	}
 }
 
@@ -37,7 +29,7 @@ export interface Logger {
 /**
  * Runtime Pilot.js config
  */
-export interface PilotConfig extends Config {
+export interface PilotConfig extends BaseConfig {
 	id?: string
 	logger?: Logger
 	nextRouter?: NextRouter | null

@@ -5,6 +5,9 @@ import type { Config } from '@waveplay/pilot'
 
 export interface BuildManifest {
 	config?: Config
+	dev?: {
+		tunnelUrl: string
+	}
 	locales?: {
 		[key: string]: string[]
 	}

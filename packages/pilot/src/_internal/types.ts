@@ -9,6 +9,18 @@ export interface ActionResult {
 	redirect?: string
 }
 
+export interface BaseConfig {
+	cacheSize?: number
+	host?: string
+	i18n?: {
+		defaultLocale: string
+		locales: string[]
+	}
+	webProps?: {
+		[key: string]: 'always' | 'auto' | 'never'
+	}
+}
+
 export type DataMap = { [key: string]: string }
 
 export interface FlightOptions {

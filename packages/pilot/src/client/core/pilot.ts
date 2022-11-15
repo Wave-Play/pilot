@@ -8,6 +8,7 @@ import { Default404, Default500 } from '../../_internal/ui'
 import { eventWaiter, generateNumber, matchesLocale } from '../../_internal/utils'
 import { RadixRouter } from './radix-router'
 import { config as defaultConfig } from '../../_generated/config'
+import { tunnelUrl } from '../../_generated/dev'
 import type {
 	PilotConfig,
 	PilotEvent,
@@ -265,6 +266,7 @@ export class Pilot {
 
 	public stats() {
 		return {
+			dev: { tunnelUrl },
 			host: this._config.host,
 			id: this._config.id,
 			i18: this._config.i18n,
@@ -452,9 +454,10 @@ export class Pilot {
 			return props
 		}
 
-		if (webProps === 'always' || (webProps === 'auto' && this._config.host)) {
+		const host = tunnelUrl ?? this._config.host
+		if (webProps === 'always' || (webProps === 'auto' && host)) {
 			this.log('debug', `Loading props remotely for path:`, path)
-			const response = await fetch(this._config.host + '/api/pilot/get-props', {
+			const response = await fetch(host + '/api/pilot/get-props', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
