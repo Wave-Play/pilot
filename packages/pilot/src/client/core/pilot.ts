@@ -29,9 +29,10 @@ export class Pilot {
 	// Loaded props cache
 	private _cache: LRU<any>
 
-	// Trackers
+	// State
 	private _currentLocale?: string
 	private _currentPage?: PilotPage
+	private readonly _localTunnel?: string
 	private readonly _hooks: PilotHook[] = []
 	private readonly _stack: string[] = []
 
@@ -39,6 +40,11 @@ export class Pilot {
 		this._config = {
 			...defaultConfig,
 			...(config || {})
+		}
+
+		// Only use local tunnel outside of production
+		if (process.env.NODE_ENV !== 'production') {
+			this._localTunnel = tunnelUrl
 		}
 
 		// Create cache
@@ -266,7 +272,7 @@ export class Pilot {
 
 	public stats() {
 		return {
-			dev: { tunnelUrl },
+			dev: { tunnelUrl: this._localTunnel },
 			host: this._config.host,
 			id: this._config.id,
 			i18: this._config.i18n,
@@ -454,7 +460,7 @@ export class Pilot {
 			return props
 		}
 
-		const host = tunnelUrl ?? this._config.host
+		const host = this._localTunnel ?? this._config.host
 		if (webProps === 'always' || (webProps === 'auto' && host)) {
 			this.log('debug', `Loading props remotely for path:`, path)
 			const response = await fetch(host + '/api/pilot/get-props', {

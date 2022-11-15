@@ -92,7 +92,7 @@ export async function action(options: OptionValues) {
 		nextArgs.push('-H', options.hostname)
 	}
 
-	logger.debug(`[PilotJS] Executing: ${pkgManager + nextArgs.join(' ')}`)
+	logger.debug(`[PilotJS] Executing: ${pkgManager} ${nextArgs.join(' ')}`)
 	spawn(pkgManager, nextArgs, {
 		stdio: 'inherit'
 	})
@@ -119,7 +119,7 @@ export async function action(options: OptionValues) {
 		nativeArgs.splice(0, 0, 'exec')
 	}
 
-	logger.debug(`[PilotJS] Executing: ${pkgManager + nativeArgs.join(' ')}`)
+	logger.debug(`[PilotJS] Executing: ${pkgManager} ${nativeArgs.join(' ')}`)
 	spawn(pkgManager, nativeArgs, {
 		stdio: 'inherit'
 	})
