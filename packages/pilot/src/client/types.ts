@@ -11,6 +11,9 @@ import type { BaseConfig, DataMap, PilotHookCallback } from '../_internal/types'
  * pilot.config.js
  */
 export interface Config extends BaseConfig {
+	commands?: {
+		devNative?: string
+		devWeb?: string
 	}
 	pages?: {
 		exclude?: string[]

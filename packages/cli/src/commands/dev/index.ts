@@ -13,12 +13,14 @@ import { syncManifest } from '../..'
 import { action as build } from '../build'
 import koder, { Kode } from '../../koder'
 import type { BuildManifest } from '../../types'
+import { readConfig } from '../build/config'
+import { Config } from '@waveplay/pilot'
 
 const GENERATED_FILE = 'dev.js'
 
 const command = new Command('dev')
 	.description('starts your application in developer mode and automatically creates a local tunnel')
-	.option('-H --hostname <hostname>', 'Hostname on which to start the application', '0.0.0.0')
+	.option('-H --hostname <hostname>', 'Hostname on which to start the application')
 	.option('-nt --no-tunnel', 'do not create a local tunnel for this session')
 	.option('-p --port <port>', 'port to run the application on')
 	.option('-s --silent', 'do not print anything')
@@ -68,13 +70,30 @@ export async function action(options: OptionValues) {
 	// Pre-build Pilot.js
 	await build(options)
 
+	// Read config file
+	const config = await readConfig<Config>(logger, `pilot.config.js`)
+
+	// Auto detect package manager
+	const pkgManager = getPkgManager()
+	logger.debug(`[PilotJS] Using package manager: ${pkgManager}`)
+
 	// Start Next.js process
-	logger.debug(`[PilotJS] Starting Next.js...`)
-	const nextArgs = ['next', 'dev', '-p', port.toString()]
+	const nextArgs = config.commands?.devWeb?.split(' ') ?? ['next', 'dev']
+	if (pkgManager === 'npm' || pkgManager === 'pnpm') {
+		nextArgs.splice(0, 0, 'exec')
+	}
+	if (!nextArgs.includes('-p') && !nextArgs.includes('--port')) {
+		if (pkgManager === 'npm' || pkgManager === 'pnpm') {
+			nextArgs.push('--')
+		}
+		nextArgs.push('-p', port.toString())
+	}
 	if (options.hostname) {
 		nextArgs.push('-H', options.hostname)
 	}
-	spawn('yarn', nextArgs, {
+
+	logger.debug(`[PilotJS] Executing: ${pkgManager + nextArgs.join(' ')}`)
+	spawn(pkgManager, nextArgs, {
 		stdio: 'inherit'
 	})
 
@@ -94,11 +113,34 @@ export async function action(options: OptionValues) {
 		await writeDev(logger, kode, tunnelUrl)
 	}
 
-	// Start Expo process
-	logger.debug(`[PilotJS] Starting Expo...`)
-	spawn('yarn', ['expo', 'start'], {
+	// Start native process
+	const nativeArgs = config.commands?.devNative?.split(' ') ?? ['expo', 'start']
+	if (pkgManager === 'npm' || pkgManager === 'pnpm') {
+		nativeArgs.splice(0, 0, 'exec')
+	}
+
+	logger.debug(`[PilotJS] Executing: ${pkgManager + nativeArgs.join(' ')}`)
+	spawn(pkgManager, nativeArgs, {
 		stdio: 'inherit'
 	})
+}
+
+type PackageManager = 'npm' | 'pnpm' | 'yarn'
+
+function getPkgManager(): PackageManager {
+	const userAgent = process.env.npm_config_user_agent
+
+	if (userAgent) {
+		if (userAgent.startsWith('yarn')) {
+			return 'yarn'
+		} else if (userAgent.startsWith('pnpm')) {
+			return 'pnpm'
+		} else {
+			return 'npm'
+		}
+	} else {
+		return 'npm'
+	}
 }
 
 async function isPortTaken(port: number): Promise<boolean> {
