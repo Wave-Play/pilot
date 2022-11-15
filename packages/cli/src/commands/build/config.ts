@@ -1,7 +1,7 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import type { Config } from '@waveplay/pilot';
+import type { Config, PilotConfig } from '@waveplay/pilot';
 import appRoot from 'app-root-path';
 import fs from 'fs-extra';
 import type { NextConfig } from 'next';
@@ -13,7 +13,7 @@ import type { BuildManifest } from '../../types';
 
 const GENERATED_FILE = 'config.js';
 
-const readConfig = async <T = any>(logger: Logger, file: string): Promise<T> => {
+export const readConfig = async <T = any>(logger: Logger, file: string): Promise<T> => {
 	try {
 		const config = await import(path.join(process.cwd(), file));
 		return config?.default
@@ -66,7 +66,7 @@ export const buildConfig = async (logger: Logger): Promise<Config> => {
 	return config;
 };
 
-const writeConfig = async (logger: Logger, kode: Kode, value: Config) => {
+const writeConfig = async (logger: Logger, kode: Kode, value: Config & PilotConfig) => {
 	// Write the generated config file
 	const file = appRoot + '/node_modules/@waveplay/pilot/dist/_generated/' + GENERATED_FILE;
 	await fs.outputFile(file, kode.value(value).toString());

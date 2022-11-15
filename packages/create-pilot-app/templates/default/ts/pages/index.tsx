@@ -1,10 +1,10 @@
-import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { usePilot } from '@waveplay/pilot';
-import Head from 'next/head';
+import React from 'react'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { usePilot } from '@waveplay/pilot'
+import Head from 'next/head'
 
 const Home = () => {
-	const pilot = usePilot();
+	const pilot = usePilot()
 
 	return (
 		<View style={styles.container}>
@@ -17,16 +17,16 @@ const Home = () => {
 			</TouchableOpacity>
 		</View>
 	)
-};
-export default Home;
- 
+}
+export default Home
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+	container: {
+		flex: 1,
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
 	title: {
 		fontSize: 24,
 		fontWeight: '600'
@@ -48,4 +48,4 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		fontWeight: '400'
 	}
-});
+})

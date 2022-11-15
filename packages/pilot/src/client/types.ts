@@ -1,28 +1,23 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import type { GetServerSideProps, GetStaticProps } from 'next';
-import type { NextRouter } from 'next/router';
-import type { ComponentProps, ComponentType } from 'react';
-import type { Pilot } from './core/pilot';
-import type { DataMap, PilotHookCallback } from '../_internal/types';
+import type { GetServerSideProps, GetStaticProps } from 'next'
+import type { NextRouter } from 'next/router'
+import type { ComponentProps, ComponentType } from 'react'
+import type { Pilot } from './core/pilot'
+import type { BaseConfig, DataMap, PilotHookCallback } from '../_internal/types'
 
 /**
  * pilot.config.js
  */
-export interface Config {
-	cacheSize?: number
-	host?: string
-	i18n?: {
-		defaultLocale: string
-		locales: string[]
+export interface Config extends BaseConfig {
+	commands?: {
+		devNative?: string
+		devWeb?: string
 	}
 	pages?: {
 		exclude?: string[]
 		include?: string[]
-	}
-	webProps?: {
-		[key: string]: 'always' | 'auto' | 'never'
 	}
 }
 
@@ -37,7 +32,7 @@ export interface Logger {
 /**
  * Runtime Pilot.js config
  */
-export interface PilotConfig extends Config {
+export interface PilotConfig extends BaseConfig {
 	id?: string
 	logger?: Logger
 	nextRouter?: NextRouter | null
@@ -51,13 +46,13 @@ export interface PilotFlyOptions {
 
 	/**
 	 * Decides when to load props using the web version of this app.
-	 * 
+	 *
 	 * `'always'` - Always load props using the web version of this app. Will fail if not available or set up.
-	 * 
+	 *
 	 * `'auto'` - Will load props using the web version of this app only as long as it's set up. (`host` in config)
-	 * 
+	 *
 	 * `'never'` - Will instead load props using the native app's runtime. Be careful when using Node APIs or environment secrets with this option.
-	*/
+	 */
 	webProps?: 'always' | 'auto' | 'never'
 }
 
@@ -82,7 +77,7 @@ export interface PilotPage {
 	query: DataMap
 }
 
-/** 
+/**
  * PilotPath is an empty component whose sole purpose is to make it easy to define paths.
  * The PilotProvider extracts these props and stores them for navigation.
  */

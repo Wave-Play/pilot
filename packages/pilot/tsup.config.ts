@@ -1,7 +1,7 @@
-import { defineConfig } from 'tsup';
+import { defineConfig } from 'tsup'
 
 export default defineConfig({
-  entry: ['src', '!src/_generated', '!src/_generated-pages.ts'],
+	entry: ['src', '!src/_generated', '!src/_generated-pages.ts'],
 	external: ['react', 'react-native'],
 	format: ['esm', 'cjs'],
 	bundle: false,
@@ -10,4 +10,4 @@ export default defineConfig({
 	minify: true,
 	sourcemap: true,
 	treeshake: true
-});
+})

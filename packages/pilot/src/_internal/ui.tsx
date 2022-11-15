@@ -1,27 +1,27 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native'
 
 export const Default404 = () => {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.statusCode}>404</Text>
-			<View style={styles.pipe}/>
+			<View style={styles.pipe} />
 			<Text style={styles.text}>This page could not be found.</Text>
 		</View>
-	);
-};
+	)
+}
 
 export const Default500 = () => {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.statusCode}>500</Text>
-			<View style={styles.pipe}/>
+			<View style={styles.pipe} />
 			<Text style={styles.text}>Internal Server Error.</Text>
 		</View>
-	);
-};
+	)
+}
 
 const styles = StyleSheet.create({
 	container: {
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 		width: 1,
 		height: 32,
 		backgroundColor: 'black',
-		opacity: .4,
+		opacity: 0.4,
 		marginLeft: 16,
 		marginRight: 16
 	},
@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		fontWeight: '400'
 	}
-});
+})

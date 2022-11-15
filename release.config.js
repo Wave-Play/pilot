@@ -9,4 +9,4 @@ module.exports = {
 		branches: ['master', 'next', 'beta', 'alpha']
 	},
 	repositoryUrl: 'https://github.com/Wave-Play/pilot'
-};
+}

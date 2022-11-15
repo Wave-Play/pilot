@@ -1,0 +1,12 @@
+**/.next/**
+**/_next/**
+**/dist/**
+*.md
+*.yaml
+*.yml
+.yarn
+build
+coverage
+dist
+examples
+node_modules

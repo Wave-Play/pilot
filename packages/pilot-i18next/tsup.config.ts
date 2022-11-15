@@ -1,7 +1,7 @@
-import { defineConfig } from 'tsup';
+import { defineConfig } from 'tsup'
 
 export default defineConfig({
-  entry: ['src/index.tsx', 'src/index.native.tsx'],
+	entry: ['src/index.tsx', 'src/index.native.tsx'],
 	external: ['react', 'react-i18next', 'react-native'],
 	format: ['esm', 'cjs'],
 	bundle: false,
@@ -9,4 +9,4 @@ export default defineConfig({
 	dts: true,
 	minify: true,
 	sourcemap: true
-});
+})
