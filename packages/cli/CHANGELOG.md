@@ -1,5 +1,20 @@
 # Change Log
 
+## 0.0.0-canary-20221115175258
+
+### Minor Changes
+
+- 0dd8519: feat: dev command now prepares Pilot.js instance "dev" fields
+- 0dd8519: feat: new experimental "dev" command
+- 1a0fdec: feat: "dev" command will now auto detect package manager & allow custom commands
+
+### Patch Changes
+
+- Updated dependencies [efc6818]
+- Updated dependencies [0dd8519]
+- Updated dependencies [1a0fdec]
+  - @waveplay/pilot@0.0.0-canary-20221115175258
+
 ## 2.2.0
 
 ### Minor Changes
