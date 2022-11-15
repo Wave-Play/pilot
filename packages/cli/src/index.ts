@@ -9,6 +9,7 @@ import { Logger } from 'pino'
 import build from './commands/build'
 import buildLocales from './commands/build/locales'
 import buildPages from './commands/build/pages'
+import dev from './commands/dev'
 import koder from './koder'
 import { version } from '../package.json'
 import type { BuildManifest } from './types'
@@ -56,4 +57,5 @@ new Command('pilot')
 	.addCommand(build)
 	.addCommand(buildLocales)
 	.addCommand(buildPages)
+	.addCommand(dev)
 	.parse(process.argv)

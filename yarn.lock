@@ -1408,6 +1408,17 @@
   resolved "https://registry.yarnpkg.com/@vercel/ncc/-/ncc-0.34.0.tgz#d0139528320e46670d949c82967044a8f66db054"
   integrity sha512-G9h5ZLBJ/V57Ou9vz5hI8pda/YQX5HQszCs3AmIus3XzsmRn/0Ptic5otD3xVST8QLKk7AMk7AqpsyQGN7MZ9A==
 
+"@waveplay/pilot@2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@waveplay/pilot/-/pilot-2.2.0.tgz#d1acfffd7a5ac5cae23756a64ccd05575f915972"
+  integrity sha512-f3XBabOGtzW6SJvJiqiE0KSeIHVzxzWPLCobo9EAduFBTKllcQO4OvHZKxS2GoOgvHcllOcq3bppJP6jCmjKlQ==
+  dependencies:
+    fs-extra "10.1.0"
+    jotai "1.8.5"
+    node-match-path "0.6.3"
+    radix3 "0.2.1"
+    tiny-lru "9.0.3"
+
 abbrev@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -2044,6 +2055,11 @@ clone@^1.0.2:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
   integrity sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==
+
+cloudflared@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/cloudflared/-/cloudflared-0.3.3.tgz#54e9df00955ae498f84ecf1f76b2f60ef00eb57c"
+  integrity sha512-eGE5hWn3/rwTg/zmFIVS3MjUTi7OG1JQHALd8Q5ONuuhR2ZQsuPQFw2wfZAEfNr/AKlWVChuMDYsY8pyrYoaRg==
 
 collection-visit@^1.0.0:
   version "1.0.0"
