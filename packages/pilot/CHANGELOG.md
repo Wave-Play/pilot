@@ -1,5 +1,13 @@
 # Change Log
 
+## 0.0.0-canary-20221115175258
+
+### Patch Changes
+
+- efc6818: patch: only use local tunnel outside of production
+- 0dd8519: feat: dev command now prepares Pilot.js instance "dev" fields
+- 1a0fdec: feat: "dev" command will now auto detect package manager & allow custom commands
+
 ## 2.2.0
 
 ### Minor Changes
