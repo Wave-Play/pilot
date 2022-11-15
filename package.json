@@ -14,7 +14,7 @@
 		"node": ">=14.6.0"
 	},
 	"scripts": {
-		"lint": "yarn lint:eslint && yarn lint:language",
+		"lint": "yarn lint:eslint && yarn lint:language && yarn lint:style",
 		"lint:eslint": "eslint . --ext js,jsx,ts,tsx --max-warnings=0 --config .eslintrc.json --no-eslintrc",
 		"lint:language": "alex .",
 		"lint:style": "prettier --write .",
