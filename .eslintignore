@@ -3,5 +3,7 @@ node_modules
 **/_next/**
 **/dist/**
 **/tsup.config.ts
+**/tsup-cli.config.ts
+**/tsup-gen.config.ts
 examples/**
 packages/create-pilot-app/**

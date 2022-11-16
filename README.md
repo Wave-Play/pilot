@@ -49,10 +49,10 @@ const App = () => {
 export default App;
 ```
 
-Use the official CLI to build your routes.
+Use the `build` command to build your routes.
 
 ```bash
-npx pilotjs-cli build
+pilot build
 ```
 
 You're now ready to use **PilotJS**!
@@ -88,7 +88,7 @@ pilot.getQuery();
 | `/_app`               | <center>✅</center> | Optional app wrapper is applied on pages when the `_app` route is registered. |
 | `/404`               | <center>✅</center> | Rendered when page route cannot be found or when `notFound` is returned as `true` while loading props. |
 | `/500`               | <center>✅</center> | Rendered when an error is thrown while loading props. |
-| `/pages`             | <center>✅</center> | Automatically finds routes from `/pages` or `/src/pages` directory via `pilotjs-cli build` command. |
+| `/pages`             | <center>✅</center> | Automatically finds routes from `/pages` or `/src/pages` directory via `pilot build` command. |
 | `getServerSideProps` | <center>✅</center> | Calls this function and delegates props if it exists when loading new route. |
 | `getStaticProps`     | <center>✅</center> | Calls this function and delegates props if it exists when loading new route. May be skipped if props were cached. |
 | `i18n`               | <center>✅</center> | Supports `defaultLocale` and `locales` from next.config.js `i18n` fields. `locale` is passed as a variable in your getProps functions. See pilot-i18next package for full locale support. |
