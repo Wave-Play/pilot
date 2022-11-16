@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.3.1
+
+### Patch Changes
+
+- Updated dependencies [8c10b19]
+  - @waveplay/pilot@2.3.0
+
 ## 2.3.0
 
 ### Minor Changes

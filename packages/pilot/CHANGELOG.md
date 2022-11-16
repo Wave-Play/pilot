@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.3.0
+
+### Minor Changes
+
+- 8c10b19: feat: integrated cli into main package
+
 ## 2.2.1
 
 ### Patch Changes
