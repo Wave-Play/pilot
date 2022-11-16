@@ -17,9 +17,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-    - uses: pnpm/action-setup@v2.2.4
-      with:
-        version: 7
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
 
       - name: Read Node.js version to install from `.nvmrc`
         run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
