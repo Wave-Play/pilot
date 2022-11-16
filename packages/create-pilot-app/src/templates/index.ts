@@ -75,9 +75,8 @@ export const installTemplate = async ({
 		version: '0.1.0',
 		private: true,
 		scripts: {
-			'dev:native': 'pilotjs-cli build && expo start',
-			'dev:web': 'next dev',
-			build: 'next build && pilotjs-cli build',
+			dev: 'pilot dev',
+			build: 'next build && pilot build',
 			'start:native': 'expo start',
 			'start:web': 'next start',
 			lint: 'next lint'
@@ -109,7 +108,6 @@ export const installTemplate = async ({
 		'@babel/core',
 		'@nissy-dev/swc-plugin-react-native-web',
 		'next-transpile-modules',
-		'pilotjs-cli',
 		'webpack'
 	]
 	/**
