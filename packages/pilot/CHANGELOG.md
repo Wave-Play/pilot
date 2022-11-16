@@ -1,6 +1,6 @@
 # Change Log
 
-## 0.0.0-canary-20221115175258
+## 2.2.1
 
 ### Patch Changes
 
