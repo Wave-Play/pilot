@@ -1,7 +1,6 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import appRoot from 'app-root-path'
 import { Command, OptionValues } from 'commander'
 import { spawn } from 'child_process'
 import { bin, install, tunnel } from 'cloudflared'
@@ -14,7 +13,7 @@ import { action as build } from '../build'
 import koder, { Kode } from '../../koder'
 import type { BuildManifest } from '../../types'
 import { readConfig } from '../build/config'
-import type { Config } from '@waveplay/pilot'
+import type { Config } from '../../../client/types'
 
 const GENERATED_FILE = 'dev.js'
 
@@ -167,7 +166,7 @@ function testPort(port: number, host: string): Promise<boolean> {
 
 async function writeDev(logger: Logger, kode: Kode, tunnelValue: string | null) {
 	// Write the generated dev file
-	const file = appRoot + '/node_modules/@waveplay/pilot/dist/_generated/' + GENERATED_FILE
+	const file = process.cwd() + '/node_modules/@waveplay/pilot/dist/_generated/' + GENERATED_FILE
 	await fs.outputFile(file, kode.value(tunnelValue).toString())
 
 	// Apply newly generated dev fields to the manifest

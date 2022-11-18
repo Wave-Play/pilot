@@ -1,18 +1,17 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import appRoot from 'app-root-path';
 import { Command, OptionValues } from 'commander';
 import fs from 'fs-extra';
 import klaw from 'klaw';
 import pino, { Logger } from 'pino';
 import { Options, transform } from '@swc/core';
 import evil from 'safe-eval';
-import type { PageRoute } from '@waveplay/pilot/dist/_internal/types';
+import type { PageRoute } from '../../../_internal/types';
 import { syncManifest } from '../..';
 import koder from '../../koder';
 import type { BuildManifest } from '../../types';
-import type { Config } from '@waveplay/pilot';
+import type { Config } from '../../../client/types';
 
 // This is the number of directories to go up to get to the root of the project where pages are
 // Because we can't guarantee where the CLI is being run from, we assume 4 directories up is the root
@@ -64,11 +63,11 @@ export async function action(options: OptionValues, config?: Config) {
 
 	// Try scanning the default /pages directory first
 	let pages: PageRoute[] = [];
-	logger.debug(`[PilotJS] Using root directory "${appRoot}"`);
+	logger.debug(`[PilotJS] Using root directory "${process.cwd()}"`);
 	try {
 		pages = await readAllPages('/pages', logger, config);
 	} catch (e) {
-		logger.debug('[PilotJS] Could not find "/pages" directory');
+		logger.debug('[PilotJS] Could not find "/pages" directory, trying "/src/pages"');
 	}
 
 	// If none were found, try scanning the /src/pages directory instead
@@ -123,7 +122,7 @@ const findGetPropsType = async (filePath: string): Promise<'getServerSideProps' 
 const readAllPages = async (directory: string, logger: Logger, config?: Config): Promise<PageRoute[]> => {
 	logger.debug(`[PilotJS] Reading pages from "${directory}" directory...`);
 	const pages: PageRoute[] = [];
-	const readDirectory = appRoot + directory;
+	const readDirectory = process.cwd() + directory;
 
 	for await (const file of klaw(readDirectory)) {
 		// Skip directories
@@ -190,7 +189,7 @@ const readPage = async (file: klaw.Item, readDirectory: string, logger: Logger):
 	}
 
 	// Relative path comes in useful for runtime imports
-	const importPath = new Array(DIR_DELTA_DEPTH).fill(0).map(() => '..').join('/') + file.path.replace(appRoot + '', '');
+	const importPath = new Array(DIR_DELTA_DEPTH).fill(0).map(() => '..').join('/') + file.path.replace(process.cwd(), '');
 	
 	// Check to see if this page contains getServerSideProps or getStaticProps
 	// If it does, we need to include it in the build
@@ -228,7 +227,7 @@ const writeGeneratedFile = async (pages: PageRoute[], logger: Logger): Promise<v
 		);
 
 	// Override existing stub file with the real deal!
-	const file = appRoot + '/node_modules/@waveplay/pilot/dist/' + GENERATED_FILE;
+	const file = process.cwd() + '/node_modules/@waveplay/pilot/dist/' + GENERATED_FILE;
 	logger.debug(`[PilotJS] Writing ${pages.length} pages to "${file}"`);
 	await fs.outputFile(file, kode.toString());
 };

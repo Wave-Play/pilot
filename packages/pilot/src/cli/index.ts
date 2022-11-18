@@ -2,7 +2,6 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import appRoot from 'app-root-path'
 import { Command } from 'commander'
 import fs from 'fs-extra'
 import { Logger } from 'pino'
@@ -20,7 +19,7 @@ koder.config({
 })
 
 // Manifest file to sync changes with
-export const MANIFEST_FILE = appRoot + '/.pilot/build-manifest.json'
+export const MANIFEST_FILE = process.cwd() + '/.pilot/build-manifest.json'
 
 export const syncManifest = async (action: (manifest: BuildManifest) => void, logger: Logger): Promise<void> => {
 	let manifest: BuildManifest = {}

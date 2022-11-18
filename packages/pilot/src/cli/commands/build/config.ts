@@ -1,8 +1,7 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import type { Config, PilotConfig } from '@waveplay/pilot';
-import appRoot from 'app-root-path';
+import type { Config, PilotConfig } from '../../../client/types';
 import fs from 'fs-extra';
 import type { NextConfig } from 'next';
 import path from 'path';
@@ -68,7 +67,7 @@ export const buildConfig = async (logger: Logger): Promise<Config> => {
 
 const writeConfig = async (logger: Logger, kode: Kode, value: Config & PilotConfig) => {
 	// Write the generated config file
-	const file = appRoot + '/node_modules/@waveplay/pilot/dist/_generated/' + GENERATED_FILE;
+	const file = process.cwd() + '/node_modules/@waveplay/pilot/dist/_generated/' + GENERATED_FILE;
 	await fs.outputFile(file, kode.value(value).toString());
 	
 	// Apply newly read pages to the manifest

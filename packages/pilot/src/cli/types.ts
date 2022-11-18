@@ -1,7 +1,7 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import type { Config } from '@waveplay/pilot'
+import type { Config } from '../client/types'
 
 export interface BuildManifest {
 	config?: Config
