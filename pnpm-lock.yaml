@@ -218,7 +218,7 @@ packages:
     resolution: {integrity: sha512-mrzLkl6U9YLF8qpqI7TB82PESyEGjm/0Ly91jG575eVxMMlb8fYfOXFZIJ8XfLrJZQbm7dlKry2bJmXBUEkdFg==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      regenerator-runtime: 0.13.10
+      regenerator-runtime: 0.13.11
     dev: false
 
   /@babel/template/7.18.10:
@@ -447,7 +447,7 @@ packages:
       ajv: 6.12.6
       debug: 4.3.4
       espree: 9.4.1
-      globals: 13.17.0
+      globals: 13.18.0
       ignore: 5.2.0
       import-fresh: 3.3.0
       js-yaml: 4.1.0
@@ -898,7 +898,7 @@ packages:
       unified-diff: 4.0.1
       unified-engine: 10.0.1
       update-notifier: 6.0.2
-      vfile: 5.3.5
+      vfile: 5.3.6
       vfile-reporter: 7.0.4
       vfile-sort: 3.0.0
     transitivePeerDependencies:
@@ -1761,7 +1761,7 @@ packages:
       file-entry-cache: 6.0.1
       find-up: 5.0.0
       glob-parent: 6.0.2
-      globals: 13.17.0
+      globals: 13.18.0
       grapheme-splitter: 1.0.4
       ignore: 5.2.0
       import-fresh: 3.3.0
@@ -2091,8 +2091,8 @@ packages:
       once: 1.4.0
     dev: true
 
-  /global-dirs/3.0.0:
-    resolution: {integrity: sha512-v8ho2DS5RiCjftj1nD9NmnfaOzTdud7RRnVd9kFNOjqZbISlx5DQ+OrTkywgd0dIt7oFCvKetZSHoHcP3sDdiA==}
+  /global-dirs/3.0.1:
+    resolution: {integrity: sha512-NBcGGFbBA9s1VzD41QXDG+3++t9Mn5t1FpLdhESY6oKY4gYTFpX4wO3sqGUa0Srjtbfj3szX0RnemmrVRUdULA==}
     engines: {node: '>=10'}
     dependencies:
       ini: 2.0.0
@@ -2103,8 +2103,8 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /globals/13.17.0:
-    resolution: {integrity: sha512-1C+6nQRb1GwGMKm2dH/E7enFAMxGTmGI7/dEdhy/DNelv85w9B72t3uc5frtMNXIbzrarJJ/lTCjcaZwbLJmyw==}
+  /globals/13.18.0:
+    resolution: {integrity: sha512-/mR4KI8Ps2spmoc0Ulu9L7agOF0du1CZNQ3dke8yItYlyKNmGrkONemBbd6V8UTc1Wgcqn21t3WYB7dbRmh6/A==}
     engines: {node: '>=8'}
     dependencies:
       type-fest: 0.20.2
@@ -2121,8 +2121,8 @@ packages:
       merge2: 1.4.1
       slash: 3.0.0
 
-  /got/12.5.2:
-    resolution: {integrity: sha512-guHGMSEcsA5m1oPRweXUJnug0vuvlkX9wx5hzOka+ZBrBUOJHU0Z1JcNu3QE5IPGnA5aXUsQHdWOD4eJg9/v3A==}
+  /got/12.5.3:
+    resolution: {integrity: sha512-8wKnb9MGU8IPGRIo+/ukTy9XLJBwDiCpIf5TVzQ9Cpol50eMTpBq2GAuDsuDIz7hTYmZgMgC1e9ydr6kSDWs3w==}
     engines: {node: '>=14.16'}
     dependencies:
       '@sindresorhus/is': 5.3.0
@@ -2199,7 +2199,7 @@ packages:
       '@types/unist': 2.0.6
       hastscript: 7.1.0
       property-information: 6.1.1
-      vfile: 5.3.5
+      vfile: 5.3.6
       vfile-location: 4.0.1
       web-namespaces: 2.0.1
     dev: true
@@ -2251,7 +2251,7 @@ packages:
       hast-util-whitespace: 2.0.0
       nlcst-to-string: 3.1.0
       unist-util-position: 4.0.3
-      vfile: 5.3.5
+      vfile: 5.3.6
       vfile-location: 4.0.1
     dev: true
 
@@ -2471,7 +2471,7 @@ packages:
     resolution: {integrity: sha512-iwGqO3J21aaSkC7jWnHP/difazwS7SFeIqxv6wEtLU8Y5KlzFTjyqcSIT0d8s4+dDhKytsk9PJZ2BkS5eZwQRQ==}
     engines: {node: '>=10'}
     dependencies:
-      global-dirs: 3.0.0
+      global-dirs: 3.0.1
       is-path-inside: 3.0.3
     dev: true
 
@@ -2903,7 +2903,7 @@ packages:
       stringify-entities: 4.0.3
       unist-util-remove-position: 4.0.1
       unist-util-stringify-position: 3.0.2
-      vfile-message: 3.1.2
+      vfile-message: 3.1.3
     dev: true
 
   /mdast-util-mdx/2.0.0:
@@ -2937,7 +2937,7 @@ packages:
       mdast-util-to-string: 3.1.0
       micromark-util-decode-string: 1.0.2
       unist-util-visit: 4.1.1
-      zwitch: 2.0.3
+      zwitch: 2.0.4
     dev: true
 
   /mdast-util-to-nlcst/5.2.1:
@@ -2948,7 +2948,7 @@ packages:
       '@types/unist': 2.0.6
       nlcst-to-string: 3.1.0
       unist-util-position: 4.0.3
-      vfile: 5.3.5
+      vfile: 5.3.6
       vfile-location: 4.0.1
     dev: true
 
@@ -3120,7 +3120,7 @@ packages:
       micromark-util-symbol: 1.0.1
       micromark-util-types: 1.0.2
       uvu: 0.5.6
-      vfile-message: 3.1.2
+      vfile-message: 3.1.3
     dev: true
 
   /micromark-extension-mdx-md/1.0.0:
@@ -3139,7 +3139,7 @@ packages:
       micromark-util-types: 1.0.2
       unist-util-position-from-estree: 1.1.1
       uvu: 0.5.6
-      vfile-message: 3.1.2
+      vfile-message: 3.1.3
     dev: true
 
   /micromark-extension-mdxjs/1.0.0:
@@ -3182,7 +3182,7 @@ packages:
       micromark-util-types: 1.0.2
       unist-util-position-from-estree: 1.1.1
       uvu: 0.5.6
-      vfile-message: 3.1.2
+      vfile-message: 3.1.3
     dev: true
 
   /micromark-factory-space/1.0.0:
@@ -3267,7 +3267,7 @@ packages:
       micromark-util-types: 1.0.2
       uvu: 0.5.6
       vfile-location: 4.0.1
-      vfile-message: 3.1.2
+      vfile-message: 3.1.3
     dev: true
 
   /micromark-util-html-tag-name/1.1.0:
@@ -3663,7 +3663,7 @@ packages:
     resolution: {integrity: sha512-hySwcV8RAWeAfPsXb9/HGSPn8lwDnv6fabH+obUZKX169QknRkRhPxd1yMubpKDskLFATkl3jHpNtVtDPFA0Wg==}
     engines: {node: '>=14.16'}
     dependencies:
-      got: 12.5.2
+      got: 12.5.3
       registry-auth-token: 5.0.1
       registry-url: 6.0.1
       semver: 7.3.8
@@ -3999,8 +3999,8 @@ packages:
       strip-indent: 4.0.0
     dev: true
 
-  /regenerator-runtime/0.13.10:
-    resolution: {integrity: sha512-KepLsg4dU12hryUO7bp/axHAKvwGOCV0sGloQtpagJ12ai+ojVDqkeGSiRX1zlq+kjIMZ1t7gpze+26QqtdGqw==}
+  /regenerator-runtime/0.13.11:
+    resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
     dev: false
 
   /regexp.prototype.flags/1.4.3:
@@ -4084,7 +4084,7 @@ packages:
       mdast-comment-marker: 2.1.0
       unified: 10.1.2
       unified-message-control: 4.0.0
-      vfile: 5.3.5
+      vfile: 5.3.6
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4176,7 +4176,7 @@ packages:
       unified: 10.1.2
       unist-util-is: 5.1.1
       unist-util-visit: 4.1.1
-      vfile: 5.3.5
+      vfile: 5.3.6
     dev: true
 
   /retext-profanities/7.2.1:
@@ -4553,7 +4553,7 @@ packages:
     resolution: {integrity: sha512-QO0A9aE6Z/YkmQadJ0syxpmNXtcQiu0qAtCKYKD5cS3EfgfFTAXfgLX6AOaBrSfWSek5nfsMf3gBZ9KGVFcLuw==}
     dependencies:
       is-buffer: 2.0.5
-      vfile: 5.3.5
+      vfile: 5.3.6
     dev: true
 
   /trim-newlines/3.0.1:
@@ -4768,7 +4768,7 @@ packages:
       to-vfile: 7.2.3
       trough: 2.1.0
       unist-util-inspect: 7.0.1
-      vfile-message: 3.1.2
+      vfile-message: 3.1.3
       vfile-reporter: 7.0.4
       vfile-statistics: 2.0.0
       yaml: 2.1.3
@@ -4782,9 +4782,9 @@ packages:
       '@types/unist': 2.0.6
       unist-util-is: 5.1.1
       unist-util-visit: 3.1.0
-      vfile: 5.3.5
+      vfile: 5.3.6
       vfile-location: 4.0.1
-      vfile-message: 3.1.2
+      vfile-message: 3.1.3
     dev: true
 
   /unified/10.1.2:
@@ -4796,7 +4796,7 @@ packages:
       is-buffer: 2.0.5
       is-plain-obj: 4.1.0
       trough: 2.1.0
-      vfile: 5.3.5
+      vfile: 5.3.6
     dev: true
 
   /unique-string/3.0.0:
@@ -4961,18 +4961,18 @@ packages:
     resolution: {integrity: sha512-TPE1tYyHrYxewHxi42F8yP45rY5fK78jiPg9WP1xH5TfAbdncxja5NquZyYSSzG1aHpK98AvUOVJrEOoTonW6w==}
     dependencies:
       to-vfile: 7.2.3
-      vfile: 5.3.5
+      vfile: 5.3.6
     dev: true
 
   /vfile-location/4.0.1:
     resolution: {integrity: sha512-JDxPlTbZrZCQXogGheBHjbRWjESSPEak770XwWPfw5mTc1v1nWGLB/apzZxsx8a0SJVfF8HK8ql8RD308vXRUw==}
     dependencies:
       '@types/unist': 2.0.6
-      vfile: 5.3.5
+      vfile: 5.3.6
     dev: true
 
-  /vfile-message/3.1.2:
-    resolution: {integrity: sha512-QjSNP6Yxzyycd4SVOtmKKyTsSvClqBPJcd00Z0zuPj3hOIjg0rUPG6DbFGPvUKRgYyaIWLPKpuEclcuvb3H8qA==}
+  /vfile-message/3.1.3:
+    resolution: {integrity: sha512-0yaU+rj2gKAyEk12ffdSbBfjnnj+b1zqTBv3OQCTn8yEB02bsPizwdBPrLJjHnK+cU9EMMcUnNv938XcZIkmdA==}
     dependencies:
       '@types/unist': 2.0.6
       unist-util-stringify-position: 3.0.2
@@ -4992,22 +4992,22 @@ packages:
   /vfile-sort/3.0.0:
     resolution: {integrity: sha512-fJNctnuMi3l4ikTVcKpxTbzHeCgvDhnI44amA3NVDvA6rTC6oKCFpCVyT5n2fFMr3ebfr+WVQZedOCd73rzSxg==}
     dependencies:
-      vfile-message: 3.1.2
+      vfile-message: 3.1.3
     dev: true
 
   /vfile-statistics/2.0.0:
     resolution: {integrity: sha512-foOWtcnJhKN9M2+20AOTlWi2dxNfAoeNIoxD5GXcO182UJyId4QrXa41fWrgcfV3FWTjdEDy3I4cpLVcQscIMA==}
     dependencies:
-      vfile-message: 3.1.2
+      vfile-message: 3.1.3
     dev: true
 
-  /vfile/5.3.5:
-    resolution: {integrity: sha512-U1ho2ga33eZ8y8pkbQLH54uKqGhFJ6GYIHnnG5AhRpAh3OWjkrRHKa/KogbmQn8We+c0KVV3rTOgR9V/WowbXQ==}
+  /vfile/5.3.6:
+    resolution: {integrity: sha512-ADBsmerdGBs2WYckrLBEmuETSPyTD4TuLxTrw0DvjirxW1ra4ZwkbzG8ndsv3Q57smvHxo677MHaQrY9yxH8cA==}
     dependencies:
       '@types/unist': 2.0.6
       is-buffer: 2.0.5
       unist-util-stringify-position: 3.0.2
-      vfile-message: 3.1.2
+      vfile-message: 3.1.3
     dev: true
 
   /walk-up-path/1.0.0:
@@ -5202,6 +5202,6 @@ packages:
     engines: {node: '>=12.20'}
     dev: true
 
-  /zwitch/2.0.3:
-    resolution: {integrity: sha512-dn/sDAIuRCsXGnBD4P+SA6nv7Y54HQZjC4SPL8PToU3714zu7wSEc1129D/i0+vvjRfOlFo4Zqrpwj+Zhcykhw==}
+  /zwitch/2.0.4:
+    resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
     dev: true

@@ -10,7 +10,6 @@ export interface ActionResult {
 }
 
 export interface BaseConfig {
-	cacheSize?: number
 	host?: string
 	i18n?: {
 		defaultLocale: string

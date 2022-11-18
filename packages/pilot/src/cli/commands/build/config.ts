@@ -55,7 +55,6 @@ export const buildConfig = async (logger: Logger): Promise<Config> => {
 	// Write usable config
 	logger.debug(`[PilotJS] Writing generated config...`);
 	await writeConfig(logger, kode, {
-		cacheSize: config.cacheSize,
 		host: config.host,
 		i18n: config.i18n,
 		pages: config.pages,

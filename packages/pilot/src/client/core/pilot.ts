@@ -2,7 +2,6 @@
  * © 2022 WavePlay <dev@waveplay.com>
  */
 import { createElement, FunctionComponent, ReactElement } from 'react'
-import { lru, LRU } from 'tiny-lru'
 import { ActionResult, DataMap, FlightOptions, PilotHookCallback, Url } from '../../_internal/types'
 import { Default404, Default500 } from '../../_internal/ui'
 import { eventWaiter, generateNumber, matchesLocale } from '../../_internal/utils'
@@ -26,9 +25,6 @@ export class Pilot {
 	// Constructor parameters
 	private _config: PilotConfig
 
-	// Loaded props cache
-	private _cache: LRU<any>
-
 	// State
 	private _currentLocale?: string
 	private _currentPage?: PilotPage
@@ -46,9 +42,6 @@ export class Pilot {
 		if (process.env.NODE_ENV !== 'production') {
 			this._localTunnel = tunnelUrl
 		}
-
-		// Create cache
-		this._cache = lru(config?.cacheSize || 100)
 
 		// Use built-in default router if none is specified
 		if (!config?.router) {
@@ -122,9 +115,10 @@ export class Pilot {
 			}
 		}
 
-		// Update config for cache and logger separately
-		this._cache.max = config?.cacheSize !== undefined ? config.cacheSize : 100
-		this._currentLocale = config?.i18n?.defaultLocale
+		// Assign current locale if 18n is enabled
+		if (!this._currentLocale) {
+			this._currentLocale = config?.i18n?.defaultLocale
+		}
 
 		return this._config
 	}
@@ -480,15 +474,19 @@ export class Pilot {
 			this.log('debug', `Loading props natively for path:`, path)
 
 			// See if we can find a cached version of this page's props
-			const cacheKey = (this._currentLocale || '') + path
-			const cachedProps = this._cache.get(cacheKey)
-			const isExpired = !cachedProps || cachedProps?.__pilot?.expires < Date.now()
-			if (cachedProps && isExpired) {
-				this.log('debug', `Cached props for ${path} have expired, removing from cache...`)
-				this._cache.delete(cacheKey)
-			} else if (cachedProps && !isExpired) {
-				this.log('debug', `Found cached props for path: ${path}`)
-				return cachedProps
+			const cache = this._config.nativeCache
+			let cacheKey
+			if (cache) {
+				cacheKey = (this._currentLocale || '') + path
+				const cachedProps = cache.get(cacheKey)
+				const isExpired = !cachedProps || cachedProps?.__pilot?.expires < Date.now()
+				if (cachedProps && isExpired) {
+					this.log('debug', `Cached props for ${path} have expired, removing from cache...`)
+					cache.delete(cacheKey)
+				} else if (cachedProps && !isExpired) {
+					this.log('debug', `Found cached props for path: ${path}`)
+					return cachedProps
+				}
 			}
 
 			// Get props from route's getProps() function
@@ -505,9 +503,9 @@ export class Pilot {
 
 			// If a "revalidate" value is returned, cache the props for that amount of time
 			// This emulates ISR (Incremental Static Regeneration) from NextJS
-			if (props?.revalidate) {
+			if (cache && props?.revalidate) {
 				this.log('debug', `Caching props for path: ${path} (revalidate: ${props.revalidate})`)
-				this._cache.set(cacheKey, {
+				cache.set(cacheKey, {
 					...props,
 					__pilot: {
 						expires: Date.now() + props.revalidate * 1000
