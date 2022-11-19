@@ -1,5 +1,20 @@
 # Change Log
 
+## 0.0.0-canary-20221119044259
+
+### Major Changes
+
+- 3e03873: BREAKING: decoupled native runtime cache
+
+### Minor Changes
+
+- 8c10b19: feat: integrated cli into main package
+- 07ce324: feat: new AppEntry.js and document.js files for convenience
+
+### Patch Changes
+
+- f042fa3: patch: fixed working directory usage in monorepos
+
 ## 2.2.1
 
 ### Patch Changes
