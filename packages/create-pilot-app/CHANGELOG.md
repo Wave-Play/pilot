@@ -1,6 +1,6 @@
 # create-pilot-app
 
-## 0.0.0-canary-20221119044259
+## 0.0.0
 
 ### Minor Changes
 

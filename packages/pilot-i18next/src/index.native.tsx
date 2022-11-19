@@ -5,6 +5,7 @@
 import { I18nextProvider, initReactI18next } from 'react-i18next'
 // @ts-ignore (peer dependency)
 import i18next from 'i18next'
+// @ts-ignore (peer dependency)
 import type { AppProps as NextJsAppProps } from 'next/app'
 import hoistNonReactStatics from 'hoist-non-react-statics'
 import { useMemo } from 'react'
@@ -41,7 +42,7 @@ export const serverSideTranslations = async (
 }
 
 export const appWithTranslation = <Props extends AppProps = AppProps>(WrappedComponent: React.ComponentType<Props>) => {
-	const AppWithTranslation = (props: Props) => {
+	const AppWithTranslation = (props: any) => {
 		const { pageProps } = (props as any) || {}
 		const { _nextI18Next } = pageProps || {}
 		const { initialI18nStore, initialLocale = props?.router?.locale ?? 'en' } = _nextI18Next || {}
