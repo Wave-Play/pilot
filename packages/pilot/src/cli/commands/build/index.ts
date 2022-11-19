@@ -1,7 +1,6 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import appRoot from 'app-root-path';
 import { Command, OptionValues } from 'commander';
 import fs from 'fs-extra';
 import pino from 'pino';
@@ -13,7 +12,7 @@ import koder from '../../koder'
 import type { BuildManifest } from '../../types'
 
 // Development values to reset on each build
-const DEV_FILE = appRoot + '/node_modules/@waveplay/pilot/dist/_generated/dev.js'
+const DEV_FILE = process.cwd() + '/node_modules/@waveplay/pilot/dist/_generated/dev.js'
 
 const command = new Command('build')
 	.description('creates an optimized build of Pilot.js for your application')
@@ -41,7 +40,7 @@ export async function action(options: OptionValues) {
 	// Clear existing cache
 	logger.debug(`[PilotJS] Clearing cache...`);
 	try {
-		await fs.remove(appRoot + '/.pilot/cache');
+		await fs.remove(process.cwd() + '/.pilot/cache');
 	} catch (e) {
 		logger.warn('[PilotJS] Failed to clear cache');
 	}

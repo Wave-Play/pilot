@@ -1,7 +1,6 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import appRoot from 'app-root-path';
 import { Command, OptionValues } from 'commander';
 import fs from 'fs-extra';
 import klaw from 'klaw';
@@ -14,8 +13,8 @@ import type { BuildManifest } from '../../types';
 const GENERATED_FILE = 'import-resource.js';
 
 // Locale directories to read & write to/from
-const LOCALES_ASSETS_DIR = appRoot + '/assets/locales';
-const LOCALES_PUBLIC_DIR = appRoot + '/public/locales';
+const LOCALES_ASSETS_DIR = process.cwd() + '/assets/locales';
+const LOCALES_PUBLIC_DIR = process.cwd() + '/public/locales';
 
 const command = new Command('build:locales')
 	.description('syncs locale files and generates static imports')
@@ -42,7 +41,7 @@ export async function action(options: OptionValues) {
 	logger.debug(`[PilotJS] Starting build:locales...`);
 
 	// Make sure the public locales directory exists and return early if it doesn't
-	logger.debug(`[PilotJS] Using root directory "${appRoot}"`);
+	logger.debug(`[PilotJS] Using root directory "${process.cwd()}"`);
 	if (!fs.existsSync(LOCALES_PUBLIC_DIR)) {
 		logger.warn(`[PilotJS] "/public/locales" does not exist! Skipping build:locales...`);
 		return;
@@ -119,7 +118,7 @@ const writeGeneratedFile = async (store: any, logger: Logger): Promise<void> => 
 		);
 
 	// Override existing stub file with the real deal!
-	const file = appRoot + '/node_modules/@waveplay/pilot-i18next/dist/' + GENERATED_FILE;
+	const file = process.cwd() + '/node_modules/@waveplay/pilot-i18next/dist/' + GENERATED_FILE;
 	logger.debug(`[PilotJS] Writing ${Object.keys(store).length} locales to "${file}"`);
 	await fs.outputFile(file, kode.toString());
 };

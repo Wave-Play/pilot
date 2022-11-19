@@ -29,10 +29,13 @@
 	"main": "dist/client/index.js",
 	"module": "dist/client/index.mjs",
 	"files": [
-		"src/",
 		"dist/",
+		"src/",
 		"api.js",
 		"api.d.ts",
+		"AppEntry.js",
+		"document.js",
+		"document.d.ts",
 		"LICENSE",
 		"README.md"
 	],
