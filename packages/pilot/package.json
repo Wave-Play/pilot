@@ -1,6 +1,6 @@
 {
 	"name": "@waveplay/pilot",
-	"version": "0.0.0-canary-20221119044259",
+	"version": "0.0.0-canary-20221119225656",
 	"private": false,
 	"description": "NextJS-like routing for React Native",
 	"repository": {
