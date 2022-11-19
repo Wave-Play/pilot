@@ -1,8 +1,8 @@
-import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { usePilot } from '@waveplay/pilot';
-import Head from 'next/head';
-import { GetStaticProps } from 'next';
+import React from 'react'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { usePilot } from '@waveplay/pilot'
+import Head from 'next/head'
+import { GetStaticProps } from 'next'
 
 interface ExamplePageProps {
 	title?: string
@@ -22,8 +22,8 @@ const ExamplePage = (props: ExamplePageProps) => {
 			</TouchableOpacity>
 		</View>
 	)
-};
-export default ExamplePage;
+}
+export default ExamplePage
 
 export const getStaticProps: GetStaticProps = async () => {
 	return {
@@ -32,15 +32,15 @@ export const getStaticProps: GetStaticProps = async () => {
 		},
 		revalidate: 10
 	}
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+	container: {
+		flex: 1,
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
 	title: {
 		fontSize: 24,
 		fontWeight: '600'
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		fontWeight: '400'
 	}
-});
+})
