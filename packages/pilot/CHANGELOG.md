@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.0-canary-20221119225656
+
+### Patch Changes
+
+- 06d1255: fix: make sure to await renderPage in \_document
+
 ## 0.0.0-canary-20221119044259
 
 ### Major Changes
@@ -7,6 +13,7 @@
 - 3e03873: BREAKING: decoupled native runtime cache
 
 ### Minor Changes
+
 - 07ce324: feat: new AppEntry.js and document.js files for convenience
 
 ## 2.3.0
