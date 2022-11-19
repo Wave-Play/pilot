@@ -104,12 +104,7 @@ export const installTemplate = async ({
 		'next',
 		'@waveplay/pilot'
 	]
-	const devDependencies = [
-		'@babel/core',
-		'@nissy-dev/swc-plugin-react-native-web',
-		'next-transpile-modules',
-		'webpack'
-	]
+	const devDependencies = ['@babel/core', '@nissy-dev/swc-plugin-react-native-web', 'next-transpile-modules', 'webpack']
 	/**
 	 * TypeScript projects will have type definitions and other devDependencies.
 	 */
