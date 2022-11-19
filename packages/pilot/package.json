@@ -15,11 +15,6 @@
 	"engines": {
 		"node": ">=14.6.0"
 	},
-	"workspaces": {
-		"nohoist": [
-			"**"
-		]
-	},
 	"license": "MIT",
 	"author": "WavePlay <dev@waveplay.com> (waveplay.com)",
 	"contributors": [
