@@ -1,5 +1,11 @@
 # create-pilot-app
 
+## 0.0.0-canary-20221119044259
+
+### Minor Changes
+
+- ededb9a: chore: updated create-pilot-app to use new built-in cli
+
 ## 0.0.0-canary-20221109063910
 
 ### Patch Changes
