@@ -12,11 +12,14 @@ import { syncManifest } from '../..';
 import koder from '../../koder';
 import type { BuildManifest } from '../../types';
 import type { Config } from '../../../client/types';
+import { getPkgManager } from '../dev';
 
 // This is the number of directories to go up to get to the root of the project where pages are
-// Because we can't guarantee where the CLI is being run from, we assume 4 directories up is the root
+// Because we can't guarantee where the CLI is being run from, we assume 5 directories up is the root
 // That's assuming @waveplay/pilot is installed in the root node_modules directory
-const DIR_DELTA_DEPTH = 4;
+// PNPM and Yarn 2 have different directory structures, so we need to account for that
+const packageManager = getPkgManager();
+const DIR_DELTA_DEPTH = packageManager === 'pnpm' ? 8 : 5;
 
 // Name of the file that will be generated
 const GENERATED_FILE = 'pages.js';

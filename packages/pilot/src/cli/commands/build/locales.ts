@@ -8,6 +8,9 @@ import pino, { Logger } from 'pino';
 import { syncManifest } from '../..';
 import koder from '../../koder';
 import type { BuildManifest } from '../../types';
+import { getPkgManager } from '../dev';
+
+const packageManager = getPkgManager();
 
 // Name of the file that will be generated
 const GENERATED_FILE = 'import-resource.js';
@@ -108,7 +111,7 @@ const writeGeneratedFile = async (store: any, logger: Logger): Promise<void> => 
 							// Each namespace in the store's locales will get its own case
 							.cases(store[locale].map(ns => ({
 								case: ns,
-								body: koder().import(`../../../../assets/locales/${locale}/${ns}.json`, { dynamic: true, return: true })
+								body: koder().import(`../../../../${packageManager === 'pnpm' ? '../../../' : ''}assets/locales/${locale}/${ns}.json`, { dynamic: true, return: true })
 							})))
 							.default(koder().throw(new Error(`Could not find namespace in "${locale}" locale: \${ns}`)))
 						)
