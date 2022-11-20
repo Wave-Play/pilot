@@ -19,7 +19,7 @@ import type { Config } from '../../../client/types';
 const DIR_DELTA_DEPTH = 4;
 
 // Name of the file that will be generated
-const GENERATED_FILE = '_generated-pages.js';
+const GENERATED_FILE = 'pages.js';
 
 // Default SWC options used for transforming the code in order to find getProps
 // This is meant to be a simple best-effort transform and is not meant to be 100% accurate
@@ -227,7 +227,7 @@ const writeGeneratedFile = async (pages: PageRoute[], logger: Logger): Promise<v
 		);
 
 	// Override existing stub file with the real deal!
-	const file = process.cwd() + '/node_modules/@waveplay/pilot/dist/' + GENERATED_FILE;
+	const file = process.cwd() + '/node_modules/@waveplay/pilot/dist/_generated/' + GENERATED_FILE;
 	logger.debug(`[PilotJS] Writing ${pages.length} pages to "${file}"`);
 	await fs.outputFile(file, kode.toString());
 };
