@@ -49,7 +49,7 @@ export class Pilot {
 		}
 
 		// Assign default locale if 18n is enabled
-		this._currentLocale = config?.i18n?.defaultLocale
+		this._currentLocale = this._config?.i18n?.defaultLocale
 
 		// Assign default path if router was provided
 		if (config?.nextRouter) {
