@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.0-canary-20221121073657
+
+### Patch Changes
+
+- 90135d2: fix: template api route fixes & improved api handler error logic
+
 ## 0.0.0-canary-20221121023544
 
 ### Minor Changes
