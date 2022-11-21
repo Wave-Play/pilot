@@ -1,5 +1,17 @@
 # Change Log
 
+## 0.0.0-canary-20221121023544
+
+### Minor Changes
+
+- 709c225: feat: i18next support now part of main package
+
+### Patch Changes
+
+- 0f43e88: patch: better support for PNPM projects
+- 964e8dd: fix: check defaultConfig for default locale upon Pilot creation
+- 258cd50: refactor: moved \_generated-pages.js into \_generated directory
+
 ## 0.0.0-canary-20221119225656
 
 ### Patch Changes
