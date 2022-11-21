@@ -1,5 +1,11 @@
 # create-pilot-app
 
+## 0.0.0-canary-20221121061939
+
+### Minor Changes
+
+- 75c27d4: chore: updated templates for create-pilot-app
+
 ## 0.0.0
 
 ### Minor Changes
