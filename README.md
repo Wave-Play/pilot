@@ -1,65 +1,100 @@
-<h1 align="center">PilotJS</h1>
+<h1 align="center">Pilot.js</h1>
 
 <div align="center">
 
 [![GitHub license](https://img.shields.io/github/license/Wave-Play/pilot?style=flat)](https://github.com/Wave-Play/pilot/blob/main/LICENSE) [![Tests](https://github.com/Wave-Play/pilot/workflows/CI/badge.svg)](https://github.com/Wave-Play/pilot/actions) ![npm](https://img.shields.io/npm/v/@waveplay/pilot) [![minizipped size](https://badgen.net/bundlephobia/minzip/@waveplay/pilot)](https://bundlephobia.com/result?p=@waveplay/pilot)
 
-**NextJS for Expo & React Native**
+**Next.js for Expo & React Native**
 
-Customizable, fast, and lightweight drop-in support for **[NextJS](https://nextjs.org/)** on native platforms
+Customizable, fast, and lightweight drop-in support for **[Next.js](https://nextjs.org/)** on native platforms
 
 </div>
 
-## Features
+## Quick start
 
-- Supports most **NextJS** features on native (powered by **NextJS** on web)
-- Hooks for loading events with ability to override routes
-- Optional placeholders during load events
-- Can be used to control individual areas rather than entire screen
+Create a new Pilot.js app via our interactive CLI:
 
-## Install
+```bash
+npx create-pilot-app
+```
 
-Using NPM
+This will guide you through a short customization process and create a fully working template.
+
+## Adding to an existing project
+
+Install the package:
 
 ```bash
 npm install @waveplay/pilot
 ```
 
-Using Yarn
+We assume you already have a working project with Expo and Next.js. If not, follow their respective guides:
 
-```bash
-yarn add @waveplay/pilot
+- [Expo - Get started](https://docs.expo.dev/get-started/create-a-new-app/)
+- [Next.js - Getting Started](https://nextjs.org/docs/getting-started)
+- [Next.js - examples/with-expo](https://github.com/vercel/next.js/tree/canary/examples/with-expo)
+
+You can either let Pilot.js manage your AppEntry *(A)* or use it as a component *(B)*. The latter is useful if you want more customization.
+
+#### A) Managed AppEntry
+
+Edit your `app.json` to include the following:
+
+```json
+{
+  "expo": {
+    "entryPoint": "node_modules/@waveplay/pilot/AppEntry.js"
+  }
+}
 ```
 
-## Quick start
-
+#### B) Custom AppEntry
 Update your `App.js` entry component to render `PilotArea`.
 
-> `App.js`
 ```jsx
-import { PilotArea } from '@waveplay/pilot';
+import { PilotArea } from '@waveplay/pilot/ui'
 
 const App = () => {
   // ... your code
 
   return (
     <PilotArea/>
-  );
-};
-export default App;
+  )
+}
+export default App
 ```
 
-Use the `build` command to build your routes.
+You're now ready to use **Pilot.js**! Use it just like you would use Next.js.
+
+## Usage
+
+Pilot.js relies on the built-in CLI to detect pages and routes.
+
+#### Build
+
+The `build` command will scan your project for pages. You **must** run this before you can use the `start` command or routing may not work.
 
 ```bash
 pilot build
 ```
 
-You're now ready to use **PilotJS**!
+#### Development
+
+The `dev` command will start a development server.
+
+```bash
+pilot dev
+```
+
+This will:
+1. Start a Next.js development server
+2. Create a free Cloudflare tunnel for this session
+3. Build Pilot.js routes & link to your local tunnel
+4. Start an Expo development server
 
 ## Basic usage
 
-You can use **PilotJS** the same way as Next Router, except it now works on React Native and Expo projects!
+You can use **Pilot.js** the same way as **Next.js**, except it now also works on React Native and Expo projects!
 
 ```ts
 // const router = useRouter();
@@ -67,18 +102,6 @@ const pilot = usePilot();
 
 // router.push('/dashboard');
 pilot.fly('/dashboard'); // or pilot.push('/dashboard');
-
-// router.back();
-pilot.back();
-
-// router.reload();
-pilot.reload();
-
-// router.asPath;
-pilot.getPath();
-
-// router.query;
-pilot.getQuery();
 ```
 
 ## Supported NextJS features
