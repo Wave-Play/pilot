@@ -64,7 +64,7 @@ const App = () => {
 export default App
 ```
 
-You're now ready to use **Pilot.js**! Use it just like you would use Next.js.
+You're now ready to use **Pilot.js**! Use it like you would use Next.js.
 
 ## Usage
 
