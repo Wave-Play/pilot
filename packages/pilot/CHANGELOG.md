@@ -1,5 +1,19 @@
 # Change Log
 
+## 0.0.0-canary-20221127013741
+
+### Major Changes
+
+- e368a39: feat: tunnel-less dev environment
+
+### Minor Changes
+
+- 64044fc: feat: new "logLevel" field in pilot.config.js
+
+### Patch Changes
+
+- ff6c150: fix: malformed url object with query on web
+
 ## 0.0.0-canary-20221121073657
 
 ### Patch Changes
