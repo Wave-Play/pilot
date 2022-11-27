@@ -223,7 +223,7 @@ const writeGeneratedFile = async (pages: PageRoute[], logger: Logger): Promise<v
 			.block(koder()
 				.cases(pages.map(page => ({
 					case: page.path,
-					body: koder().import(page.importPath, { dynamic: true, return: true })
+					body: koder().import(null, page.importPath, { dynamic: true, return: true })
 				})))
 				.default(koder().throw(new Error('Invalid route')))
 			)

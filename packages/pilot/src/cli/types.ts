@@ -6,7 +6,8 @@ import type { Config } from '../client/types'
 export interface BuildManifest {
 	config?: Config
 	dev?: {
-		tunnelUrl: string
+		localUrl?: string | null
+		tunnelUrl?: string | null
 	}
 	locales?: {
 		[key: string]: string[]

@@ -7,7 +7,7 @@ import { Default404, Default500 } from '../../_internal/ui'
 import { eventWaiter, generateNumber, matchesLocale } from '../../_internal/utils'
 import { RadixRouter } from './radix-router'
 import { config as defaultConfig } from '../../_generated/config'
-import { tunnelUrl } from '../../_generated/dev'
+import { localUrl, tunnelUrl } from '../../_generated/dev'
 import type {
 	PilotConfig,
 	PilotEvent,
@@ -28,19 +28,17 @@ export class Pilot {
 	// State
 	private _currentLocale?: string
 	private _currentPage?: PilotPage
-	private readonly _localTunnel?: string
 	private readonly _hooks: PilotHook[] = []
 	private readonly _stack: string[] = []
+
+	// Development only
+	private readonly _localUrl?: string | null
+	private readonly _localTunnel?: string | null
 
 	constructor(config?: PilotConfig) {
 		this._config = {
 			...defaultConfig,
 			...(config || {})
-		}
-
-		// Only use local tunnel outside of production
-		if (process.env.NODE_ENV !== 'production') {
-			this._localTunnel = tunnelUrl
 		}
 
 		// Use built-in default router if none is specified
@@ -57,6 +55,14 @@ export class Pilot {
 		}
 
 		this.log('debug', `New instance created`)
+
+		// Only use local tunnel outside of production
+		if (process.env.NODE_ENV !== 'production') {
+			this._localUrl = localUrl
+			this._localTunnel = tunnelUrl
+		}
+		const host = this._localTunnel ?? this._localUrl ?? this._config.host
+		this.log('debug', `Using host: ${host}`)
 	}
 
 	public addHook(event: PilotEventType, callback: PilotHookCallback): number {
@@ -266,7 +272,10 @@ export class Pilot {
 
 	public stats() {
 		return {
-			dev: { tunnelUrl: this._localTunnel },
+			dev: {
+				localUrl: this._localUrl,
+				tunnelUrl: this._localTunnel
+			},
 			host: this._config.host,
 			id: this._config.id,
 			i18: this._config.i18n,
@@ -454,7 +463,7 @@ export class Pilot {
 			return props
 		}
 
-		const host = this._localTunnel ?? this._config.host
+		const host = this._localTunnel ?? this._localUrl ?? this._config.host
 		if (webProps === 'always' || (webProps === 'auto' && host)) {
 			this.log('debug', `Loading props remotely for path:`, path)
 			const response = await fetch(host + '/api/pilot/get-props', {

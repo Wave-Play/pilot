@@ -111,7 +111,7 @@ const writeGeneratedFile = async (store: any, logger: Logger): Promise<void> => 
 							// Each namespace in the store's locales will get its own case
 							.cases(store[locale].map(ns => ({
 								case: ns,
-								body: koder().import(`../../../../../${packageManager === 'pnpm' ? '../../../' : ''}assets/locales/${locale}/${ns}.json`, { dynamic: true, return: true })
+								body: koder().import(null, `../../../../../${packageManager === 'pnpm' ? '../../../' : ''}assets/locales/${locale}/${ns}.json`, { dynamic: true, return: true })
 							})))
 							.default(koder().throw(new Error(`Could not find namespace in "${locale}" locale: \${ns}`)))
 						)
