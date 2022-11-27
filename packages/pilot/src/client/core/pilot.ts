@@ -192,7 +192,16 @@ export class Pilot {
 				if (this._config.nextRouter) {
 					// Account for updated path (e.g. hook overrides)
 					if (typeof url !== 'string') {
-						url.pathname = path
+						const splitPath = path.split('?')
+						// Extract just the pathname from "path" along with any query params
+						url.pathname = splitPath[0]
+						url.query = splitPath[1]
+							?.split('&')
+							.reduce((acc, param) => {
+								const [key, value] = param.split('=')
+								acc[key] = value
+								return acc
+							}, {} as DataMap)
 					}
 
 					await this._config.nextRouter.push(url, as, options)
@@ -484,7 +493,7 @@ export class Pilot {
 
 			// See if we can find a cached version of this page's props
 			const cache = this._config.nativeCache
-			let cacheKey
+			let cacheKey: string
 			if (cache) {
 				cacheKey = (this._currentLocale || '') + path
 				const cachedProps = cache.get(cacheKey)
