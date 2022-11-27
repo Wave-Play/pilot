@@ -15,6 +15,7 @@ export interface BaseConfig {
 		defaultLocale: string
 		locales: string[]
 	}
+	logLevel?: 'debug' | 'info' | 'warn' | 'error'
 	webProps?: {
 		[key: string]: 'always' | 'auto' | 'never'
 	}
