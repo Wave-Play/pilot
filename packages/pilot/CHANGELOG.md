@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.0.0-canary-20221128173918
+
+### Patch Changes
+
+- 84ad17f: patch: support "use client" directive
+- 316cdef: fix: back() on web with no prior stack
+
 ## 0.0.0-canary-20221127013741
 
 ### Major Changes
