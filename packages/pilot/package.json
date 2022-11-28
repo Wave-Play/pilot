@@ -34,7 +34,9 @@
 		"i18n.native.js",
 		"i18n.web.js",
 		"LICENSE",
-		"README.md"
+		"README.md",
+		"ui.js",
+		"ui.d.ts"
 	],
 	"scripts": {
 		"build": "tsup && tsup --config tsup-cli.config.ts && tsup --config tsup-gen.config.ts"

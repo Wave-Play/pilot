@@ -24,7 +24,7 @@ export interface BaseConfig {
 export type DataMap = { [key: string]: string }
 
 export interface FlightOptions {
-	action: (path: string) => Promise<ActionResult | null>
+	action: (path: string | undefined) => Promise<ActionResult | null>
 	addToStack?: boolean
 }
 

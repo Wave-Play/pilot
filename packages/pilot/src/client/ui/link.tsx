@@ -1,6 +1,7 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
+'use client'
 import { FunctionComponent } from 'react'
 import { TouchableOpacity } from 'react-native'
 import type { Url } from '../../_internal/types'

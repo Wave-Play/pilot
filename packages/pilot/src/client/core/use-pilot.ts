@@ -1,6 +1,7 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
+'use client'
 import { atom, Atom, useAtom } from 'jotai'
 import { Platform } from 'react-native'
 import { useRouter } from 'next/router'

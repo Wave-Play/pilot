@@ -1,6 +1,7 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
+'use client'
 import { FunctionComponent, ReactElement, useEffect } from 'react'
 import { PilotRoute } from '../core/pilot'
 import { PilotRenderer } from './renderer'
