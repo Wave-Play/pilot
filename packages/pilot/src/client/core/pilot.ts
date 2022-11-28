@@ -90,7 +90,7 @@ export class Pilot {
 		const previousPath = this._stack[this._stack.length - 1]
 
 		return this._fly(previousPath, {
-			action: async (path: string) => {
+			action: async (path: string | undefined) => {
 				// Delegate to NextJS router if one exists; use internal otherwise
 				if (this._config.nextRouter) {
 					const event = eventWaiter('popstate')
@@ -305,26 +305,29 @@ export class Pilot {
 	 * @param path Path to navigate to. Mainly used for notifying listeners.
 	 * @param options Should contain action to execute + other options.
 	 */
-	private async _fly(url: Url, options: FlightOptions) {
+	private async _fly(url: Url | undefined, options: FlightOptions) {
 		const { action, addToStack = true } = options
 
 		// Get path from URL or use directly if string
-		let path = typeof url === 'string' ? url : url.pathname
+		let path: string
+		if (url) {
+			path = typeof url === 'string' ? url : url.pathname
 
-		// Query values are important too, ya know
-		if (typeof url !== 'string' && url.query) {
-			let token = '?'
-			for (let key in url.query) {
-				path += `${token}${key}=${url.query[key]}`
-				token = '&'
+			// Query values are important too, ya know
+			if (typeof url !== 'string' && url.query) {
+				let token = '?'
+				for (let key in url.query) {
+					path += `${token}${key}=${url.query[key]}`
+					token = '&'
+				}
 			}
-		}
 
-		// Notify listeners and allow them to modify the path
-		const originalPath = path
-		path = await this._notify(path, { type: 'load-start' })
-		if (path !== originalPath) {
-			this.log('info', `A hook has modified this path: ${path}`)
+			// Notify listeners and allow them to modify the path
+			const originalPath = path
+			path = await this._notify(path, { type: 'load-start' })
+			if (path !== originalPath) {
+				this.log('info', `A hook has modified this path: ${path}`)
+			}
 		}
 
 		try {
@@ -347,16 +350,18 @@ export class Pilot {
 		}
 
 		// Add to stack
-		if (addToStack) {
+		if (path && addToStack) {
 			this._stack.push(path)
 			this.log('debug', `New stack size: ${this._stack.length}`)
 		}
 
 		// Notify listeners
-		this._notify(path, {
-			type: this._config.nextRouter || this._currentPage ? 'load-complete' : 'error',
-			page: this._currentPage
-		})
+		if (path) {
+			this._notify(path, {
+				type: this._config.nextRouter || this._currentPage ? 'load-complete' : 'error',
+				page: this._currentPage
+			})
+		}
 	}
 
 	/**
