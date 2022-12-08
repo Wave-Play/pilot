@@ -44,7 +44,13 @@ export const usePilot = (config?: PilotConfig | string): Pilot => {
 		pilots[areaKey] = pilotAtom
 	}
 
-	// Return the global pilot instance for this area
+	// Fetch the pilot instance for this area
 	const [pilot] = useAtom(pilotAtom)
+
+	// Make sure the Next.js router instance is always fresh
+	if (nextRouter) {
+		pilot.config({ nextRouter })
+	}
+
 	return pilot
 }
