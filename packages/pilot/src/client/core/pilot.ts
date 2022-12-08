@@ -61,8 +61,7 @@ export class Pilot {
 			this._localUrl = localUrl
 			this._localTunnel = tunnelUrl
 		}
-		const host = this._localTunnel ?? this._localUrl ?? this._config.host
-		this.log('debug', `Using host: ${host}`)
+		this.log('debug', `Using host: ${this.getHost()}`)
 	}
 
 	public addHook(event: PilotEventType, callback: PilotHookCallback): number {
@@ -131,6 +130,11 @@ export class Pilot {
 
 	public getDefaultLocale(): string | undefined {
 		return this._config.i18n?.defaultLocale
+	}
+
+	public getHost(): string {
+		this.log('debug', `getHost()`)
+		return this._localTunnel ?? this._localUrl ?? this._config.host
 	}
 
 	public getLocale(): string | undefined {
@@ -477,7 +481,7 @@ export class Pilot {
 			return props
 		}
 
-		const host = this._localTunnel ?? this._localUrl ?? this._config.host
+		const host = this.getHost()
 		if (webProps === 'always' || (webProps === 'auto' && host)) {
 			this.log('debug', `Loading props remotely for path:`, path)
 			const response = await fetch(host + '/api/pilot/get-props', {
