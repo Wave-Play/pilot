@@ -77,6 +77,9 @@ export async function action(options: OptionValues) {
 		logger.warn('Could not find an external IPv4 address; router will default to "host" value. Use the --tunnel option as a workaround.')
 	}
 
+	// Remove .next cache
+	await fs.remove(process.cwd() + '/.next')
+
 	// Pre-build Pilot.js
 	await build(options)
 
