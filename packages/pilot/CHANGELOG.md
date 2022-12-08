@@ -1,5 +1,16 @@
 # Change Log
 
+## 0.0.0-canary-20221208180056
+
+### Minor Changes
+
+- 38c1960: feat: .next cache is now always cleared upon running pilot dev
+- da44ef6: feat: new getHost() pilot function that returns dev-aware host
+
+### Patch Changes
+
+- 9e67011: patch: internal Next router reference is now always fresh
+
 ## 0.0.0-canary-20221128173918
 
 ### Patch Changes
