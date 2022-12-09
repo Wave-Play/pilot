@@ -1,6 +1,7 @@
 {
 	"allow": [
 		"hook",
-		"hooks"
+		"hooks",
+		"host"
 	]
 }
