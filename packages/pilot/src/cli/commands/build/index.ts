@@ -5,6 +5,7 @@ import { Command, OptionValues } from 'commander';
 import fs from 'fs-extra';
 import pino from 'pino';
 import { buildConfig } from './config';
+import { buildEnv } from './env';
 import { action as buildLocales } from './locales';
 import { action as buildPages } from './pages';
 import { syncManifest } from '../..'
@@ -16,6 +17,7 @@ const DEV_FILE = process.cwd() + '/node_modules/@waveplay/pilot/dist/_generated/
 
 const command = new Command('build')
 	.description('creates an optimized build of Pilot.js for your application')
+	.option('-ne --no-env', 'do not load environment variables')
 	.option('-s --silent', 'do not print anything')
 	.option('-v --verbose', 'print more information for debugging')
 	.action(action);
@@ -66,6 +68,7 @@ export async function action(options: OptionValues) {
 	const config = await buildConfig(logger);
 
 	// Execute all build commands
+	await buildEnv(options, logger);
 	await buildPages(options, config);
 	await buildLocales(options);
 	logger.info(`[PilotJS] Built in ${Date.now() - startTime}ms ✨`);

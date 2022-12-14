@@ -52,7 +52,11 @@ Edit your `app.json` to include the following:
 Update your `App.js` entry component to render `PilotArea`.
 
 ```jsx
+import { loadEnv } from '@waveplay/pilot/env'
 import { PilotArea } from '@waveplay/pilot/ui'
+
+// Loads public environment variables
+loadEnv()
 
 const App = () => {
   // ... your code

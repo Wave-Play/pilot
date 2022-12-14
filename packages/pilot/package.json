@@ -31,6 +31,8 @@
 		"AppEntry.js",
 		"document.js",
 		"document.d.ts",
+		"env.js",
+		"env.d.ts",
 		"i18n.native.js",
 		"i18n.web.js",
 		"LICENSE",

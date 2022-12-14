@@ -20,10 +20,11 @@ const GENERATED_FILE = 'dev.js'
 
 const command = new Command('dev')
 	.description('starts your application in developer mode and automatically creates a local tunnel')
-	.option('-H --hostname <hostname>', 'Hostname on which to start the application')
-	.option('-t --tunnel', 'create a local tunnel for this session')
+	.option('-ne --no-env', 'do not load environment variables')
+	.option('-H --hostname <hostname>', 'hostname on which to start the application')
 	.option('-p --port <port>', 'port to run the application on')
 	.option('-s --silent', 'do not print anything')
+	.option('-t --tunnel', 'create a local tunnel for this session')
 	.option('-v --verbose', 'print more information for debugging')
 	.action(action)
 export default command

@@ -1,6 +1,7 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
+import type { DataMap } from '../_internal/types'
 import type { Config } from '../client/types'
 
 export interface BuildManifest {
@@ -9,6 +10,7 @@ export interface BuildManifest {
 		localUrl?: string | null
 		tunnelUrl?: string | null
 	}
+	env?: DataMap
 	locales?: {
 		[key: string]: string[]
 	}
