@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.0-canary-20221214053754
+
+### Minor Changes
+
+- b29f638: feat: environment variables support
+
 ## 0.0.0-canary-20221208180056
 
 ### Minor Changes
