@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.0.0-canary-20221219073629
+
+### Major Changes
+
+- 11dca06: refactor: export only core modules from root. BREAKING CHANGE: You may need to update your code if you were importing `<PilotArea>` or another UI component from the root `@waveplay/pilot` module. Use `@waveplay/pilot/ui` instead.
+- b30c295: refactor: removed regex router. This was never used after replacing with RadixRouter. Use RadixRouter instead or provide your own regex router.
+
 ## 0.0.0-canary-20221219070445
 
 ### Major Changes
