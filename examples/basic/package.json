@@ -9,7 +9,6 @@
 		"dev": "pilot dev",
 		"dev:native": "expo start",
 		"dev:web": "next dev",
-		"postinstall": "yarn build:pilot",
 		"start:native": "expo start",
 		"start:web": "next start"
 	},
