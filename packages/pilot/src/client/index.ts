@@ -5,7 +5,6 @@
 // Export all non-internal, uh... exports ÒwÓ
 export * from './core/pilot'
 export * from './core/radix-router'
-export * from './core/regex-router'
 export * from './core/use-pilot'
 export * from './types'
 export * from './ui/area'

@@ -154,7 +154,6 @@ importers:
       jotai: 1.8.5
       klaw: 4.0.1
       next: 13.0.2
-      node-match-path: 0.6.3
       pino: 8.7.0
       pino-pretty: 9.1.1
       radix3: 0.2.1
@@ -170,7 +169,6 @@ importers:
       hoist-non-react-statics: 3.3.2
       jotai: 1.8.5
       klaw: 4.0.1
-      node-match-path: 0.6.3
       pino: 8.7.0
       pino-pretty: 9.1.1
       radix3: 0.2.1
