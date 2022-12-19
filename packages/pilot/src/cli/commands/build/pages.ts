@@ -1,18 +1,17 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import { Command, OptionValues } from 'commander';
 import fs from 'fs-extra';
 import klaw from 'klaw';
-import pino, { Logger } from 'pino';
 import { Options, transform } from '@swc/core';
 import evil from 'safe-eval';
-import type { PageRoute } from '../../../_internal/types';
 import { syncManifest } from '../..';
 import koder from '../../koder';
+import { getPkgManager } from '../dev';
+import type { PageRoute } from '../../../_internal/types';
 import type { BuildManifest } from '../../types';
 import type { Config } from '../../../client/types';
-import { getPkgManager } from '../dev';
+import type { Logger } from 'pino';
 
 // This is the number of directories to go up to get to the root of the project where pages are
 // Because we can't guarantee where the CLI is being run from, we assume 5 directories up is the root
@@ -40,42 +39,17 @@ const TRANSFORM_OPTIONS: Options = {
 	}
 };
 
-const command = new Command('build:pages')
-	.description('buils a manifest of all pages in the project and generates static imports')
-	.option('-s --silent', 'do not print anything')
-	.option('-v --verbose', 'print more information for debugging')
-	.action(action);
-export default command;
-
-export async function action(options: OptionValues, config?: Config) {
-	const startTime = Date.now();
-
-	// Create a logger
-	const logger = pino({
-		enabled: !options.silent,
-		level: options.verbose ? 'debug' : 'info',
-		timestamp: false,
-		transport: {
-			target: 'pino-pretty',
-			options: {
-				colorize: true
-			}
-		}
-	});
-	logger.debug(`[PilotJS] Starting build:pages...`);
-
+export async function buildPages(logger: Logger, config?: Config) {
 	// Try scanning the default /pages directory first
 	let pages: PageRoute[] = [];
-	logger.debug(`[PilotJS] Using root directory "${process.cwd()}"`);
 	try {
 		pages = await readAllPages('/pages', logger, config);
-	} catch (e) {
-		logger.debug('[PilotJS] Could not find "/pages" directory, trying "/src/pages"');
-	}
+	} catch {}
 
 	// If none were found, try scanning the /src/pages directory instead
 	// Both of these directions are supported by NextJS, so we should support them too
 	if (!pages.length) {
+		logger.debug('[PilotJS] Could not find "/pages" directory, trying "/src/pages"');
 		pages = await readAllPages('/src/pages', logger, config);
 	}
 
@@ -91,7 +65,6 @@ export async function action(options: OptionValues, config?: Config) {
 			};
 		}
 	}, logger);
-	logger.info(`[PilotJS] Built ${pages.length} pages in ${Date.now() - startTime}ms ✨`);
 };
 
 const findGetPropsType = async (filePath: string): Promise<'getServerSideProps' | 'getStaticProps' | null> => {

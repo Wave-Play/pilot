@@ -82,7 +82,7 @@ export async function action(options: OptionValues) {
 	await fs.remove(process.cwd() + '/.next')
 
 	// Pre-build Pilot.js
-	await build(options)
+	await build(options, logger)
 
 	// Read config file
 	const config = await readConfig<Config>(logger, `pilot.config.js`)

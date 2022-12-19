@@ -6,10 +6,10 @@ import fs from 'fs-extra';
 import pino from 'pino';
 import { buildConfig } from './config';
 import { buildEnv } from './env';
-import { action as buildLocales } from './locales';
-import { action as buildPages } from './pages';
+import { buildPages } from './pages';
 import { syncManifest } from '../..'
 import koder from '../../koder'
+import type { Logger } from 'pino'
 import type { BuildManifest } from '../../types'
 
 // Development values to reset on each build
@@ -23,21 +23,24 @@ const command = new Command('build')
 	.action(action);
 export default command;
 
-export async function action(options: OptionValues) {
+export async function action(options: OptionValues, logger?: Logger) {
 	const startTime = Date.now();
 
 	// Create a logger
-	const logger = pino({
-		enabled: !options.silent,
-		level: options.verbose ? 'debug' : 'info',
-		timestamp: false,
-		transport: {
-			target: 'pino-pretty',
-			options: {
-				colorize: true
+	if (!(logger instanceof pino)) {
+		logger = pino({
+			enabled: !options.silent,
+			level: options.verbose ? 'debug' : 'info',
+			timestamp: false,
+			transport: {
+				target: 'pino-pretty',
+				options: {
+					colorize: true
+				}
 			}
-		}
-	});
+		});
+	}
+	logger.debug(`[PilotJS] Using root directory "${process.cwd()}"`);
 
 	// Clear existing cache
 	logger.debug(`[PilotJS] Clearing cache...`);
@@ -69,7 +72,6 @@ export async function action(options: OptionValues) {
 
 	// Execute all build commands
 	await buildEnv(options, logger);
-	await buildPages(options, config);
-	await buildLocales(options);
+	await buildPages(logger, config);
 	logger.info(`[PilotJS] Built in ${Date.now() - startTime}ms ✨`);
 };

@@ -19,34 +19,37 @@ const GENERATED_FILE = 'locales.js';
 const LOCALES_ASSETS_DIR = process.cwd() + '/assets/locales';
 const LOCALES_PUBLIC_DIR = process.cwd() + '/public/locales';
 
-const command = new Command('build:locales')
+const command = new Command('sync:locales')
 	.description('syncs locale files and generates static imports')
 	.option('-s --silent', 'do not print anything')
 	.option('-v --verbose', 'print more information for debugging')
 	.action(action);
 export default command;
 
-export async function action(options: OptionValues) {
+export async function action(options: OptionValues, logger?: Logger) {
+	const passedLogger = !!logger;
 	const startTime = Date.now();
 
 	// Create a logger
-	const logger = pino({
-		enabled: !options.silent,
-		level: options.verbose ? 'debug' : 'info',
-		timestamp: false,
-		transport: {
-			target: 'pino-pretty',
-			options: {
-				colorize: true
+	if (!logger) {
+		logger = pino({
+			enabled: !options.silent,
+			level: options.verbose ? 'debug' : 'info',
+			timestamp: false,
+			transport: {
+				target: 'pino-pretty',
+				options: {
+					colorize: true
+				}
 			}
-		}
-	});
-	logger.debug(`[PilotJS] Starting build:locales...`);
+		});
+	}
+	logger.debug(`[PilotJS] Starting sync:locales...`);
 
 	// Make sure the public locales directory exists and return early if it doesn't
 	logger.debug(`[PilotJS] Using root directory "${process.cwd()}"`);
 	if (!fs.existsSync(LOCALES_PUBLIC_DIR)) {
-		logger.warn(`[PilotJS] "/public/locales" does not exist! Skipping build:locales...`);
+		logger.debug(`[PilotJS] "/public/locales" does not exist! Skipping build:locales...`);
 		return;
 	}
 
@@ -67,7 +70,10 @@ export async function action(options: OptionValues) {
 			manifest.locales[locale] = store[locale];
 		}
 	}, logger);
-	logger.info(`[PilotJS] Built ${Object.keys(store).length} locales in ${Date.now() - startTime}ms ✨`);
+
+	if (!passedLogger) {
+		logger.info(`[PilotJS] Built ${Object.keys(store).length} locales in ${Date.now() - startTime}ms ✨`);
+	}
 };
 
 const readAllLocales = async (logger: Logger): Promise<any> => {
