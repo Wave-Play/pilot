@@ -1,24 +1,25 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import type { Config, PilotConfig } from '../../../client/types';
 import fs from 'fs-extra';
-import type { NextConfig } from 'next';
 import path from 'path';
 import pino from 'pino'
-import type { Logger } from 'pino';
 import { syncManifest } from '../..';
 import koder, { Kode } from '../../koder';
+import { PHASE_PRODUCTION_BUILD } from 'next/constants'
+import type { NextConfig } from 'next';
+import type { Logger } from 'pino';
 import type { BuildManifest } from '../../types';
+import type { Config, PilotConfig } from '../../../client/types';
 
 const GENERATED_FILE = 'config.js';
 
 export const readConfig = async <T = any>(logger: Logger, file: string): Promise<T> => {
 	try {
 		const config = await import(path.join(process.cwd(), file));
-		return config?.default
+		return typeof config?.default === 'function' ? config.default(PHASE_PRODUCTION_BUILD) : config?.default;
 	} catch (e) {
-		logger.info(`[PilotJS] Could not read config file: ${file}`);
+		logger.debug(`[PilotJS] Could not read config file: ${file}`);
 		return {} as T;
 	}
 }
