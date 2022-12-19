@@ -1,5 +1,15 @@
 # Change Log
 
+## 0.0.0-canary-20221219070445
+
+### Major Changes
+
+- b302014: refactor: decoupled locales from build and removed build:pages command
+
+### Patch Changes
+
+- b302014: feat: support next configs that export functions
+
 ## 0.0.0-canary-20221214053754
 
 ### Minor Changes
