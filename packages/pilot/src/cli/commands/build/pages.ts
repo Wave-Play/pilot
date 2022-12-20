@@ -112,8 +112,8 @@ const readAllPages = async (directory: string, logger: Logger, config?: Config):
 			continue;
 		}
 
-		// Include if no "includes" is defined or if the page is in the "includes"
-		if (!config?.pages?.include?.length || config.pages.include?.includes(page.path)) {
+		// Include if no "includes" is defined or if the page path matches a glob pattern in the "includes" list
+		if (!config?.pages?.include?.length || config.pages.include?.some(pattern => page.path.match(pattern))) {
 			pages.push(page);
 		}
 	}
@@ -121,9 +121,9 @@ const readAllPages = async (directory: string, logger: Logger, config?: Config):
 	// Sort pages by alphabetical route order before returning them
 	pages.sort((a, b) => a.path.localeCompare(b.path));
 
-	// Filter out pages that are in the "excludes" list
+	// Filter out pages that match a glob pattern in the "exclude" list
 	if (config?.pages?.exclude?.length) {
-		return pages.filter(page => !config.pages.exclude?.includes(page.path));
+		return pages.filter(page => !config.pages.exclude?.some(pattern => page.path.match(pattern)));
 	}
 
 	// Sort pages by alphabetical route order before returning them
