@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.0-canary-20221220175921
+
+### Minor Changes
+
+- 508ebb8: feat: support glob patterns in pages config
+
 ## 0.0.0-canary-20221220052919
 
 ### Minor Changes
