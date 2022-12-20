@@ -3,18 +3,17 @@
  */
 import { Command, OptionValues } from 'commander'
 import { spawn } from 'child_process'
-import { bin, install, tunnel } from 'cloudflared'
 import fs from 'fs-extra'
 import { networkInterfaces } from 'os'
 import pino from 'pino'
-import type { Logger } from 'pino'
 import { createServer } from 'http'
 import { syncManifest } from '../..'
 import { action as build } from '../build'
 import koder, { Kode } from '../../koder'
-import type { BuildManifest } from '../../types'
 import { readConfig } from '../build/config'
 import type { Config } from '../../../client/types'
+import type { BuildManifest } from '../../types'
+import type { Logger } from 'pino'
 
 const GENERATED_FILE = 'dev.js'
 
@@ -43,12 +42,21 @@ export async function action(options: OptionValues) {
 		}
 	})
 
-	// Check if cloudflared is installed
+	// Auto detect package manager
+	const pkgManager = getPkgManager()
+	logger.debug(`[PilotJS] Using package manager: ${pkgManager}`)
+
+	// Check if ngrok is installed
 	let useTunnel = options.tunnel
-	logger.debug(`[PilotJS] ${useTunnel ? 'Using' : 'Skipping'} local tunnel...`)
-	if (useTunnel && !fs.existsSync(bin)) {
-		logger.debug(`[PilotJS] Cloudflared not found, installing...`)
-		await install(bin)
+	let localtunnel
+	if (useTunnel) {
+		try {
+			localtunnel = require('localtunnel')
+		} catch (err) {
+			const installCommand = `${pkgManager} ${pkgManager === 'npm' ? 'install' : 'add'} ${pkgManager === 'yarn' ? '--dev' : '--save-dev'} localtunnel`
+			logger.error(`[PilotJS] Please install "localtunnel" to use the --tunnel option. (${installCommand})`)
+			process.exit(1)
+		}
 	}
 
 	// Keep incrementing port until it's available if not directly specified
@@ -87,10 +95,6 @@ export async function action(options: OptionValues) {
 	// Read config file
 	const config = await readConfig<Config>(logger, `pilot.config.js`)
 
-	// Auto detect package manager
-	const pkgManager = getPkgManager()
-	logger.debug(`[PilotJS] Using package manager: ${pkgManager}`)
-
 	// Start Next.js process
 	const nextArgs = config.commands?.devWeb?.split(' ') ?? ['next', 'dev']
 	if (pkgManager === 'npm' || pkgManager === 'pnpm') {
@@ -111,15 +115,12 @@ export async function action(options: OptionValues) {
 		stdio: 'inherit'
 	})
 
-	// Start cloudflared tunnel (unless disabled)
+	// Start tunnel if enabled
 	let tunnelUrl: string | null = null
 	if (useTunnel) {
-		logger.debug(`[PilotJS] Starting cloudflared tunnel...`)
-		const { url, connections } = tunnel({ '--url': 'http://localhost:' + port })
-		tunnelUrl = await url
+		logger.debug(`[PilotJS] Starting tunnel...`)
+		tunnelUrl = (await localtunnel({port})).url
 		logger.info(`[PilotJS] Tunnel URL: ${tunnelUrl}`)
-		const conns = await Promise.all(connections)
-		logger.debug(`[PilotJS] Connections Ready! ${JSON.stringify(conns, undefined, 2)}`)
 	}
 
 	// Build the application using tunnel URL as host
