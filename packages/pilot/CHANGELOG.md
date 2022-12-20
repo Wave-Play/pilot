@@ -1,5 +1,15 @@
 # Change Log
 
+## 0.0.0-canary-20221220052919
+
+### Minor Changes
+
+- ad11fac: feat: replaced cloudflared with localtunnel for --tunnel option
+
+### Patch Changes
+
+- afb2410: fix: use correct import in AppEntry
+
 ## 0.0.0-canary-20221219073629
 
 ### Major Changes
