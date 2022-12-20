@@ -10,6 +10,16 @@ Customizable, fast, and lightweight drop-in support for **[Next.js](https://next
 
 </div>
 
+
+## Documentation
+
+- [Advanced setup for NextJS](https://github.com/Wave-Play/pilot/blob/main/docs/advanced-nextjs.md)
+- [Configuration](/docs/configuration.md)
+- [Environment variables](/docs/environment-variables.md)
+- [i18n](/docs/i18n.md)
+- [Managed entry](docs/managed-entry.md)
+- [Web props](/docs/web-props.md)
+
 ## Quick start
 
 Create a new Pilot.js app via our interactive CLI:
@@ -92,9 +102,8 @@ pilot dev
 
 This will:
 1. Start a Next.js development server
-2. Create a free Cloudflare tunnel for this session
-3. Build Pilot.js routes & link to your local tunnel
-4. Start an Expo development server
+2. Build Pilot.js routes & link to your local server
+3. Start an Expo development server
 
 ## Basic usage
 
@@ -120,6 +129,7 @@ pilot.fly('/dashboard'); // or pilot.push('/dashboard');
 | `getStaticProps`     | <center>✅</center> | Calls this function and delegates props if it exists when loading new route. May be skipped if props were cached. |
 | `i18n`               | <center>✅</center> | Supports `defaultLocale` and `locales` from next.config.js `i18n` fields. `locale` is passed as a variable in your getProps functions. See pilot-i18next package for full locale support. |
 | `revalidate`         | <center>✅</center> | Uses this field returned by your `getStaticProps` function to skip future loading for the time specified. |
+| `.env`							 | <center>✅</center> | Environment variables are loaded during `pilot build`. This follows the [same pattern](https://nextjs.org/docs/basic-features/environment-variables#exposing-environment-variables-to-the-browser) and [load order](https://nextjs.org/docs/basic-features/environment-variables#environment-variable-load-order) as Next.js. |
 | `context`            | <center>🕒</center> | `context` is passed to `getServerSideProps` and `getStaticProps` functions.<br/><br/>If not using web props, `req` and `res` will be empty objects.<br/><br/>Fields not supported yet:<br/>`preview`, `previewData` |
 | `<Link>`             | <center>🕒</center> | Supports most functionality that `next/link` provides.<br/><br/>Props not supported yet:<br/>`passHref`, `prefetch`, `replace`, `scroll`, `shallow` |
 | `redirects`             | <center>🕒</center> | Redirects are supported by returning a `redirect` object.<br/><br/>Redirects defined in `next.config.js` are not supported yet. |
@@ -127,9 +137,11 @@ pilot.fly('/dashboard'); // or pilot.push('/dashboard');
 | `/api`     | <center>❌</center> | Not supported yet. |
 | `getStaticPaths`     | <center>❌</center> | Not supported yet. |
 | `getInitialProps`    | <center>❌</center> | Not supported yet. |
-| `middleware`           | <center>❌</center> | Not supported yet. |
+| `middleware`         | <center>❌</center> | Not supported yet. |
 | `rewrites`           | <center>❌</center> | Not supported yet. |
 | `withRouter`         | <center>❌</center> | Not supported yet. |
+| `appDir`             | <center>❌</center> | Not supported yet. |
+| `serverComponents`   | <center>❌</center> | Not supported yet. |
 
 If a feature is not in the table above, that likely means there are no plans to support it or we may have missed it. 
 
@@ -138,10 +150,6 @@ Native apps work much differently than a server which means some features may no
 ## Credits
 
 This project was originally developed as an internal router for [WavePlay](https://waveplay.com).
-
-## Documentation
-
-- [Advanced setup for NextJS](https://github.com/Wave-Play/pilot/blob/main/docs/advanced-nextjs.md)
 
 ## License
 

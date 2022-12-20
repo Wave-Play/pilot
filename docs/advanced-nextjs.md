@@ -1,9 +1,9 @@
 
-## Advanced setup for NextJS
+## Advanced setup for Next.js
 
 Add **`<PilotArea/>`** as a top-level component. `_app.js` is the perfect place to use it in.
 
-Check out the [NextJS Documentation](https://nextjs.org/docs/advanced-features/custom-app) if you don't already have one set up.
+Check out the [Next.js Documentation](https://nextjs.org/docs/advanced-features/custom-app) if you don't already have one set up.
 
 > `/pages/_app.js`
 ```jsx
@@ -19,7 +19,7 @@ const App = ({ Component, pageProps }) => {
 export default App;
 ```
 
-Setting this up allows you to use other **PilotJS** features, such as customizing the rendering area for more control, custom NextJS router, custom native routers, placeholders, and so much more!
+Setting this up allows you to use other **Pilot.js** features, such as customizing the rendering area for more control, custom Next.js router, custom native routers, placeholders, and so much more!
 
 > `/pages/_app.js`
 ```jsx
