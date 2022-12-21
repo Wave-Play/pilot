@@ -2,7 +2,7 @@
 
 Props returned from `getStaticProps` can be cached by Pilot.js to improve performance and reduce network requests.
 
-This feature is enabled by default when using [Web Props](/docs/web-props.md) and disabled by default when using the native runtime.
+This feature is enabled by default when using [Web Props](/docs/web-props.md) and not enabled by default when using the native runtime.
 
 ### Native runtime cache
 

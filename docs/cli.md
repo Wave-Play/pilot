@@ -45,7 +45,7 @@ You will need to install [`localtunnel`](https://localtunnel.me/) to use this fe
 
 ### `sync:locales`
 
-Only necessary if you're using the `i18n` feature and have [Web Props](/docs/web-props.md) disabled. This command will bundle your locale files from `/public/locales` into your native app and generate static imports for internal use.
+Only necessary if you're using the `i18n` feature and don't have [Web Props](/docs/web-props.md) enabled. This command will bundle your locale files from `/public/locales` into your native app and generate static imports for internal use.
 
 Options:
 
