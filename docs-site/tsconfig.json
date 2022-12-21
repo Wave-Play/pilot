@@ -1,0 +1,36 @@
+{
+	"extends": "expo/tsconfig.base",
+	"compilerOptions": {
+		"incremental": true,
+		"target": "ES2017",
+		"lib": ["dom", "dom.iterable", "esnext"],
+		"baseUrl": ".",
+		"paths": {
+			"react-native$": ["react-native-web"]
+		},
+		"allowJs": true,
+		"skipLibCheck": true,
+		"strict": false,
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": true,
+		"esModuleInterop": true,
+		"module": "esnext",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"allowSyntheticDefaultImports": true,
+		"jsx": "preserve",
+		"typeRoots": ["./src/types"]
+	},
+	"exclude": [
+		"dist",
+		".next",
+		"out",
+		"next.config.js",
+		"node_modules",
+		"babel.config.js",
+		"metro.config.js",
+		"jest.config.js"
+	],
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+}
