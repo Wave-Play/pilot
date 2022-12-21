@@ -1,0 +1,55 @@
+## Command line interface
+
+Pilot.js provides a built-in command line interface (CLI) to help you develop and build your app. It exposes a few commands necessary for development and production.
+
+### `build`
+
+The `build` command will prepare your project. You **must** run this before you can start your app otherwise features such as routing and environment variables may not work as expected.
+
+```bash
+pilot build
+```
+
+Options:
+
+- `--no-env` (alias `-ne`) - Skip loading environment variables
+- `--silent` (alias `-s`) - Do not print anything to the console
+- `--verbose` (alias `-v`) - Print more information to the console
+
+### `dev`
+
+The `dev` command will start a development server on native + web.
+
+```bash
+pilot dev
+```
+
+This will:
+
+1. Start a Next.js development server
+2. Build Pilot.js & link to your local Next.js server
+3. Start an Expo development server
+
+Options:
+
+- `--no-env` (alias `-ne`) - Skip loading environment variables
+- `--hostname <hostname>` (alias `-H`) - Specify the hostname to use for the Next.js server
+- `--port <port>` (alias `-p`) - Specify the port to use for the Next.js server
+- `--silent` (alias `-s`) - Do not print anything to the console
+- `--tunnel` (alias `-t`) - Create a local tunnel to your development Next.js server
+- `--verbose` (alias `-v`) - Print more information to the console
+
+> **Note:** Tunneling is useful if you're having trouble connecting to your development server or you're developing on a device that is not on the same network as your computer. It will create a public URL that you can use to access your development server.
+
+You will need to install [`localtunnel`](https://localtunnel.me/) to use this feature.
+
+### `sync:locales`
+
+Only necessary if you're using the `i18n` feature and have [Web Props](/docs/web-props.md) disabled. This command will bundle your locale files from `/public/locales` into your native app and generate static imports for internal use.
+
+Options:
+
+- `--silent` (alias `-s`) - Do not print anything to the console
+- `--verbose` (alias `-v`) - Print more information to the console
+
+> **Note:** Learn more about [Internationalization](/docs/i18n.md).

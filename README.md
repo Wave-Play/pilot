@@ -13,10 +13,12 @@ Customizable, fast, and lightweight drop-in support for **[Next.js](https://next
 
 ## Documentation
 
-- [Advanced setup for NextJS](https://github.com/Wave-Play/pilot/blob/main/docs/advanced-nextjs.md)
+- [Advanced setup for Next.js](/docs/advanced-nextjs.md)
+- [Caching](/docs/caching.md)
+- [Command line interface](/docs/cli.md)
 - [Configuration](/docs/configuration.md)
 - [Environment variables](/docs/environment-variables.md)
-- [i18n](/docs/i18n.md)
+- [Internationalized routing](/docs/i18n.md)
 - [Managed entry](docs/managed-entry.md)
 - [Web props](/docs/web-props.md)
 
@@ -44,7 +46,7 @@ We assume you already have a working project with Expo and Next.js. If not, foll
 - [Next.js - Getting Started](https://nextjs.org/docs/getting-started)
 - [Next.js - examples/with-expo](https://github.com/vercel/next.js/tree/canary/examples/with-expo)
 
-You can either let Pilot.js manage your AppEntry *(A)* or use it as a component *(B)*. The latter is useful if you want more customization.
+You can either let Pilot.js [manage your app's entry](/docs/managed-entry.md) or you can use the `<PilotArea>` component directly. The latter is useful if you need additional customization.
 
 #### A) Managed AppEntry
 
@@ -86,7 +88,7 @@ Pilot.js relies on the built-in CLI to detect pages and routes.
 
 #### Build
 
-The `build` command will scan your project for pages. You **must** run this before you can use the `start` command or routing may not work.
+The `build` command will prepare your project. You **must** run this before you can use the `start` command or routing may not work.
 
 ```bash
 pilot build
@@ -94,7 +96,7 @@ pilot build
 
 #### Development
 
-The `dev` command will start a development server.
+The `dev` command will start a development server on native + web.
 
 ```bash
 pilot dev
@@ -102,7 +104,7 @@ pilot dev
 
 This will:
 1. Start a Next.js development server
-2. Build Pilot.js routes & link to your local server
+2. Build Pilot.js & link to your local Next.js server
 3. Start an Expo development server
 
 ## Basic usage
@@ -117,22 +119,22 @@ const pilot = usePilot();
 pilot.fly('/dashboard'); // or pilot.push('/dashboard');
 ```
 
-## Supported NextJS features
+## Supported Next.js features
 
 | Feature              | Support             | Description |
 |----------------------|---------------------|-------------|
-| `/_app`               | <center>✅</center> | Optional app wrapper is applied on pages when the `_app` route is registered. |
-| `/404`               | <center>✅</center> | Rendered when page route cannot be found or when `notFound` is returned as `true` while loading props. |
+| `/_app`               | <center>✅</center> | Optional app wrapper is applied on pages when the [`_app`](https://nextjs.org/docs/advanced-features/custom-app) route is registered. |
+| `/404`               | <center>✅</center> | Rendered when page route cannot be found or when [`notFound: true`]((https://nextjs.org/docs/api-reference/data-fetching/get-server-side-props#notfound)) is returned while loading props. |
 | `/500`               | <center>✅</center> | Rendered when an error is thrown while loading props. |
-| `/pages`             | <center>✅</center> | Automatically finds routes from `/pages` or `/src/pages` directory via `pilot build` command. |
+| `/pages`             | <center>✅</center> | Automatically finds routes from `/pages` or `/src/pages` directory via [`pilot build`](/docs/cli.md) command. |
 | `getServerSideProps` | <center>✅</center> | Calls this function and delegates props if it exists when loading new route. |
 | `getStaticProps`     | <center>✅</center> | Calls this function and delegates props if it exists when loading new route. May be skipped if props were cached. |
-| `i18n`               | <center>✅</center> | Supports `defaultLocale` and `locales` from next.config.js `i18n` fields. `locale` is passed as a variable in your getProps functions. See pilot-i18next package for full locale support. |
+| `i18n`               | <center>✅</center> | Supports `defaultLocale` and `locales` from next.config.js `i18n` fields. `locale` is passed as a variable in your getProps functions. [Learn more](/docs/i18n.md). |
 | `revalidate`         | <center>✅</center> | Uses this field returned by your `getStaticProps` function to skip future loading for the time specified. |
 | `.env`							 | <center>✅</center> | Environment variables are loaded during `pilot build`. This follows the [same pattern](https://nextjs.org/docs/basic-features/environment-variables#exposing-environment-variables-to-the-browser) and [load order](https://nextjs.org/docs/basic-features/environment-variables#environment-variable-load-order) as Next.js. |
-| `context`            | <center>🕒</center> | `context` is passed to `getServerSideProps` and `getStaticProps` functions.<br/><br/>If not using web props, `req` and `res` will be empty objects.<br/><br/>Fields not supported yet:<br/>`preview`, `previewData` |
-| `<Link>`             | <center>🕒</center> | Supports most functionality that `next/link` provides.<br/><br/>Props not supported yet:<br/>`passHref`, `prefetch`, `replace`, `scroll`, `shallow` |
-| `redirects`             | <center>🕒</center> | Redirects are supported by returning a `redirect` object.<br/><br/>Redirects defined in `next.config.js` are not supported yet. |
+| `context`            | <center>🕒</center> | `context` is passed to `getServerSideProps` and `getStaticProps` functions. If haven't [set up Web Props](/docs/web-props.md), `req` and `res` will be empty objects.<br/><br/>Fields not supported yet:<br/>`preview`, `previewData` |
+| `<Link>`             | <center>🕒</center> | Supports most functionality that [`next/link`](https://nextjs.org/docs/api-reference/next/link) provides.<br/><br/>Props not supported yet:<br/>`passHref`, `prefetch`, `replace`, `scroll`, `shallow` |
+| `redirects`             | <center>🕒</center> | Redirects are supported by [returning a `redirect` object](https://nextjs.org/docs/api-reference/data-fetching/get-server-side-props#redirect) from your props functions.<br/><br/>Redirects defined in `next.config.js` are not supported yet. |
 | `useRouter`          | <center>🕒</center> | Supports most functionality using the `usePilot()` hook.<br/><br/>Fields not supported yet:<br/>`basePath`, `domainLocales`, `isFallback`, `isReady`, `isPreview`.<br/><br/>Functions not supported yet:<br/>`beforePopState()`, `events()`, `prefetch()`, `replace()` |
 | `/api`     | <center>❌</center> | Not supported yet. |
 | `getStaticPaths`     | <center>❌</center> | Not supported yet. |
@@ -143,9 +145,9 @@ pilot.fly('/dashboard'); // or pilot.push('/dashboard');
 | `appDir`             | <center>❌</center> | Not supported yet. |
 | `serverComponents`   | <center>❌</center> | Not supported yet. |
 
-If a feature is not in the table above, that likely means there are no plans to support it or we may have missed it. 
-
-Native apps work much differently than a server which means some features may not be possible to support. Please open an issue if you'd like to see a feature added.
+> **Note:** If a feature is not in the table above, that likely means there are no plans to support it or we may have missed it.  However, you can still use unsupported features in the web environment.
+> 
+> Native apps work much differently than a server which means some features may not be possible to support. Please open an issue if you'd like to see a feature added.
 
 ## Credits
 

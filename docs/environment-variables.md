@@ -6,7 +6,7 @@ Pilot.js comes with built-in support for environment variables. It follows the [
 
 ### Loading environment variables
 
-Environment variables are registered during the `pilot build` command. Just like Next.js, we follow [the same load order](https://nextjs.org/docs/basic-features/environment-variables#environment-variable-load-order).
+Environment variables are registered during the `pilot build` command. We follow [the same load order](https://nextjs.org/docs/basic-features/environment-variables#environment-variable-load-order) as Next.js.
 
 1. `process.env`
 2. `.env.$(NODE_ENV).local`
