@@ -15,9 +15,10 @@ interface LinkProps {
 	locale?: string
 	scroll?: boolean
 	shallow?: boolean
+	style?: any | any[]
 }
 export const Link: FunctionComponent<LinkProps> = (props: LinkProps) => {
-	const { area, as, children, href, locale, scroll, shallow } = props
+	const { area, as, children, href, locale, scroll, shallow, style } = props
 	const pilot = usePilot(area)
 
 	const onPress = () => {
@@ -28,5 +29,5 @@ export const Link: FunctionComponent<LinkProps> = (props: LinkProps) => {
 		})
 	}
 
-	return <TouchableOpacity onPress={onPress}>{children}</TouchableOpacity>
+	return <TouchableOpacity onPress={onPress} style={style}>{children}</TouchableOpacity>
 }
