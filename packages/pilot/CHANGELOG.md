@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.0-canary-20221222173224
+
+### Patch Changes
+
+- 6eebabc: fix: pass style prop onto Link component
+
 ## 0.0.0-canary-20221220175921
 
 ### Minor Changes
