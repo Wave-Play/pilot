@@ -27,7 +27,7 @@ Customizable, fast, and lightweight drop-in support for **[Next.js](https://next
 Create a new Pilot.js app via our interactive CLI:
 
 ```bash
-npx create-pilot-app
+npx create-pilot-app@0.0.0-canary-20221121073657
 ```
 
 This will guide you through a short customization process and create a fully working template.
