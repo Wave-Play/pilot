@@ -1,6 +1,6 @@
 {
 	"name": "create-pilot-app",
-	"version": "2.0.4",
+	"version": "3.0.0",
 	"private": false,
 	"description": "Create Pilot.js-powered Next.js React apps with one command",
 	"keywords": [
