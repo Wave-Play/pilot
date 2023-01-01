@@ -1,13 +1,20 @@
 // @ts-check
-const createWithMDX = require('@next/mdx')
-const withTM = require('next-transpile-modules')(['@waveplay/pilot', 'react-native-web'])
+import createWithMDX from '@next/mdx'
+import createWithTM from 'next-transpile-modules'
+import rehypeCodeTitles from 'rehype-code-titles'
+import rehypePrism from '@mapbox/rehype-prism'
+
+const withTM = createWithTM(['@waveplay/pilot', 'react-native-web'])
 
 // MDX configuration
 const withMDX = createWithMDX({
 	extension: /\.mdx?$/,
 	options: {
 		remarkPlugins: [],
-		rehypePlugins: [],
+		rehypePlugins: [
+			rehypeCodeTitles,
+			rehypePrism
+		],
 		providerImportSource: '@mdx-js/react'
 	}
 })
@@ -16,12 +23,22 @@ const withMDX = createWithMDX({
  * @type {import('next').NextConfig}
  **/
 const nextConfig = {
+	optimizeFonts: true,
 	experimental: {
+		fontLoaders: [
+      { loader: '@next/font/google', options: { subsets: ['latin'] } },
+    ],
 		forceSwcTransforms: true,
 		swcTraceProfiling: true,
 		swcPlugins: [['@nissy-dev/swc-plugin-react-native-web', { commonjs: false }]]
 	},
 	pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
+	rewrites: async () => [
+		{
+			source: '/docs',
+			destination: '/docs/getting-started'
+		}
+	],
 	webpack: (config) => {
 		return {
 			...config,
@@ -41,7 +58,7 @@ const nextConfig = {
 	}
 }
 
-module.exports = (phase, defaultConfig) => {
+export default (phase, defaultConfig) => {
 	const plugins = [withMDX, withTM]
 
 	return plugins.reduce(

@@ -1,10 +1,10 @@
-## Managed entry
+# Managed Entry
 
 Pilot.js comes with a managed entry point that you can use to get started quickly. This is the recommended way to get started with Pilot.js.
 
 Edit your `app.json` to include the following:
 
-```json
+```json:app.json
 {
   "expo": {
     "entryPoint": "node_modules/@waveplay/pilot/AppEntry.js"
@@ -20,7 +20,7 @@ You're still free to use your own entry point if you prefer. This is useful if y
 
 Make sure you're calling `loadEnv()` and rendering the `<PilotArea>` component otherwise Pilot.js won't work as expected.
 
-```tsx
+```tsx:AppEntry.js
 import { loadEnv } from '@waveplay/pilot/env'
 import { PilotArea } from '@waveplay/pilot/ui'
 
