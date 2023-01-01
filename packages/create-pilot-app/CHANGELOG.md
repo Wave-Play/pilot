@@ -1,5 +1,12 @@
 # create-pilot-app
 
+## 3.0.0
+
+### Major Changes
+
+- f0d7eb7: fixed version number
+- f6ae9e4: chore: fixed version numbers
+
 ## 0.0.0
 
 ### Major Changes
