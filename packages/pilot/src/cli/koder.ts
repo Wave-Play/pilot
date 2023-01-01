@@ -10,6 +10,11 @@ interface KodeOptions {
 	indent?: number | string
 }
 
+interface CallOptions {
+	newline?: boolean
+	semicolon?: boolean
+}
+
 interface CasesOptions {
 	case: string
 	body: Kode
@@ -38,6 +43,7 @@ interface ImportOptions {
 
 interface ToStringOptions {
 	indent?: number | string
+	indentFirst?: boolean
 }
 
 export class Kode {
@@ -61,6 +67,13 @@ export class Kode {
 		this._code += `{\n${kode.toString({
 			indent: this._indent
 		})}\n}\n`
+		return this
+	}
+
+	public call(name: string, params?: any[], options?: CallOptions): Kode {
+		const { newline = true, semicolon = true } = options ?? {}
+		const callParams = params ? params.map((param) => parseValue(param, { indent: this._indent })).join(', ') : ''
+		this._code += `${name}(${callParams})` + (semicolon ? ';' : '') + (newline ? '\n' : '')
 		return this
 	}
 
@@ -121,14 +134,20 @@ export class Kode {
 		return this
 	}
 
-	public import(name: string, options?: ImportOptions): Kode {
+	public import(name: string | null, path: string, options?: ImportOptions): Kode {
 		const { dynamic, export: exportImport, return: returnImport } = options || {}
 		let newCode = 'import'
 
+		if (name) {
+			newCode += ` ${name}`
+		}
+
 		if (dynamic) {
-			newCode += `('${name}')`
+			newCode += `('${path}')`
+		} else if (name) {
+			newCode += ` from '${path}'`
 		} else {
-			newCode += ` '${name}'`
+			newCode += ` '${path}'`
 		}
 
 		if (exportImport) {
@@ -161,7 +180,7 @@ export class Kode {
 	}
 
 	public toString(options?: ToStringOptions): string {
-		const { indent } = options || {}
+		const { indent, indentFirst = true } = options || {}
 		let str = this._code
 
 		// Add indentation before each line
@@ -171,6 +190,11 @@ export class Kode {
 			str = this._code.replace(/^/gm, indent)
 		}
 
+		// Remove indentation from the first line
+		if (!indentFirst) {
+			str = str.replace(/^(\s+)/, '')
+		}
+
 		// Remove indentation only from the last line
 		str = str.replace(/\n\s+$/, '')
 
@@ -178,7 +202,7 @@ export class Kode {
 	}
 
 	public value(value?: any): Kode {
-		this._code += `${JSON.stringify(value, undefined, this._indent)};\n`
+		this._code += parseValue(value, { indent: this._indent }) + ';\n'
 		return this
 	}
 }
@@ -196,3 +220,40 @@ koder.config = function (defaultOptions: KodeOptions) {
 	this.defaultOptions = defaultOptions
 }
 export default koder
+
+interface ParseValueOptions {
+	currentSpace?: string
+	indent: number | string
+	indentLast?: boolean
+}
+function parseValue(value: any, options?: ParseValueOptions): string {
+	const { currentSpace = '', indent, indentLast = true } = options || {}
+	const spaceIndent = typeof indent === 'number' ? ' '.repeat(indent) : indent
+	const space = spaceIndent + currentSpace
+	if (value === undefined) {
+		return 'undefined'
+	} else if (value === null) {
+		return 'null'
+	} else if (typeof value === 'string') {
+		return `'${value}'`
+	} else if (value instanceof Kode) {
+		return value.toString({ indent: spaceIndent, indentFirst: false })
+	} else if (Array.isArray(value)) {
+		return `[${value.map((v) =>
+			parseValue(v, { currentSpace: space, indent: 0, indentLast: false })
+		).join(', ')}]`
+	} else if (typeof value === 'object') {
+		if (Object.keys(value).length) {
+			let result = '{\n'
+			const entries = Object.entries(value)
+			entries.forEach(([key, val], index) => {
+				result += `${space}${key}: ${parseValue(val, { currentSpace: space, indent })}${index === entries.length - 1 ? '' : ','}\n`
+			})
+			return result + (indentLast ? space.replace(spaceIndent, '') : '') + '}'
+		} else {
+			return '{}'
+		}
+	} else {
+		return `${value}`
+	}
+}

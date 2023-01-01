@@ -13,6 +13,9 @@
 		"sourceType": "module",
 		"ecmaFeatures": {
 			"jsx": true
+		},
+		"babelOptions": {
+			"presets": ["@babel/preset-react"]
 		}
 	},
 	"settings": {
@@ -32,6 +35,14 @@
 				"jest/valid-title": "off",
 				"jest/no-interpolation-in-snapshots": "off",
 				"jest/no-export": "off"
+			}
+		},
+		{
+			"files": ["docs-site/*.ts", "docs-site/*.tsx", "docs-site/*.md", "docs-site/*.mdx"],
+			"extends": ["plugin:mdx/recommended"],
+			"settings": {
+				"mdx/code-blocks": true,
+				"mdx/language-mapper": {}
 			}
 		},
 		{ "files": ["**/__tests__/**"], "env": { "jest": true } },

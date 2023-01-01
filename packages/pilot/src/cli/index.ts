@@ -2,13 +2,11 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import appRoot from 'app-root-path'
 import { Command } from 'commander'
 import fs from 'fs-extra'
 import { Logger } from 'pino'
 import build from './commands/build'
-import buildLocales from './commands/build/locales'
-import buildPages from './commands/build/pages'
+import syncLocales from './commands/sync/locales'
 import dev from './commands/dev'
 import koder from './koder'
 import { version } from '../../package.json'
@@ -20,7 +18,7 @@ koder.config({
 })
 
 // Manifest file to sync changes with
-export const MANIFEST_FILE = appRoot + '/.pilot/build-manifest.json'
+export const MANIFEST_FILE = process.cwd() + '/.pilot/build-manifest.json'
 
 export const syncManifest = async (action: (manifest: BuildManifest) => void, logger: Logger): Promise<void> => {
 	let manifest: BuildManifest = {}
@@ -55,7 +53,6 @@ new Command('pilot')
 	.description('Official CLI for the PilotJS framework')
 	.version(version)
 	.addCommand(build)
-	.addCommand(buildLocales)
-	.addCommand(buildPages)
 	.addCommand(dev)
+	.addCommand(syncLocales)
 	.parse(process.argv)

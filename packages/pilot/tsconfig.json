@@ -4,6 +4,7 @@
 		"target": "es2018",
 		"module": "esnext",
 		"lib": ["dom", "dom.iterable", "esnext"],
+		"types": ["node"],
 		"baseUrl": ".",
 		"allowJs": true,
 		"skipLibCheck": true,

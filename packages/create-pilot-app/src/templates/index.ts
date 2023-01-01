@@ -38,6 +38,7 @@ export const installTemplate = async ({
 			orientation: 'portrait',
 			icon: './assets/icon.png',
 			userInterfaceStyle: 'light',
+			entryPoint: 'node_modules/@waveplay/pilot/AppEntry.js',
 			splash: {
 				image: './assets/splash.png',
 				resizeMode: 'contain',
@@ -68,6 +69,14 @@ export const installTemplate = async ({
 	fs.writeFileSync(path.join(root, 'app.json'), JSON.stringify(appJson, null, 2) + os.EOL)
 
 	/**
+	 * Enable legacy peer dependencies via .npmrc
+	 * This is due to Next.js 13 wanting React 18.2.0 whereas Expo only supports up to 18.1.0
+	 */
+	if (packageManager === 'npm') {
+		fs.writeFileSync(path.join(root, '.npmrc'), 'legacy-peer-deps=true')
+	}
+
+	/**
 	 * Create a package.json for the new project.
 	 */
 	const packageJson = {
@@ -75,11 +84,15 @@ export const installTemplate = async ({
 		version: '0.1.0',
 		private: true,
 		scripts: {
-			dev: 'pilot dev',
 			build: 'next build && pilot build',
+			'build:next': 'next build',
+			'build:pilot': 'pilot build',
+			dev: 'pilot dev',
+			'dev:native': 'expo start',
+			'dev:web': 'next dev',
+			lint: 'next lint',
 			'start:native': 'expo start',
-			'start:web': 'next start',
-			lint: 'next lint'
+			'start:web': 'next start'
 		}
 	}
 	/**
@@ -95,26 +108,20 @@ export const installTemplate = async ({
 	 * Default dependencies.
 	 */
 	const dependencies = [
-		'@expo/next-adapter',
-		'expo@46.0.16',
-		'react@18.0.0',
-		'react-dom@18.0.0',
-		'react-native@0.69.6',
-		'react-native-web',
-		'next',
-		'@waveplay/pilot'
+		'expo@47.0.6',
+		'next@13.0.4',
+		'react@18.1.0',
+		'react-dom@18.1.0',
+		'react-native@0.70.5',
+		'react-native-web@0.18.9',
+		'@waveplay/pilot@0.0.0-canary-20221121023544' // TODO: Switch to "latest" tag after 3.0 release
 	]
-	const devDependencies = [
-		'@babel/core',
-		'@nissy-dev/swc-plugin-react-native-web',
-		'next-transpile-modules',
-		'webpack'
-	]
+	const devDependencies = ['@babel/core@7.20.2', '@nissy-dev/swc-plugin-react-native-web@0.3.0', 'next-transpile-modules@10.0.0', 'webpack@5.75.0']
 	/**
 	 * TypeScript projects will have type definitions and other devDependencies.
 	 */
 	if (mode === 'ts') {
-		devDependencies.push('typescript', '@types/react', '@types/node', '@types/react-dom')
+		devDependencies.push('@types/react@18.0.25', '@types/react-native@0.70.5', 'typescript@4.9.3')
 	}
 
 	/**

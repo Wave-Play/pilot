@@ -2,7 +2,7 @@
  * © 2022 WavePlay <dev@waveplay.com>
  */
 import type { GetStaticPropsResult, NextApiRequest, NextApiResponse } from 'next'
-import { importPage, pageRoutes } from '../_generated-pages'
+import { importPage, pageRoutes } from '../_generated/pages'
 import type { Pilot } from '../client/core/pilot'
 import { RadixRouter } from '../client/core/radix-router'
 import fs from 'fs-extra'

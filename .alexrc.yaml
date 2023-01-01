@@ -1,0 +1,5 @@
+allow:
+  - disabled
+  - hook
+  - hooks
+  - host

@@ -29,12 +29,22 @@ export interface Logger {
 	trace: (...args: any[]) => void
 }
 
+export interface NativeCache {
+	clear(): boolean
+	delete(key: string): boolean
+	evict(): boolean
+	get(key: string): any | undefined
+	keys(): string[]
+	set(key: string, value: any): boolean
+}
+
 /**
  * Runtime Pilot.js config
  */
 export interface PilotConfig extends BaseConfig {
 	id?: string
 	logger?: Logger
+	nativeCache?: NativeCache
 	nextRouter?: NextRouter | null
 	router?: PilotRouter
 }

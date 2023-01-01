@@ -2,13 +2,12 @@
  * © 2022 WavePlay <dev@waveplay.com>
  */
 import { createElement, FunctionComponent, ReactElement } from 'react'
-import { lru, LRU } from 'tiny-lru'
 import { ActionResult, DataMap, FlightOptions, PilotHookCallback, Url } from '../../_internal/types'
 import { Default404, Default500 } from '../../_internal/ui'
 import { eventWaiter, generateNumber, matchesLocale } from '../../_internal/utils'
 import { RadixRouter } from './radix-router'
 import { config as defaultConfig } from '../../_generated/config'
-import { tunnelUrl } from '../../_generated/dev'
+import { localUrl, tunnelUrl } from '../../_generated/dev'
 import type {
 	PilotConfig,
 	PilotEvent,
@@ -26,15 +25,15 @@ export class Pilot {
 	// Constructor parameters
 	private _config: PilotConfig
 
-	// Loaded props cache
-	private _cache: LRU<any>
-
 	// State
 	private _currentLocale?: string
 	private _currentPage?: PilotPage
-	private readonly _localTunnel?: string
 	private readonly _hooks: PilotHook[] = []
 	private readonly _stack: string[] = []
+
+	// Development only
+	private readonly _localUrl?: string | null
+	private readonly _localTunnel?: string | null
 
 	constructor(config?: PilotConfig) {
 		this._config = {
@@ -42,21 +41,13 @@ export class Pilot {
 			...(config || {})
 		}
 
-		// Only use local tunnel outside of production
-		if (process.env.NODE_ENV !== 'production') {
-			this._localTunnel = tunnelUrl
-		}
-
-		// Create cache
-		this._cache = lru(config?.cacheSize || 100)
-
 		// Use built-in default router if none is specified
 		if (!config?.router) {
 			this._config.router = new RadixRouter()
 		}
 
 		// Assign default locale if 18n is enabled
-		this._currentLocale = config?.i18n?.defaultLocale
+		this._currentLocale = this._config?.i18n?.defaultLocale
 
 		// Assign default path if router was provided
 		if (config?.nextRouter) {
@@ -64,6 +55,13 @@ export class Pilot {
 		}
 
 		this.log('debug', `New instance created`)
+
+		// Only use local tunnel outside of production
+		if (process.env.NODE_ENV !== 'production') {
+			this._localUrl = localUrl
+			this._localTunnel = tunnelUrl
+		}
+		this.log('debug', `Using host: ${this.getHost()}`)
 	}
 
 	public addHook(event: PilotEventType, callback: PilotHookCallback): number {
@@ -91,7 +89,7 @@ export class Pilot {
 		const previousPath = this._stack[this._stack.length - 1]
 
 		return this._fly(previousPath, {
-			action: async (path: string) => {
+			action: async (path: string | undefined) => {
 				// Delegate to NextJS router if one exists; use internal otherwise
 				if (this._config.nextRouter) {
 					const event = eventWaiter('popstate')
@@ -122,15 +120,21 @@ export class Pilot {
 			}
 		}
 
-		// Update config for cache and logger separately
-		this._cache.max = config?.cacheSize !== undefined ? config.cacheSize : 100
-		this._currentLocale = config?.i18n?.defaultLocale
+		// Assign current locale if 18n is enabled
+		if (!this._currentLocale) {
+			this._currentLocale = config?.i18n?.defaultLocale
+		}
 
 		return this._config
 	}
 
 	public getDefaultLocale(): string | undefined {
 		return this._config.i18n?.defaultLocale
+	}
+
+	public getHost(): string {
+		this.log('debug', `getHost()`)
+		return this._localTunnel ?? this._localUrl ?? this._config.host
 	}
 
 	public getLocale(): string | undefined {
@@ -192,7 +196,16 @@ export class Pilot {
 				if (this._config.nextRouter) {
 					// Account for updated path (e.g. hook overrides)
 					if (typeof url !== 'string') {
-						url.pathname = path
+						const splitPath = path.split('?')
+						// Extract just the pathname from "path" along with any query params
+						url.pathname = splitPath[0]
+						url.query = splitPath[1]
+							?.split('&')
+							.reduce((acc, param) => {
+								const [key, value] = param.split('=')
+								acc[key] = value
+								return acc
+							}, {} as DataMap)
 					}
 
 					await this._config.nextRouter.push(url, as, options)
@@ -272,7 +285,10 @@ export class Pilot {
 
 	public stats() {
 		return {
-			dev: { tunnelUrl: this._localTunnel },
+			dev: {
+				localUrl: this._localUrl,
+				tunnelUrl: this._localTunnel
+			},
 			host: this._config.host,
 			id: this._config.id,
 			i18: this._config.i18n,
@@ -293,26 +309,29 @@ export class Pilot {
 	 * @param path Path to navigate to. Mainly used for notifying listeners.
 	 * @param options Should contain action to execute + other options.
 	 */
-	private async _fly(url: Url, options: FlightOptions) {
+	private async _fly(url: Url | undefined, options: FlightOptions) {
 		const { action, addToStack = true } = options
 
 		// Get path from URL or use directly if string
-		let path = typeof url === 'string' ? url : url.pathname
+		let path: string
+		if (url) {
+			path = typeof url === 'string' ? url : url.pathname
 
-		// Query values are important too, ya know
-		if (typeof url !== 'string' && url.query) {
-			let token = '?'
-			for (let key in url.query) {
-				path += `${token}${key}=${url.query[key]}`
-				token = '&'
+			// Query values are important too, ya know
+			if (typeof url !== 'string' && url.query) {
+				let token = '?'
+				for (let key in url.query) {
+					path += `${token}${key}=${url.query[key]}`
+					token = '&'
+				}
 			}
-		}
 
-		// Notify listeners and allow them to modify the path
-		const originalPath = path
-		path = await this._notify(path, { type: 'load-start' })
-		if (path !== originalPath) {
-			this.log('info', `A hook has modified this path: ${path}`)
+			// Notify listeners and allow them to modify the path
+			const originalPath = path
+			path = await this._notify(path, { type: 'load-start' })
+			if (path !== originalPath) {
+				this.log('info', `A hook has modified this path: ${path}`)
+			}
 		}
 
 		try {
@@ -335,16 +354,18 @@ export class Pilot {
 		}
 
 		// Add to stack
-		if (addToStack) {
+		if (path && addToStack) {
 			this._stack.push(path)
 			this.log('debug', `New stack size: ${this._stack.length}`)
 		}
 
 		// Notify listeners
-		this._notify(path, {
-			type: this._config.nextRouter || this._currentPage ? 'load-complete' : 'error',
-			page: this._currentPage
-		})
+		if (path) {
+			this._notify(path, {
+				type: this._config.nextRouter || this._currentPage ? 'load-complete' : 'error',
+				page: this._currentPage
+			})
+		}
 	}
 
 	/**
@@ -460,7 +481,7 @@ export class Pilot {
 			return props
 		}
 
-		const host = this._localTunnel ?? this._config.host
+		const host = this.getHost()
 		if (webProps === 'always' || (webProps === 'auto' && host)) {
 			this.log('debug', `Loading props remotely for path:`, path)
 			const response = await fetch(host + '/api/pilot/get-props', {
@@ -480,15 +501,19 @@ export class Pilot {
 			this.log('debug', `Loading props natively for path:`, path)
 
 			// See if we can find a cached version of this page's props
-			const cacheKey = (this._currentLocale || '') + path
-			const cachedProps = this._cache.get(cacheKey)
-			const isExpired = !cachedProps || cachedProps?.__pilot?.expires < Date.now()
-			if (cachedProps && isExpired) {
-				this.log('debug', `Cached props for ${path} have expired, removing from cache...`)
-				this._cache.delete(cacheKey)
-			} else if (cachedProps && !isExpired) {
-				this.log('debug', `Found cached props for path: ${path}`)
-				return cachedProps
+			const cache = this._config.nativeCache
+			let cacheKey: string
+			if (cache) {
+				cacheKey = (this._currentLocale || '') + path
+				const cachedProps = cache.get(cacheKey)
+				const isExpired = !cachedProps || cachedProps?.__pilot?.expires < Date.now()
+				if (cachedProps && isExpired) {
+					this.log('debug', `Cached props for ${path} have expired, removing from cache...`)
+					cache.delete(cacheKey)
+				} else if (cachedProps && !isExpired) {
+					this.log('debug', `Found cached props for path: ${path}`)
+					return cachedProps
+				}
 			}
 
 			// Get props from route's getProps() function
@@ -505,9 +530,9 @@ export class Pilot {
 
 			// If a "revalidate" value is returned, cache the props for that amount of time
 			// This emulates ISR (Incremental Static Regeneration) from NextJS
-			if (props?.revalidate) {
+			if (cache && props?.revalidate) {
 				this.log('debug', `Caching props for path: ${path} (revalidate: ${props.revalidate})`)
-				this._cache.set(cacheKey, {
+				cache.set(cacheKey, {
 					...props,
 					__pilot: {
 						expires: Date.now() + props.revalidate * 1000

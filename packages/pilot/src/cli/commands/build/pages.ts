@@ -1,26 +1,27 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import appRoot from 'app-root-path';
-import { Command, OptionValues } from 'commander';
 import fs from 'fs-extra';
 import klaw from 'klaw';
-import pino, { Logger } from 'pino';
 import { Options, transform } from '@swc/core';
 import evil from 'safe-eval';
-import type { PageRoute } from '@waveplay/pilot/dist/_internal/types';
 import { syncManifest } from '../..';
 import koder from '../../koder';
+import { getPkgManager } from '../dev';
+import type { PageRoute } from '../../../_internal/types';
 import type { BuildManifest } from '../../types';
-import type { Config } from '@waveplay/pilot';
+import type { Config } from '../../../client/types';
+import type { Logger } from 'pino';
 
 // This is the number of directories to go up to get to the root of the project where pages are
-// Because we can't guarantee where the CLI is being run from, we assume 4 directories up is the root
+// Because we can't guarantee where the CLI is being run from, we assume 5 directories up is the root
 // That's assuming @waveplay/pilot is installed in the root node_modules directory
-const DIR_DELTA_DEPTH = 4;
+// PNPM and Yarn 2 have different directory structures, so we need to account for that
+const packageManager = getPkgManager();
+const DIR_DELTA_DEPTH = packageManager === 'pnpm' ? 8 : 5;
 
 // Name of the file that will be generated
-const GENERATED_FILE = '_generated-pages.js';
+const GENERATED_FILE = 'pages.js';
 
 // Default SWC options used for transforming the code in order to find getProps
 // This is meant to be a simple best-effort transform and is not meant to be 100% accurate
@@ -38,42 +39,17 @@ const TRANSFORM_OPTIONS: Options = {
 	}
 };
 
-const command = new Command('build:pages')
-	.description('buils a manifest of all pages in the project and generates static imports')
-	.option('-s --silent', 'do not print anything')
-	.option('-v --verbose', 'print more information for debugging')
-	.action(action);
-export default command;
-
-export async function action(options: OptionValues, config?: Config) {
-	const startTime = Date.now();
-
-	// Create a logger
-	const logger = pino({
-		enabled: !options.silent,
-		level: options.verbose ? 'debug' : 'info',
-		timestamp: false,
-		transport: {
-			target: 'pino-pretty',
-			options: {
-				colorize: true
-			}
-		}
-	});
-	logger.debug(`[PilotJS] Starting build:pages...`);
-
+export async function buildPages(logger: Logger, config?: Config) {
 	// Try scanning the default /pages directory first
 	let pages: PageRoute[] = [];
-	logger.debug(`[PilotJS] Using root directory "${appRoot}"`);
 	try {
 		pages = await readAllPages('/pages', logger, config);
-	} catch (e) {
-		logger.debug('[PilotJS] Could not find "/pages" directory');
-	}
+	} catch {}
 
 	// If none were found, try scanning the /src/pages directory instead
 	// Both of these directions are supported by NextJS, so we should support them too
 	if (!pages.length) {
+		logger.debug('[PilotJS] Could not find "/pages" directory, trying "/src/pages"');
 		pages = await readAllPages('/src/pages', logger, config);
 	}
 
@@ -89,7 +65,6 @@ export async function action(options: OptionValues, config?: Config) {
 			};
 		}
 	}, logger);
-	logger.info(`[PilotJS] Built ${pages.length} pages in ${Date.now() - startTime}ms ✨`);
 };
 
 const findGetPropsType = async (filePath: string): Promise<'getServerSideProps' | 'getStaticProps' | null> => {
@@ -123,7 +98,7 @@ const findGetPropsType = async (filePath: string): Promise<'getServerSideProps' 
 const readAllPages = async (directory: string, logger: Logger, config?: Config): Promise<PageRoute[]> => {
 	logger.debug(`[PilotJS] Reading pages from "${directory}" directory...`);
 	const pages: PageRoute[] = [];
-	const readDirectory = appRoot + directory;
+	const readDirectory = process.cwd() + directory;
 
 	for await (const file of klaw(readDirectory)) {
 		// Skip directories
@@ -137,8 +112,8 @@ const readAllPages = async (directory: string, logger: Logger, config?: Config):
 			continue;
 		}
 
-		// Include if no "includes" is defined or if the page is in the "includes"
-		if (!config?.pages?.include?.length || config.pages.include?.includes(page.path)) {
+		// Include if no "includes" is defined or if the page path matches a glob pattern in the "includes" list
+		if (!config?.pages?.include?.length || config.pages.include?.some(pattern => page.path.match(pattern))) {
 			pages.push(page);
 		}
 	}
@@ -146,9 +121,9 @@ const readAllPages = async (directory: string, logger: Logger, config?: Config):
 	// Sort pages by alphabetical route order before returning them
 	pages.sort((a, b) => a.path.localeCompare(b.path));
 
-	// Filter out pages that are in the "excludes" list
+	// Filter out pages that match a glob pattern in the "exclude" list
 	if (config?.pages?.exclude?.length) {
-		return pages.filter(page => !config.pages.exclude?.includes(page.path));
+		return pages.filter(page => !config.pages.exclude?.some(pattern => page.path.match(pattern)));
 	}
 
 	// Sort pages by alphabetical route order before returning them
@@ -190,7 +165,7 @@ const readPage = async (file: klaw.Item, readDirectory: string, logger: Logger):
 	}
 
 	// Relative path comes in useful for runtime imports
-	const importPath = new Array(DIR_DELTA_DEPTH).fill(0).map(() => '..').join('/') + file.path.replace(appRoot + '', '');
+	const importPath = new Array(DIR_DELTA_DEPTH).fill(0).map(() => '..').join('/') + file.path.replace(process.cwd(), '');
 	
 	// Check to see if this page contains getServerSideProps or getStaticProps
 	// If it does, we need to include it in the build
@@ -221,14 +196,14 @@ const writeGeneratedFile = async (pages: PageRoute[], logger: Logger): Promise<v
 			.block(koder()
 				.cases(pages.map(page => ({
 					case: page.path,
-					body: koder().import(page.importPath, { dynamic: true, return: true })
+					body: koder().import(null, page.importPath, { dynamic: true, return: true })
 				})))
 				.default(koder().throw(new Error('Invalid route')))
 			)
 		);
 
 	// Override existing stub file with the real deal!
-	const file = appRoot + '/node_modules/@waveplay/pilot/dist/' + GENERATED_FILE;
+	const file = process.cwd() + '/node_modules/@waveplay/pilot/dist/_generated/' + GENERATED_FILE;
 	logger.debug(`[PilotJS] Writing ${pages.length} pages to "${file}"`);
 	await fs.outputFile(file, kode.toString());
 };

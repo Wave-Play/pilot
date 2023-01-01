@@ -10,12 +10,12 @@ export interface ActionResult {
 }
 
 export interface BaseConfig {
-	cacheSize?: number
 	host?: string
 	i18n?: {
 		defaultLocale: string
 		locales: string[]
 	}
+	logLevel?: 'debug' | 'info' | 'warn' | 'error'
 	webProps?: {
 		[key: string]: 'always' | 'auto' | 'never'
 	}
@@ -24,7 +24,7 @@ export interface BaseConfig {
 export type DataMap = { [key: string]: string }
 
 export interface FlightOptions {
-	action: (path: string) => Promise<ActionResult | null>
+	action: (path: string | undefined) => Promise<ActionResult | null>
 	addToStack?: boolean
 }
 

@@ -1,10 +1,125 @@
 # Change Log
 
+## 0.0.0-canary-20221222173224
+
+### Patch Changes
+
+- 6eebabc: fix: pass style prop onto Link component
+
+## 0.0.0-canary-20221220175921
+
+### Minor Changes
+
+- 508ebb8: feat: support glob patterns in pages config
+
+## 0.0.0-canary-20221220052919
+
+### Minor Changes
+
+- ad11fac: feat: replaced cloudflared with localtunnel for --tunnel option
+
+### Patch Changes
+
+- afb2410: fix: use correct import in AppEntry
+
+## 0.0.0-canary-20221219073629
+
+### Major Changes
+
+- 11dca06: refactor: export only core modules from root. BREAKING CHANGE: You may need to update your code if you were importing `<PilotArea>` or another UI component from the root `@waveplay/pilot` module. Use `@waveplay/pilot/ui` instead.
+- b30c295: refactor: removed regex router. This was never used after replacing with RadixRouter. Use RadixRouter instead or provide your own regex router.
+
+## 0.0.0-canary-20221219070445
+
+### Major Changes
+
+- b302014: refactor: decoupled locales from build and removed build:pages command
+
+### Patch Changes
+
+- b302014: feat: support next configs that export functions
+
+## 0.0.0-canary-20221214053754
+
+### Minor Changes
+
+- b29f638: feat: environment variables support
+
+## 0.0.0-canary-20221208180056
+
+### Minor Changes
+
+- 38c1960: feat: .next cache is now always cleared upon running pilot dev
+- da44ef6: feat: new getHost() pilot function that returns dev-aware host
+
+### Patch Changes
+
+- 9e67011: patch: internal Next router reference is now always fresh
+
+## 0.0.0-canary-20221128173918
+
+### Patch Changes
+
+- 84ad17f: patch: support "use client" directive
+- 316cdef: fix: back() on web with no prior stack
+
+## 0.0.0-canary-20221127013741
+
+### Major Changes
+
+- e368a39: feat: tunnel-less dev environment
+
+### Minor Changes
+
+- 64044fc: feat: new "logLevel" field in pilot.config.js
+
+### Patch Changes
+
+- ff6c150: fix: malformed url object with query on web
+
+## 0.0.0-canary-20221121073657
+
+### Patch Changes
+
+- 90135d2: fix: template api route fixes & improved api handler error logic
+
+## 0.0.0-canary-20221121023544
+
+### Minor Changes
+
+- 709c225: feat: i18next support now part of main package
+
+### Patch Changes
+
+- 0f43e88: patch: better support for PNPM projects
+- 964e8dd: fix: check defaultConfig for default locale upon Pilot creation
+- 258cd50: refactor: moved \_generated-pages.js into \_generated directory
+
+## 0.0.0-canary-20221119225656
+
+### Patch Changes
+
+- 06d1255: fix: make sure to await renderPage in \_document
+
+## 0.0.0-canary-20221119044259
+
+### Major Changes
+
+- 3e03873: BREAKING: decoupled native runtime cache
+
+### Minor Changes
+
+- 07ce324: feat: new AppEntry.js and document.js files for convenience
+
 ## 2.3.0
 
 ### Minor Changes
 
 - 8c10b19: feat: integrated cli into main package
+
+### Patch Changes
+
+- f042fa3: patch: fixed working directory usage in monorepos
 
 ## 2.2.1
 

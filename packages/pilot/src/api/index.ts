@@ -16,7 +16,7 @@ export const createHandler = (options?: HandlerOptions) => {
 		const { route } = req.query
 
 		// Validate route
-		if (!route || !Array.isArray(route)) {
+		if (!route || !Array.isArray(route) || route[0] === 'pilot') {
 			return res.status(400).json({
 				error: 'Invalid route. Make sure this API is named correctly as: "/api/pilot/[...route]"'
 			})

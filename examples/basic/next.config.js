@@ -1,37 +1,32 @@
-const withTM = require('next-transpile-modules')(['@expo/next-adapter', '@waveplay/pilot', 'react-native-web']);
+// @ts-check
+const withTM = require('next-transpile-modules')(['@waveplay/pilot', 'react-native-web'])
 
+/**
+ * @type {import('next').NextConfig}
+ **/
 const nextConfig = {
 	experimental: {
 		forceSwcTransforms: true,
 		swcTraceProfiling: true,
-		swcPlugins: [
-			['@nissy-dev/swc-plugin-react-native-web', { 'commonjs': false }]
-		]
+		swcPlugins: [['@nissy-dev/swc-plugin-react-native-web', { commonjs: false }]]
 	},
 	webpack: (config) => {
 		return {
 			...config,
 			resolve: {
-				...config.resolve || {},
+				...(config.resolve || {}),
 				alias: {
-					...config.resolve.alias || {},
+					...(config.resolve.alias || {}),
 					'react-native': 'react-native-web'
 				},
-				extensions: [
-					'.web.ts',
-					'.web.tsx',
-					'.js',
-					'.jsx',
-					'.ts',
-					'.tsx'
-				],
+				extensions: ['.web.ts', '.web.tsx', '.js', '.jsx', '.ts', '.tsx'],
 				fallback: {
-					...config.resolve.fallback || {},
+					...(config.resolve.fallback || {}),
 					fs: false
 				}
 			}
-		};
+		}
 	}
-};
+}
 
-module.exports = withTM(nextConfig);
+module.exports = withTM(nextConfig)
