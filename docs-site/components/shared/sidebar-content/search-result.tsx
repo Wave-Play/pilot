@@ -1,6 +1,7 @@
 import { Text, TouchableOpacity, View } from 'react-native'
 import { css } from '@/utils/css'
 import { useHover } from '@/utils/use-hover'
+import { useEffect } from 'react'
 
 type MatchesInfoData = Array<{
 	length: number
@@ -25,12 +26,19 @@ export interface SearchResultItem {
 }
 
 interface SearchResultProps {
+	index: number
 	item: SearchResultItem
 	onPress: (item: SearchResultItem) => void
 }
 const SearchResult = (props: SearchResultProps) => {
-	const { item, onPress } = props
-	const [ref, isHovered] = useHover()
+	const { index, item, onPress } = props
+	const [ref, isHovered, setHovered] = useHover()
+
+	useEffect(() => {
+		if (index === 0) {
+			setHovered(true)
+		}
+	}, [item.data.id])
 
 	return (
 		<TouchableOpacity {...rootStyle(isHovered)} onPress={() => onPress(item)}>

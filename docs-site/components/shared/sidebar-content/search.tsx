@@ -26,7 +26,10 @@ const Search = (props: SearchProps) => {
 	}
 
 	// Reset text when the close button is pressed
-	const onClear = () => setText('')
+	const onClear = () => {
+		onSearch('')
+		setText('')
+	}
 
 	return (
 		<View {...rootStyle(isFocused)}>

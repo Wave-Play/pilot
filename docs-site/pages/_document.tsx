@@ -11,6 +11,7 @@ export class Document extends NextDocument {
 			<Html data-color-mode="dark">
 				<Head>
 					<meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+					<script defer data-domain="pilot.waveplay.dev" src="https://plausible.io/js/script.js"></script>
 				</Head>
 				<body>
 					<Main />

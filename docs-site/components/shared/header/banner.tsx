@@ -25,6 +25,8 @@ export default Banner
 const rootStyle = css({
 	width: '100%',
 	height: 50,
+	display: 'flex',
+	alignItems: 'center',
 	backgroundColor: '#000'
 })
 

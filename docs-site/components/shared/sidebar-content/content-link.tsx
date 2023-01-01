@@ -13,10 +13,16 @@ const ContentLink = (props: ContentLinkProps) => {
 	const pilot = usePilot()
 	const [ref, isHovered] = useHover();
 
+	// Root path is a special case
+	let path = pilot.getPath()
+	if (path === '/' || path === '/docs') {
+		path = '/docs/getting-started'
+	}
+
 	return (
 		<Link {...rootStyle} href={href}>
 			<View {...dotStyle}/>
-			<Text {...textStyle(pilot.getPath().startsWith(href), isHovered)} ref={ref}>{text}</Text>
+			<Text {...textStyle(path.startsWith(href), isHovered)} ref={ref}>{text}</Text>
 		</Link>
 	)
 }

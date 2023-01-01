@@ -11,8 +11,13 @@ interface NavigationLinkProps {
 const NavigationLink = (props: NavigationLinkProps) => {
 	const { href, text } = props
 	const pilot = usePilot()
-	const path = pilot.getPath()
-	const [ref, isHovered] = useHover();
+	const [ref, isHovered] = useHover()
+
+	// Root path is a special case
+	let path = pilot.getPath()
+	if (path === '/') {
+		path = '/docs'
+	}
 
 	return (
 		<Link {...linkStyle} href={href}>

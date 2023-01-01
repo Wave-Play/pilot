@@ -1,7 +1,7 @@
 // https://usehooks.com/useHover/
 import React from 'react'
 
-export const useHover = (): [any, boolean] => {
+export const useHover = (): [any, boolean, (value: boolean) => void] => {
 	const [value, setValue] = React.useState(false)
 
 	const ref = React.useRef(null)
@@ -25,5 +25,5 @@ export const useHover = (): [any, boolean] => {
 		[ref.current] // Recall only if ref changes
 	)
 
-	return [ref, value]
+	return [ref, value, setValue]
 }

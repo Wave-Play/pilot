@@ -7,7 +7,7 @@ import { useMediaQuery } from 'react-responsive'
 
 const LINKS = [
 	{
-		href: '/showcase',
+		href: 'https://waveplay.com',
 		text: 'Showcase'
 	},
 	{
@@ -15,7 +15,7 @@ const LINKS = [
 		text: 'Docs'
 	},
 	{
-		href: '/blog',
+		href: 'https://blog.waveplay.com',
 		text: 'Blog'
 	}
 ]

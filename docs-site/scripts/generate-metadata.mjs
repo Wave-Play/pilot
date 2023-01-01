@@ -90,7 +90,7 @@ const run = async () => {
 
 	// Get all existing search documents with only the id field
 	const existingSearchDocuments = await searchClient.index('pilotjs-docs').getDocuments({ attributesToRetrieve: ['id'] })
-	logger.warn(`Existing search documents: ${JSON.stringify(existingSearchDocuments)}`)
+	logger.debug(`Found ${existingSearchDocuments.total} existing search documents`)
 
 	// Index each page from metadata in MeiliSearch (not including _contentOrder)
 	const indexedDocuments = await Promise.all(Object.keys(metadata)

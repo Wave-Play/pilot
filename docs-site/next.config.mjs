@@ -35,6 +35,10 @@ const nextConfig = {
 	pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
 	rewrites: async () => [
 		{
+			source: '/',
+			destination: '/docs/getting-started'
+		},
+		{
 			source: '/docs',
 			destination: '/docs/getting-started'
 		}

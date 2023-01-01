@@ -39,8 +39,8 @@ const SidebarContent = () => {
 				? <ScrollView {...searchScrollStyle} contentContainerStyle={searchScrollContainerStyle.style}>
 						{ !searchItems?.length
 							? <Text {...noResultsStyle}>No results for "{searchQuery}".{'\n'}Try again with a different keyword.</Text>
-							: searchItems.map((item) => (
-									<SearchResult item={item as SearchResultItem} onPress={onPressSearchItem}/>
+							: searchItems.map((item, index) => (
+									<SearchResult index={index} item={item as SearchResultItem} onPress={onPressSearchItem}/>
 								))
 						}
 					</ScrollView>
@@ -69,7 +69,7 @@ const scrollContainerStyle = css({
 
 const searchScrollStyle = css({
 	width: '100%',
-	flex: 1,
+	height: '100%',
 	position: 'absolute',
 	top: 88,
 	left: 0,
