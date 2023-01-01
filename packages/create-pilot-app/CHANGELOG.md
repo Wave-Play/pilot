@@ -1,5 +1,14 @@
 # create-pilot-app
 
+## 0.0.0
+
+### Major Changes
+
+- 4a286e5: chore: updated templates for create-pilot-app
+  fix: template api route fixes
+- b796f72: chore: updated templates for create-pilot-app
+  fix: template api route fixes
+
 ## 0.0.0-canary-20221121073657
 
 ### Patch Changes
