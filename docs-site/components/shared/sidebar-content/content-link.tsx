@@ -1,9 +1,7 @@
 import { usePilot } from '@waveplay/pilot'
-import { metadata } from '@/utils/metadata'
 import { Text, View } from 'react-native'
 import { css } from '@/utils/css'
 import { Link } from '@waveplay/pilot/ui'
-import { getMetaFromPath } from '@/utils/utils'
 import { useHover } from '@/utils/use-hover'
 
 interface ContentLinkProps {

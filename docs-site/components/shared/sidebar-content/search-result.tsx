@@ -1,8 +1,6 @@
 import { Text, TouchableOpacity, View } from 'react-native'
-import { Link } from '@waveplay/pilot/ui'
 import { css } from '@/utils/css'
 import { useHover } from '@/utils/use-hover'
-import { usePilot } from '@waveplay/pilot'
 
 type MatchesInfoData = Array<{
 	length: number
