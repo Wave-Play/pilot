@@ -1,5 +1,56 @@
 # Change Log
 
+## 0.0.0
+
+### Major Changes
+
+- 4a286e5: feat: decoupled native runtime cache (**BREAKING**)
+  feat: tunnel-less dev environment
+  refactor: decoupled locales from build and removed build:pages command
+  refactor: export only core modules from root. **BREAKING CHANGE:** You may need to update your code if you were importing <PilotArea> or another UI component from the root @waveplay/pilot module. Use @waveplay/pilot/ui instead.
+  b30c295: refactor: removed regex router. This was never used after replacing with RadixRouter. Use RadixRouter instead or provide your own regex router.
+- b796f72: feat: decoupled native runtime cache (**BREAKING**)
+  feat: tunnel-less dev environment
+  refactor: decoupled locales from build and removed build:pages command
+  refactor: export only core modules from root. **BREAKING CHANGE:** You may need to update your code if you were importing <PilotArea> or another UI component from the root @waveplay/pilot module. Use @waveplay/pilot/ui instead.
+  b30c295: refactor: removed regex router. This was never used after replacing with RadixRouter. Use RadixRouter instead or provide your own regex router.
+
+### Minor Changes
+
+- b796f72: feat: new AppEntry.js and document.js files for convenience
+  feat: i18next support now part of main package
+  feat: new "logLevel" field in pilot.config.js
+  feat: new getHost() pilot function that returns dev-aware host
+  feat: .next cache is now always cleared upon running pilot dev
+  feat: environment variables support
+  feat: support next configs that export functions
+  feat: support glob patterns in pages config
+- 4a286e5: feat: new AppEntry.js and document.js files for convenience
+  feat: i18next support now part of main package
+  feat: new "logLevel" field in pilot.config.js
+  feat: new getHost() pilot function that returns dev-aware host
+  feat: .next cache is now always cleared upon running pilot dev
+  feat: environment variables support
+  feat: support next configs that export functions
+  feat: support glob patterns in pages config
+
+### Patch Changes
+
+- 4a286e5: patch: better support for PNPM projects
+  fix: check defaultConfig for default locale upon Pilot creation
+  fix: improved api handler error logic
+  fix: malformed url object with query on web
+  patch: support "use client" directive
+  fix: back() on web with no prior stack
+  patch: internal Next router reference is now always fresh
+- b796f72: patch: better support for PNPM projects
+  fix: check defaultConfig for default locale upon Pilot creation
+  fix: improved api handler error logic
+  fix: malformed url object with query on web
+  patch: support "use client" directive
+  fix: back() on web with no prior stack
+  patch: internal Next router reference is now always fresh
+
 ## 0.0.0-canary-20221222173224
 
 ### Patch Changes
