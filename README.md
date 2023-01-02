@@ -13,21 +13,14 @@ Customizable, fast, and lightweight drop-in support for **[Next.js](https://next
 
 ## Documentation
 
-- [Advanced setup for Next.js](/docs/advanced-nextjs.md)
-- [Caching](/docs/caching.md)
-- [Command line interface](/docs/cli.md)
-- [Configuration](/docs/configuration.md)
-- [Environment variables](/docs/environment-variables.md)
-- [Internationalized routing](/docs/i18n.md)
-- [Managed entry](docs/managed-entry.md)
-- [Web props](/docs/web-props.md)
+Visit [https://pilot.waveplay.dev/docs](https://pilot.waveplay.dev/docs) to view the full documentation.
 
 ## Quick start
 
 Create a new Pilot.js app via our interactive CLI:
 
 ```bash
-npx create-pilot-app@0.0.0-canary-20221121073657
+npx create-pilot-app
 ```
 
 This will guide you through a short customization process and create a fully working template.
@@ -138,12 +131,12 @@ pilot.fly('/dashboard'); // or pilot.push('/dashboard');
 | `useRouter`          | <center>🕒</center> | Supports most functionality using the `usePilot()` hook.<br/><br/>Fields not supported yet:<br/>`basePath`, `domainLocales`, `isFallback`, `isReady`, `isPreview`.<br/><br/>Functions not supported yet:<br/>`beforePopState()`, `events()`, `prefetch()`, `replace()` |
 | `/api`     | <center>❌</center> | Not supported yet. |
 | `getStaticPaths`     | <center>❌</center> | Not supported yet. |
-| `getInitialProps`    | <center>❌</center> | Not supported yet. |
 | `middleware`         | <center>❌</center> | Not supported yet. |
 | `rewrites`           | <center>❌</center> | Not supported yet. |
 | `withRouter`         | <center>❌</center> | Not supported yet. |
 | `appDir`             | <center>❌</center> | Not supported yet. |
 | `serverComponents`   | <center>❌</center> | Not supported yet. |
+| `next export`        | <center>❌</center> | Not supported yet. |
 
 > **Note:** If a feature is not in the table above, that likely means there are no plans to support it or we may have missed it.  However, you can still use unsupported features in the web environment.
 > 
