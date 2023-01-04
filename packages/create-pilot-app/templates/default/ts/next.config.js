@@ -1,5 +1,4 @@
 // @ts-check
-const withTM = require('next-transpile-modules')(['@waveplay/pilot', 'react-native-web'])
 
 /**
  * @type {import('next').NextConfig}
@@ -10,6 +9,7 @@ const nextConfig = {
 		swcTraceProfiling: true,
 		swcPlugins: [['@nissy-dev/swc-plugin-react-native-web', { commonjs: false }]]
 	},
+	transpilePackages: ['@waveplay/pilot', 'react-native-web'],
 	webpack: (config) => {
 		return {
 			...config,
@@ -29,4 +29,4 @@ const nextConfig = {
 	}
 }
 
-module.exports = withTM(nextConfig)
+module.exports = nextConfig
