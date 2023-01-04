@@ -1,10 +1,7 @@
 // @ts-check
 import createWithMDX from '@next/mdx'
-import createWithTM from 'next-transpile-modules'
 import rehypeCodeTitles from 'rehype-code-titles'
 import rehypePrism from '@mapbox/rehype-prism'
-
-const withTM = createWithTM(['@waveplay/pilot', 'react-native-web'])
 
 // MDX configuration
 const withMDX = createWithMDX({
@@ -32,6 +29,7 @@ const nextConfig = {
 		swcTraceProfiling: true,
 		swcPlugins: [['@nissy-dev/swc-plugin-react-native-web', { commonjs: false }]]
 	},
+	transpilePackages: ['@waveplay/pilot', 'react-native-web'],
 	pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
 	rewrites: async () => [
 		{
@@ -63,7 +61,7 @@ const nextConfig = {
 }
 
 export default (phase, defaultConfig) => {
-	const plugins = [withMDX, withTM]
+	const plugins = [withMDX]
 
 	return plugins.reduce(
 		(config, plugin) => {
