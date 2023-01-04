@@ -3,9 +3,14 @@ import { css } from '@/utils/css'
 import Banner from '@/components/shared/header/banner'
 import Navigation from '@/components/shared/header/navigation'
 
-const Header = () => {
+interface HeaderProps {
+	position: 'absolute' | 'fixed'
+}
+const Header = (props: HeaderProps) => {
+	const { position } = props
+
 	return (
-		<View {...rootStyle}>
+		<View {...rootStyle(position)}>
 			<Banner/>
 			<Navigation/>
 		</View>
@@ -13,13 +18,13 @@ const Header = () => {
 }
 export default Header
 
-const rootStyle = css({
+const rootStyle = (position: string) => css({
 	width: '100%',
 	backgroundColor: 'rgb(17, 17, 17)',
 	borderBottomColor: 'rgb(51, 51, 51)',
 	borderBottomStyle: 'solid',
 	borderBottomWidth: 1,
-	position: 'fixed',
+	position: position,
 	top: 0,
 	left: 0
 })

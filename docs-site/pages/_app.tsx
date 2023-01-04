@@ -22,6 +22,7 @@ const queryClient = new QueryClient()
 export default function App({ Component, pageProps }: AppProps) {
 	const pilot = usePilot()
 	const meta = getMetaFromPath(pilot.getPath())
+	const isMobile = useMediaQuery({ query: '(max-width: 640px)' })
 	const showSidebarLeft = useMediaQuery({ query: '(min-width: 921px)' })
 	const showSidebarRight = useMediaQuery({ query: '(min-width: 1281px)' })
 
@@ -51,6 +52,7 @@ export default function App({ Component, pageProps }: AppProps) {
 						: null
 					}
 					<ScrollView {...scrollStyle} contentContainerStyle={scrollContainerStyle.style}>
+						{ isMobile ? <Header position={'absolute'}/> : null }
 						<View {...contentContainerStyle(paddingLeft, paddingRight)}>
 							<Component {...pageProps} />
 							<PageNavigation previous={meta?.previous} next={meta?.next}/>
@@ -63,7 +65,7 @@ export default function App({ Component, pageProps }: AppProps) {
 							{ showSidebarRight ? <SidebarTableOfContents/> : <View/> }
 						</View>
 					</View>
-					<Header/>
+					{ !isMobile ? <Header position={'fixed'}/> : null }
 				</main>
 			</MDXProvider>
 		</QueryClientProvider>
@@ -87,10 +89,7 @@ const scrollContainerStyle = css({
 	display: 'flex',
 	alignItems: 'center',
 	alignSelf: 'center',
-	justifySelf: 'center',
-	paddingTop: 130 + 16,
-	paddingLeft: 32,
-	paddingRight: 32
+	justifySelf: 'center'
 })
 
 const contentContainerStyle = (paddingLeft: number, paddingRight: number) => css({
@@ -98,8 +97,9 @@ const contentContainerStyle = (paddingLeft: number, paddingRight: number) => css
 	maxWidth: 836 + paddingLeft + paddingRight,
 	display: 'flex',
 	alignItems: 'flex-start',
-	paddingLeft: paddingLeft,
-	paddingRight: paddingRight
+	paddingTop: 130 + 16,
+	paddingLeft: 32 + paddingLeft,
+	paddingRight: 32 + paddingRight
 })
 
 const sideContainerStyle = css({

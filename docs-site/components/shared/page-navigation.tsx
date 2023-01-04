@@ -55,6 +55,7 @@ const linkStyle = (isHovered: boolean) => css({
 	display: 'flex',
 	flexDirection: 'row',
 	alignItems: 'center',
+	flex: 1,
 	backgroundColor: isHovered ? '#333' : undefined,
 	borderRadius: 7,
 	transition: 'background-color 0.2s ease'
