@@ -52,12 +52,12 @@ export default function App({ Component, pageProps }: AppProps) {
 						: null
 					}
 					<ScrollView {...scrollStyle} contentContainerStyle={scrollContainerStyle.style}>
-						{ isMobile ? <Header position={'absolute'}/> : null }
 						<View {...contentContainerStyle(paddingLeft, paddingRight)}>
 							<Component {...pageProps} />
 							<PageNavigation previous={meta?.previous} next={meta?.next}/>
 							<Footer/>
 						</View>
+						{ isMobile ? <Header position={'absolute'}/> : null }
 					</ScrollView>
 					<View {...sideContainerStyle} pointerEvents={'none'}>
 						<View {...sideContentContainerStyle}>
@@ -89,7 +89,8 @@ const scrollContainerStyle = css({
 	display: 'flex',
 	alignItems: 'center',
 	alignSelf: 'center',
-	justifySelf: 'center'
+	justifySelf: 'center',
+	backgroundColor: 'rgb(17, 17, 17)'
 })
 
 const contentContainerStyle = (paddingLeft: number, paddingRight: number) => css({

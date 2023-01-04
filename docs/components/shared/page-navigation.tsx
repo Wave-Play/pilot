@@ -23,14 +23,14 @@ const PageNavigation = (props: PageNavigationProps) => {
 	return (
 		<View {...rootStyle}>
 			{ previous
-				? <Link {...linkStyle(isPreviousHovered)} href={previous.path}>
+				? <Link {...linkStyle(isPreviousHovered, 'flex-start')} href={previous.path}>
 						<Icon color={'#ffffff'} path={mdiChevronLeft} size={'24px'}/>
 						<Text {...textStyle} ref={previousRef}>{previous.title}</Text>
 					</Link>
 				: <View/>
 			}
 			{ next
-				? <Link {...linkStyle(isNextHovered)} href={next.path}>
+				? <Link {...linkStyle(isNextHovered, 'flex-end')} href={next.path}>
 						<Text {...textStyle} ref={nextRef}>{next.title}</Text>
 						<Icon color={'#ffffff'} path={mdiChevronRight} size={'24px'}/>
 					</Link>
@@ -51,10 +51,11 @@ const rootStyle = css({
 	paddingRight: 8
 })
 
-const linkStyle = (isHovered: boolean) => css({
+const linkStyle = (isHovered: boolean, justifyContent: string) => css({
 	display: 'flex',
 	flexDirection: 'row',
 	alignItems: 'center',
+	justifyContent: justifyContent,
 	flex: 1,
 	backgroundColor: isHovered ? '#333' : undefined,
 	borderRadius: 7,
