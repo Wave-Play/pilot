@@ -39,7 +39,7 @@ We assume you already have a working project with Expo and Next.js. If not, foll
 - [Next.js - Getting Started](https://nextjs.org/docs/getting-started)
 - [Next.js - examples/with-expo](https://github.com/vercel/next.js/tree/canary/examples/with-expo)
 
-You can either let Pilot.js [manage your app's entry](/docs/managed-entry.md) or you can use the `<PilotArea>` component directly. The latter is useful if you need additional customization.
+You can either let Pilot.js [manage your app's entry](https://pilot.waveplay.dev/docs/managed-entry.md) or you can use the `<PilotArea>` component directly. The latter is useful if you need additional customization.
 
 #### A) Managed AppEntry
 
@@ -119,13 +119,13 @@ pilot.fly('/dashboard'); // or pilot.push('/dashboard');
 | `/_app`               | <center>✅</center> | Optional app wrapper is applied on pages when the [`_app`](https://nextjs.org/docs/advanced-features/custom-app) route is registered. |
 | `/404`               | <center>✅</center> | Rendered when page route cannot be found or when [`notFound: true`]((https://nextjs.org/docs/api-reference/data-fetching/get-server-side-props#notfound)) is returned while loading props. |
 | `/500`               | <center>✅</center> | Rendered when an error is thrown while loading props. |
-| `/pages`             | <center>✅</center> | Automatically finds routes from `/pages` or `/src/pages` directory via [`pilot build`](/docs/cli.md) command. |
+| `/pages`             | <center>✅</center> | Automatically finds routes from `/pages` or `/src/pages` directory via [`pilot build`](https://pilot.waveplay.dev/docs/cli.md) command. |
 | `getServerSideProps` | <center>✅</center> | Calls this function and delegates props if it exists when loading new route. |
 | `getStaticProps`     | <center>✅</center> | Calls this function and delegates props if it exists when loading new route. May be skipped if props were cached. |
-| `i18n`               | <center>✅</center> | Supports `defaultLocale` and `locales` from next.config.js `i18n` fields. `locale` is passed as a variable in your getProps functions. [Learn more](/docs/i18n.md). |
+| `i18n`               | <center>✅</center> | Supports `defaultLocale` and `locales` from next.config.js `i18n` fields. `locale` is passed as a variable in your getProps functions. [Learn more](https://pilot.waveplay.dev/docs/i18n.md). |
 | `revalidate`         | <center>✅</center> | Uses this field returned by your `getStaticProps` function to skip future loading for the time specified. |
 | `.env`							 | <center>✅</center> | Environment variables are loaded during `pilot build`. This follows the [same pattern](https://nextjs.org/docs/basic-features/environment-variables#exposing-environment-variables-to-the-browser) and [load order](https://nextjs.org/docs/basic-features/environment-variables#environment-variable-load-order) as Next.js. |
-| `context`            | <center>🕒</center> | `context` is passed to `getServerSideProps` and `getStaticProps` functions. If haven't [set up Web Props](/docs/web-props.md), `req` and `res` will be empty objects.<br/><br/>Fields not supported yet:<br/>`preview`, `previewData` |
+| `context`            | <center>🕒</center> | `context` is passed to `getServerSideProps` and `getStaticProps` functions. If haven't [set up Web Props](https://pilot.waveplay.dev/docs/web-props.md), `req` and `res` will be empty objects.<br/><br/>Fields not supported yet:<br/>`preview`, `previewData` |
 | `<Link>`             | <center>🕒</center> | Supports most functionality that [`next/link`](https://nextjs.org/docs/api-reference/next/link) provides.<br/><br/>Props not supported yet:<br/>`passHref`, `prefetch`, `replace`, `scroll`, `shallow` |
 | `redirects`             | <center>🕒</center> | Redirects are supported by [returning a `redirect` object](https://nextjs.org/docs/api-reference/data-fetching/get-server-side-props#redirect) from your props functions.<br/><br/>Redirects defined in `next.config.js` are not supported yet. |
 | `useRouter`          | <center>🕒</center> | Supports most functionality using the `usePilot()` hook.<br/><br/>Fields not supported yet:<br/>`basePath`, `domainLocales`, `isFallback`, `isReady`, `isPreview`.<br/><br/>Functions not supported yet:<br/>`beforePopState()`, `events()`, `prefetch()`, `replace()` |
