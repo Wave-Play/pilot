@@ -1,5 +1,11 @@
 # create-pilot-app
 
+## 3.1.0
+
+### Minor Changes
+
+- 3c829f9: chore: updated dependencies & transpile method
+
 ## 3.0.0
 
 ### Major Changes
