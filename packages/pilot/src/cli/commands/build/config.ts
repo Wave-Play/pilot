@@ -16,7 +16,13 @@ const GENERATED_FILE = 'config.js';
 
 export const readConfig = async <T = any>(logger: Logger, file: string): Promise<T> => {
 	try {
-		const config = await import(path.join(process.cwd(), file));
+		// Try to read the config file (fallback to .mjs if .js does not exist)
+		let filePath = path.join(process.cwd(), file);
+		if (filePath.endsWith('.js') && !(await fs.pathExists(filePath))) {
+			filePath = filePath.replace('.js', '.mjs')
+		}
+
+		const config = await import(filePath);
 		return typeof config?.default === 'function' ? config.default(PHASE_PRODUCTION_BUILD) : config?.default;
 	} catch (e) {
 		logger.debug(`[PilotJS] Could not read config file: ${file}`);
