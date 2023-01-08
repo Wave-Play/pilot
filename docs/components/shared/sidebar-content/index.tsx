@@ -31,6 +31,17 @@ const SidebarContent = () => {
 			<Search onSearch={onSearch}/>
 			<ScrollView {...scrollStyle} contentContainerStyle={scrollContainerStyle.style}>
 				{ metadata._contentOrder.map((content) => {
+					if (typeof content === 'object') {
+						return (
+							<>
+								<Text {...sectionTitleStyle}>{content.title}</Text>
+								{ content.children.map((content) => {
+									const page = metadata[content]
+									return <ContentLink key={page.path} href={page.path} text={page.title}/>
+								})}
+							</>
+						)
+					}
 					const page = metadata[content]
 					return <ContentLink key={page.path} href={page.path} text={page.title}/>
 				})}
@@ -92,4 +103,15 @@ const noResultsStyle = css({
 	fontSize: 14,
 	paddingLeft: 24,
 	paddingRight: 24
+})
+
+const sectionTitleStyle = css({
+	width: '100%',
+	marginTop: 2,
+	marginBottom: 20,
+	color: '#ffffff',
+	textAlign: 'left',
+	lineHeight: 31.68,
+	fontSize: 19.2,
+	fontWeight: 600
 })

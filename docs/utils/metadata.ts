@@ -1,14 +1,20 @@
 export const metadata = {
 	_contentOrder: [
 		'/docs/getting-started',
-		'/docs/cli',
-		'/docs/managed-entry',
-		'/docs/configuration',
-		'/docs/advanced-nextjs',
-		'/docs/caching',
-		'/docs/environment-variables',
-		'/docs/i18n',
-		'/docs/web-props'
+		'/docs/supported-features',
+		{
+			title: 'Building your application',
+			children: [
+				'/docs/cli',
+				'/docs/managed-entry',
+				'/docs/configuration',
+				'/docs/advanced-nextjs',
+				'/docs/caching',
+				'/docs/environment-variables',
+				'/docs/i18n',
+				'/docs/web-props'
+			]
+		}
 	],
 	'/docs/advanced-nextjs': {
 		path: '/docs/advanced-nextjs',
@@ -70,8 +76,8 @@ export const metadata = {
 			}
 		],
 		previous: {
-			path: '/docs/getting-started',
-			title: 'Getting Started'
+			path: '/docs/supported-features',
+			title: 'Supported Features'
 		},
 		next: {
 			path: '/docs/managed-entry',
@@ -230,8 +236,8 @@ export const metadata = {
 			}
 		],
 		next: {
-			path: '/docs/cli',
-			title: 'Command Line Interface'
+			path: '/docs/supported-features',
+			title: 'Supported Features'
 		}
 	},
 	'/docs/i18n': {
@@ -294,6 +300,25 @@ export const metadata = {
 		next: {
 			path: '/docs/configuration',
 			title: 'Configuration'
+		}
+	},
+	'/docs/supported-features': {
+		path: '/docs/supported-features',
+		title: 'Supported Features',
+		tableOfContents: [
+			{
+				text: 'Supported Next.js features',
+				slug: 'supported-next.js-features',
+				subheadings: []
+			}
+		],
+		previous: {
+			path: '/docs/getting-started',
+			title: 'Getting Started'
+		},
+		next: {
+			path: '/docs/cli',
+			title: 'Command Line Interface'
 		}
 	},
 	'/docs/web-props': {

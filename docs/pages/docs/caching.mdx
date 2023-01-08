@@ -17,7 +17,7 @@ interface NativeCache {
 }
 ```
 
-> **Note:** One such implementation is [tiny-lru](https://github.com/avoidwork/tiny-lru) which persists cache in memory for the duration of the app's runtime. You can leverage other libraries such as [@waveplay/stashy](https://github.com/Wave-Play/stashy) to persist cache to disk instead.
+> **Good to know:** One such implementation is [tiny-lru](https://github.com/avoidwork/tiny-lru) which persists cache in memory for the duration of the app's runtime. You can leverage other libraries such as [@waveplay/stashy](https://github.com/Wave-Play/stashy) to persist cache to disk instead.
 
 ## Web props cache
 
@@ -29,4 +29,4 @@ module.exports = {
 }
 ```
 
-> **Note:** Cache is persisted to disk using Node's `fs` module to the `.pilot/cache` directory. This directory is automatically cleared when running `pilot build` or `pilot dev`.
+> **Good to know:** Cache is persisted to disk using Node's `fs` module to the `.pilot/cache` directory. This directory is automatically cleared when running `pilot build` or `pilot dev`.

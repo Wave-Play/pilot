@@ -14,6 +14,77 @@
 	padding-right: 24px;
 }
 
+table {
+	border-spacing: 0;
+	min-width: 100%;
+}
+
+tr {
+	border-bottom-width: 1px;
+}
+
+td {
+	color: #999999;
+	font-size: 16px;
+	padding: 12px;
+}
+
+table>tbody>tr:not(:last-of-type) td {
+	border-bottom-color: rgb(51, 51, 51);
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+}
+
+th {
+	background-color: #000000;
+	color: #ffffff;
+	direction: ltr;
+	display: table-cell;
+	font-family: Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+	font-size: 16px;
+	font-weight: 700;
+	padding-left: 12px;
+	padding-right: 12px;
+	text-align: left;
+}
+
+th:nth-child(1) {
+	border-top-color: rgb(51, 51, 51);
+	border-left-color: rgb(51, 51, 51);
+	border-bottom-color: rgb(51, 51, 51);
+	border-top-style: solid;
+	border-left-style: solid;
+	border-bottom-style: solid;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+th:nth-child(2) {
+	border-top-color: rgb(51, 51, 51);
+	border-bottom-color: rgb(51, 51, 51);
+	border-top-style: solid;
+	border-bottom-style: solid;
+}
+
+th:nth-child(3) {
+	border-top-color: rgb(51, 51, 51);
+	border-right-color: rgb(51, 51, 51);
+	border-bottom-color: rgb(51, 51, 51);
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+tbody > tr {
+	height: 48px;
+}
+
+thead > tr {
+	height: 40px;
+}
+
 pre[class*=language-] {
 	width: calc(100% - 48px);
 	color: #f8f8f2;

@@ -9,7 +9,6 @@ import dotenv from 'dotenv'
 import { remark } from 'remark'
 import mdx from 'remark-mdx'
 import strip from 'remark-mdx-to-plain-text'
-console.log(remark)
 
 dotenv.config()
 
@@ -32,14 +31,20 @@ const searchClient = new MeiliSearch({
 // Directory of pages to show on left sidebar (+ search)
 const CONTENT_ORDER = [
 	'/docs/getting-started',
-	'/docs/cli',
-	'/docs/managed-entry',
-	'/docs/configuration',
-	'/docs/advanced-nextjs',
-	'/docs/caching',
-	'/docs/environment-variables',
-	'/docs/i18n',
-	'/docs/web-props',
+	'/docs/supported-features',
+	{
+		title: 'Building your application',
+		children: [
+			'/docs/cli',
+			'/docs/managed-entry',
+			'/docs/configuration',
+			'/docs/advanced-nextjs',
+			'/docs/caching',
+			'/docs/environment-variables',
+			'/docs/i18n',
+			'/docs/web-props'
+		]
+	}
 ]
 
 const run = async () => {
@@ -60,33 +65,7 @@ const run = async () => {
 		metadata[page.path] = page
 	}
 
-	// Add next page to previous page metadata
-	for (const contentPath of CONTENT_ORDER) {
-		const page = metadata[contentPath]
-		if (!page) {
-			continue;
-		}
-
-		// Assign previous page
-		const previousPath = CONTENT_ORDER[CONTENT_ORDER.indexOf(contentPath) - 1]
-		if (previousPath) {
-			const previousPage = metadata[previousPath]
-			metadata[contentPath].previous = {
-				path: previousPage.path,
-				title: previousPage.title
-			}
-		}
-
-		// Assign next page
-		const nextPath = CONTENT_ORDER[CONTENT_ORDER.indexOf(contentPath) + 1]
-		if (nextPath) {
-			const nextPage = metadata[nextPath]
-			metadata[contentPath].next = {
-				path: nextPage.path,
-				title: nextPage.title
-			}
-		}
-	}
+	attachPreviousNext(metadata, CONTENT_ORDER, null)
 
 	// Get all existing search documents with only the id field
 	const existingSearchDocuments = await searchClient.index('pilotjs-docs').getDocuments({ attributesToRetrieve: ['id'] })
@@ -133,7 +112,73 @@ const run = async () => {
 	}))
 }
 
-const parsePage = async (content) => {
+function attachPreviousNext (metadata, contentPaths, parent) {
+	for (const contentPath of contentPaths) {
+		if (typeof contentPath === 'object') {
+			attachPreviousNext(metadata, contentPath.children, contentPaths)
+		} else {
+			const page = metadata[contentPath]
+			if (!page) {
+				continue;
+			}
+
+			// Assign previous page
+			// Be sure to check not just contentPaths, but also its parent (CONTENT_PATHS)
+			const previousPath = contentPaths[contentPaths.indexOf(contentPath) - 1]
+			if (typeof previousPath === 'object') {
+				const previousPage = metadata[previousPath.children[0]]
+				metadata[contentPath].previous = {
+					path: previousPage.path,
+					title: previousPage.title
+				}
+			} else if (previousPath) {
+				const previousPage = metadata[previousPath]
+				metadata[contentPath].previous = {
+					path: previousPage.path,
+					title: previousPage.title
+				}
+			} else if (parent) {
+				const index = parent.findIndex((item) => JSON.stringify(item.children) === JSON.stringify(contentPaths))
+				const previousPath = parent[index - 1]
+				if (previousPath) {
+					const previousPage = metadata[previousPath]
+					metadata[contentPath].previous = {
+						path: previousPage.path,
+						title: previousPage.title
+					}
+				}
+			}
+
+			// Assign next page
+			const nextPath = contentPaths[contentPaths.indexOf(contentPath) + 1]
+			if (typeof nextPath === 'object') {
+				const nextPage = metadata[nextPath.children[0]]
+				metadata[contentPath].next = {
+					path: nextPage.path,
+					title: nextPage.title
+				}
+			} else if (nextPath) {
+				const nextPage = metadata[nextPath]
+				metadata[contentPath].next = {
+					path: nextPage.path,
+					title: nextPage.title
+				}
+			} else if (parent) {
+				const index = parent.findIndex((item) => JSON.stringify(item.children) === JSON.stringify(contentPaths))
+				const nextPath = parent[index + 1]
+				if (nextPath) {
+					const nextPage = metadata[nextPath]
+					metadata[contentPath].next = {
+						path: nextPage.path,
+						title: nextPage.title
+					}
+				}
+			}
+		}
+	}
+}
+
+async function parsePage (content) {
 	const result = await remark()
 		.use(mdx)
 		.use(strip)
@@ -142,7 +187,7 @@ const parsePage = async (content) => {
 	return result.value.trim()
 }
 
-const processPage = async (file) => {
+async function processPage (file) {
 	const { path } = file
 	const contents = await fs.readFile(path, 'utf8')
 	logger.info(`Processing ${path}...`);

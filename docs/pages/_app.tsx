@@ -14,6 +14,7 @@ import Footer from '@/components/shared/footer'
 import { usePilot } from '@waveplay/pilot'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { useMediaQuery } from 'react-responsive'
+import Head from 'next/head'
 
 const inter = Inter()
 
@@ -42,6 +43,9 @@ export default function App({ Component, pageProps }: AppProps) {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<MDXProvider components={mdxComponents}>
+				<Head>
+					<title>{meta?.title} | Pilot.js</title>
+				</Head>
 				<main {...bodyStyle} className={`${inter.className} font-sans`}>
 					{ !isNative()
 						? <style jsx global>{`

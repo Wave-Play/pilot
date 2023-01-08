@@ -87,7 +87,8 @@ const inputStyle = css({
 	position: 'absolute',
 	top: 0,
 	left: 0,
-	paddingLeft: 29
+	paddingLeft: 29,
+	paddingRight: 29
 })
 
 const closeButtonStyle = css({

@@ -11,7 +11,7 @@ interface ContentLinkProps {
 const ContentLink = (props: ContentLinkProps) => {
 	const { href, text } = props
 	const pilot = usePilot()
-	const [ref, isHovered] = useHover();
+	const [ref, isHovered] = useHover()
 
 	// Root path is a special case
 	let path = pilot.getPath()

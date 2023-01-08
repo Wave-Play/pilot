@@ -4,6 +4,7 @@ import { Link } from '@waveplay/pilot/ui'
 import { isNative } from '@/utils/utils'
 import { Inter } from '@next/font/google'
 import slugify from 'slugify'
+import { useHover } from '@/utils/use-hover'
 
 const inter = Inter(/*{
 	subsets: ['latin'],
@@ -13,9 +14,27 @@ const inter = Inter(/*{
 export const mdxComponents = {
 	h1: (props) => <Text {...props} style={[h1Style.style, inter.style]}/>,
 	h2: (props) => {
-		return <Text {...props} nativeID={slugify(props.children, { lower: true })} {...h2Style}/>
+		const [ref, isHovered] = useHover()
+		const slug = slugify(props.children, { lower: true })
+
+		return (
+			<Link {...h2ContainerStyle} href={'#' + slug}>
+				<Text {...props} {...h2Style(isHovered)} ref={ref}/>
+				<View {...anchorStyle} nativeID={slug} pointerEvents={'none'}/>
+			</Link>
+		)
 	},
-	h3: (props) => <Text {...props} nativeID={slugify(props.children, { lower: true })} style={{ color: '#fff', fontSize: 24, fontWeight: '600' }} />,
+	h3: (props) => {
+		const [ref, isHovered] = useHover()
+		const slug = slugify(props.children, { lower: true })
+
+		return (
+			<Link href={'#' + slug}>
+				<Text {...props} {...h3Style(isHovered)} ref={ref}/>
+				<View {...anchorStyle} nativeID={slug} pointerEvents={'none'}/>
+			</Link>
+		)
+	},
 	h4: (props) => <Text {...props} style={{ color: '#fff', fontSize: 14, fontWeight: '600' }} />,
 	h5: (props) => <Text {...props} style={{ color: '#fff', fontSize: 12, fontWeight: '600' }} />,
 	h6: (props) => <Text {...props} style={{ color: '#fff', fontSize: 10, fontWeight: '600' }} />,
@@ -29,9 +48,9 @@ export const mdxComponents = {
 		const inline = className === undefined
 		return <Text {...defaultProps} {...(inline ? codeInlineStyle : codeStyle)}>{children}</Text>
 	},
-	table: (props) => <View {...props} />,
-	th: (props) => <Text {...props} style={{ color: '#fff', fontWeight: '600' }} />,
+	table: (props) => <View {...props} {...tableStyle}/>,
 	td: (props) => <Text {...props} />,
+	th: (props) => <Text {...props} style={{ color: '#fff', fontWeight: '600' }} />,
 	tr: (props) => <View {...props} />,
 	ul: (props) => <View {...props} />,
 	ol: (props) => <View {...props} />,
@@ -44,15 +63,20 @@ export const mdxComponents = {
 	img: (props) => <Image {...props} />
 }
 if (!isNative()) {
-	delete mdxComponents.pre
 	delete mdxComponents.code
+	delete mdxComponents.pre
+	delete mdxComponents.table
+	delete mdxComponents.td
+	delete mdxComponents.th
+	delete mdxComponents.tr
 }
 
 const aStyle = css({
 	color: '#fff',
 	borderBottomColor: 'rgb(250, 250, 250)',
 	borderBottomStyle: 'dotted',
-	borderBottomWidth: 1
+	borderBottomWidth: 1,
+	fontSize: 16
 })
 
 const blockquoteStyle = css({
@@ -95,12 +119,33 @@ const h1Style = css({
 	marginTop: 12
 })
 
-const h2Style = css({
-	color: '#fff',
-	fontSize: 32,
-	fontWeight: '600',
+const h2ContainerStyle = css({
 	marginTop: 36,
 	marginBottom: 12
+})
+
+const h2Style = (isHovered: boolean) => css({
+	color: '#fff',
+	fontSize: 32,
+	fontWeight: 600,
+	borderBottomColor: isHovered ? 'rgb(250, 250, 250)' : 'transparent',
+	borderBottomStyle: 'dotted',
+	borderBottomWidth: 1
+})
+
+const h3Style = (isHovered: boolean) => css({
+	color: '#fff',
+	fontSize: 24,
+	fontWeight: 600,
+	borderBottomColor: isHovered ? 'rgb(250, 250, 250)' : 'transparent',
+	borderBottomStyle: 'dotted',
+	borderBottomWidth: 1
+})
+
+const anchorStyle = css({
+	position: 'absolute',
+	top: -131,
+	left: 0
 })
 
 const pStyle = css({
@@ -116,4 +161,15 @@ const preStyle = css({
 	borderBottomLeftRadius: 5,
 	borderBottomRightRadius: 5,
 	padding: 24
+})
+
+const tableStyle = css({
+	width: '100%',
+	borderCollapse: 'collapse',
+	borderSpacing: 0,
+	borderColor: 'rgb(51, 51, 51)',
+	borderRadius: 3,
+	borderWidth: 1,
+	marginTop: 24,
+	marginBottom: 24
 })

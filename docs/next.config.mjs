@@ -2,12 +2,15 @@
 import createWithMDX from '@next/mdx'
 import rehypeCodeTitles from 'rehype-code-titles'
 import rehypePrism from '@mapbox/rehype-prism'
+import remarkGfm from 'remark-gfm'
 
 // MDX configuration
 const withMDX = createWithMDX({
 	extension: /\.mdx?$/,
 	options: {
-		remarkPlugins: [],
+		remarkPlugins: [
+			remarkGfm
+		],
 		rehypePlugins: [
 			rehypeCodeTitles,
 			rehypePrism
