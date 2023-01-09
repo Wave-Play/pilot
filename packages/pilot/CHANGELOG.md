@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.0-canary-20230109030829
+
+### Patch Changes
+
+- d9cb0c1: patch: built-in document export now uses CommonJS syntax
+
 ## 0.0.0-canary-20230109012509
 
 ### Minor Changes
