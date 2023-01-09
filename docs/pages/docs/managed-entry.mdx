@@ -38,3 +38,29 @@ export default App
 ```
 
 > **Good to know:** Remember that this file only runs on the native runtime. You can't use any Next.js features here.
+
+## Managed document
+
+Similar to the managed entry point, a managed _document is also provided. It bootstraps the stylesheet to match React Native behavior.
+
+Projects created with `create-pilot-app` will automatically use this document by default. It basically just exports the default document from Pilot.js like so:
+
+```tsx:pages/_document.tsx
+export { default } from '@waveplay/pilot/document'
+```
+
+If you'd like to use your own document but still want the stylesheet bootstrapped, you can either [copy the source code](https://github.com/Wave-Play/pilot/blob/main/packages/pilot/document.js) or you can import `getInitialProps` and assign it to your own document:
+
+```tsx:pages/_document.tsx
+import NextDocument from 'next/document'
+import { getInitialProps } from '@waveplay/pilot/document'
+
+export class Document extends NextDocument {
+	// ...
+}
+
+Document.getInitialProps = getInitialProps
+export default Document
+```
+
+> **Good to know:** Using the managed document has issues with the new [transpilePackages](https://nextjs.org/docs/advanced-features/compiler#module-transpilation) feature in Next.js 13. Either continue using [next-transpile-modules](https://github.com/martpie/next-transpile-modules) for this or copy the source for [_document.js](https://github.com/Wave-Play/pilot/blob/main/packages/pilot/document.js) into your project.
