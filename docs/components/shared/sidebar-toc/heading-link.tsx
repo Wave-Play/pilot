@@ -1,6 +1,6 @@
 import { Text } from 'react-native'
 import { css } from '@/utils/css'
-import { Link } from '@waveplay/pilot/ui'
+import { Link } from '@waveplay/pilot/link'
 import { useHover } from '@/utils/use-hover'
 
 interface HeadingLinkProps {
@@ -14,8 +14,8 @@ const HeadingLink = (props: HeadingLinkProps) => {
 	const [ref, isHovered] = useHover()
 
 	return (
-		<Link href={'#' + slug}>
-			<Text {...contentLinkStyle(active, isHovered, subheading)} accessibilityRole={'link'} ref={ref}>{text}</Text>
+		<Link href={'#' + slug} ref={ref}>
+			<Text {...contentLinkStyle(active, isHovered, subheading)} accessibilityRole={'link'}>{text}</Text>
 		</Link>
 	)
 }

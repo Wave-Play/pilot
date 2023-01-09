@@ -1,7 +1,7 @@
 import { usePilot } from '@waveplay/pilot'
 import { Text, View } from 'react-native'
 import { css } from '@/utils/css'
-import { Link } from '@waveplay/pilot/ui'
+import { Link } from '@waveplay/pilot/link'
 import { useHover } from '@/utils/use-hover'
 
 interface ContentLinkProps {
@@ -20,10 +20,12 @@ const ContentLink = (props: ContentLinkProps) => {
 	}
 
 	return (
-		<Link {...rootStyle} href={href}>
+		<View {...rootStyle}>
 			<View {...dotStyle}/>
-			<Text {...textStyle(path.startsWith(href), isHovered)} ref={ref}>{text}</Text>
-		</Link>
+			<Link href={href} ref={ref}>
+				<Text {...textStyle(path.startsWith(href), isHovered)}>{text}</Text>
+			</Link>
+		</View>
 	)
 }
 export default ContentLink

@@ -1,5 +1,5 @@
 import { Text } from 'react-native'
-import { Link } from '@waveplay/pilot/ui'
+import { Link } from '@waveplay/pilot/link'
 import { css } from '@/utils/css'
 import { useHover } from '@/utils/use-hover'
 
@@ -13,8 +13,8 @@ const Card = (props: CardProps) => {
 	const [ref, isHovered] = useHover()
 
 	return (
-		<Link {...rootStyle} href={href}>
-			<Text {...titleStyle} ref={ref}>{title}</Text>
+		<Link {...rootStyle} href={href} ref={ref}>
+			<Text {...titleStyle}>{title}</Text>
 			<Text {...descriptionStyle(isHovered)}>{description}</Text>
 		</Link>
 	)

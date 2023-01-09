@@ -1,5 +1,5 @@
 import { Text, View } from 'react-native'
-import { Link } from '@waveplay/pilot/ui'
+import { Link } from '@waveplay/pilot/link'
 import { css } from '@/utils/css'
 import NavigationLink from '@/components/shared/header/navigation-link'
 import { useHover } from '@/utils/use-hover'
@@ -38,8 +38,8 @@ const Navigation = () => {
 							))}
 						</View>
 				}
-				<Link {...githubLinkStyle(isHovered)} href={'https://github.com/Wave-Play/pilot'}>
-					<Text {...githubLinkTextStyle} accessibilityRole={'link'} ref={ref}>GitHub</Text>
+				<Link {...githubLinkStyle(isHovered)} href={'https://github.com/Wave-Play/pilot'} ref={ref}>
+					<Text {...githubLinkTextStyle} accessibilityRole={'link'}>GitHub</Text>
 				</Link>
 			</View>
 		</View>
