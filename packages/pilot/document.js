@@ -1,12 +1,11 @@
 // Based on https://github.com/expo/expo-cli/blob/master/packages/next-adapter
 // and https://github.com/zeit/next.js/tree/canary/examples/with-react-native-web
 // and https://github.com/expo/expo-cli/blob/main/packages/webpack-config/web-default/index.html
-const NextDocument = require('next/document')
-const React = require('react')
-const AppRegistry = require('react-native').AppRegistry
-const { Head, Html, Main, NextScript } = NextDocument
+import NextDocument, { Head, Html, Main, NextScript } from 'next/document'
+import * as React from 'react'
+import { AppRegistry } from 'react-native'
 
-const style = `
+export const style = `
 /**
  * Building on the RNWeb reset:
  * https://github.com/necolas/react-native-web/blob/master/packages/react-native-web/src/exports/StyleSheet/initialRules.js
@@ -46,7 +45,7 @@ body {
 }
 `
 
-async function getInitialProps({ renderPage }) {
+export async function getInitialProps({ renderPage }) {
 	AppRegistry.registerComponent('Main', () => Main)
 	const { getStyleElement } = AppRegistry.getApplication('Main')
 	const page = await renderPage()
@@ -54,7 +53,7 @@ async function getInitialProps({ renderPage }) {
 	return { ...page, styles: React.Children.toArray(styles) }
 }
 
-class Document extends NextDocument {
+export class Document extends NextDocument {
 	render() {
 		return (
 			<Html>
@@ -72,9 +71,4 @@ class Document extends NextDocument {
 
 Document.getInitialProps = getInitialProps
 
-module.exports = {
-	default: Document,
-  style,
-  getInitialProps,
-  Document
-}
+export default Document
