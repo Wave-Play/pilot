@@ -18,7 +18,7 @@ import type { Logger } from 'pino'
 const GENERATED_FILE = 'dev.js'
 
 const command = new Command('dev')
-	.description('starts your application in developer mode and automatically creates a local tunnel')
+	.description('starts your application in development mode')
 	.option('-ne --no-env', 'do not load environment variables')
 	.option('-H --hostname <hostname>', 'hostname on which to start the application')
 	.option('-p --port <port>', 'port to run the application on')
