@@ -35,6 +35,8 @@
 		"env.d.ts",
 		"i18n.native.js",
 		"i18n.web.js",
+		"link.js",
+		"link.d.ts",
 		"LICENSE",
 		"README.md",
 		"ui.js",
