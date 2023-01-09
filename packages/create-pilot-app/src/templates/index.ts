@@ -116,7 +116,7 @@ export const installTemplate = async ({
 		'react-native-web@0.18.9',
 		'@waveplay/pilot@3.0.0'
 	]
-	const devDependencies = ['@babel/core@7.20.2', '@nissy-dev/swc-plugin-react-native-web@0.3.0', 'webpack@5.75.0']
+	const devDependencies = ['@babel/core@7.20.2', '@nissy-dev/swc-plugin-react-native-web@0.3.0', 'next-transpile-modules@10.0.0', 'webpack@5.75.0']
 	/**
 	 * TypeScript projects will have type definitions and other devDependencies.
 	 */
