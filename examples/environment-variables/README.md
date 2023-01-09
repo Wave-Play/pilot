@@ -1,4 +1,4 @@
-<h1 align="center">Basic Example</h1>
+<h1 align="center">Environment Variables Example</h1>
 
 This is a basic TypeScript project using NextJS and Expo to show how well Pilot works across all platforms.
 
