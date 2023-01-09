@@ -13,7 +13,7 @@
 		"start:web": "next start"
 	},
 	"dependencies": {
-		"@waveplay/pilot": "0.0.0-canary-20230109030829",
+		"@waveplay/pilot": "3.0.0",
 		"expo": "47.0.6",
 		"next": "13.0.4",
 		"react": "18.1.0",

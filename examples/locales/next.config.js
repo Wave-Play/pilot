@@ -8,7 +8,6 @@ const { i18n } = require('./next-i18next.config');
 const nextConfig = {
 	experimental: {
 		forceSwcTransforms: true,
-		swcTraceProfiling: true,
 		swcPlugins: [['@nissy-dev/swc-plugin-react-native-web', { commonjs: false }]]
 	},
 	i18n: i18n,

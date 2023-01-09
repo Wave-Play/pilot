@@ -13,7 +13,7 @@
 		"start:web": "next start"
 	},
 	"dependencies": {
-		"@waveplay/pilot": "file:../../packages/pilot",
+		"@waveplay/pilot": "3.0.0",
 		"expo": "47.0.6",
 		"i18next": "^22.0.6",
 		"next": "13.0.4",

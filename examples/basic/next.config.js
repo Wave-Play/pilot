@@ -7,7 +7,6 @@ const withTM = require('next-transpile-modules')(['@waveplay/pilot', 'react-nati
 const nextConfig = {
 	experimental: {
 		forceSwcTransforms: true,
-		swcTraceProfiling: true,
 		swcPlugins: [['@nissy-dev/swc-plugin-react-native-web', { commonjs: false }]]
 	},
 	webpack: (config) => {
