@@ -2,10 +2,10 @@
  * © 2022 WavePlay <dev@waveplay.com>
  */
 'use client'
-import { FunctionComponent } from 'react'
+import { forwardRef } from 'react'
 import { TouchableOpacity } from 'react-native'
-import type { Url } from '../../_internal/types'
 import { usePilot } from '../core/use-pilot'
+import type { Url } from '../../_internal/types'
 
 interface LinkProps {
 	area?: string
@@ -17,7 +17,7 @@ interface LinkProps {
 	shallow?: boolean
 	style?: any | any[]
 }
-export const Link: FunctionComponent<LinkProps> = (props: LinkProps) => {
+export const Link = forwardRef<any, LinkProps>((props: LinkProps, ref) => {
 	const { area, as, children, href, locale, scroll, shallow, style } = props
 	const pilot = usePilot(area)
 
@@ -29,5 +29,6 @@ export const Link: FunctionComponent<LinkProps> = (props: LinkProps) => {
 		})
 	}
 
-	return <TouchableOpacity onPress={onPress} style={style}>{children}</TouchableOpacity>
-}
+	return <TouchableOpacity onPress={onPress} ref={ref} style={style}>{children}</TouchableOpacity>
+})
+export default Link
