@@ -1,5 +1,14 @@
 # Change Log
 
+## 0.0.0-canary-20230109012509
+
+### Minor Changes
+
+- 101cebe: feat: can now pass custom component wrapper as prop to Link
+- 5f42e23: feat: Link component now uses forwardRef
+- a68b017: feat: support for .mjs config files
+- ddad6a1: feat: direct pilot/link module
+
 ## 3.0.0
 
 ### Major Changes
