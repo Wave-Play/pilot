@@ -39,6 +39,8 @@
 		"link.d.ts",
 		"LICENSE",
 		"README.md",
+		"router.js",
+		"router.d.ts",
 		"ui.js",
 		"ui.d.ts"
 	],
