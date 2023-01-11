@@ -1,0 +1,41 @@
+# Redirects
+
+## Overview
+
+Redirects are supported using the same exact Next.js APIs.
+
+## Config File(s)
+
+You may define a `redirects` function in your `next.config.js` or `pilot.config.js` file that returns an array of redirects.
+
+If you define a `redirects` function in both files, the `next.config.js` file will take precedence on web and the `pilot.config.js` file will take precedence on native. This may be handy if you want to define different redirects for web vs native.
+
+```js:pilot.config.js
+module.exports = {
+	redirects: () => {
+		return [
+			{
+				source: '/legacy/page',
+				destination: '/new-page'
+			}
+		]
+	}
+}
+```
+
+> Good to know: Pilot.js does not support regex path matching at all nor does it support wildcards in the `destination` field. It also doesn't support Header, Cookie, and Query Matching.
+
+## Returning from props
+
+You may also return a `redirect` object from your `getServerSideProps` or `getStaticProps` functions.
+
+```js:pages/legacy-page.js
+export async function getServerSideProps() {
+	return {
+		redirect: {
+			destination: '/new-page',
+			permanent: false
+		}
+	}
+}
+```

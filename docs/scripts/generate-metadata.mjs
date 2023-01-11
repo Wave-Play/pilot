@@ -42,6 +42,7 @@ const CONTENT_ORDER = [
 			'/docs/caching',
 			'/docs/environment-variables',
 			'/docs/i18n',
+			'/docs/redirects',
 			'/docs/web-props'
 		]
 	}
