@@ -1,7 +1,7 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import type { DataMap } from '../_internal/types'
+import type { DataMap, Redirect } from '../_internal/types'
 import type { Config } from '../client/types'
 
 export interface BuildManifest {
@@ -19,4 +19,5 @@ export interface BuildManifest {
 			getPropsType: 'getServerSideProps' | 'getStaticProps' | null
 		}
 	}
+	redirects?: Redirect[]
 }
