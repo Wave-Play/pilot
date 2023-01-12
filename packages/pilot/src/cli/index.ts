@@ -8,6 +8,7 @@ import { Logger } from 'pino'
 import build from './commands/build'
 import syncLocales from './commands/sync/locales'
 import dev from './commands/dev'
+import doctor from './commands/doctor'
 import koder from './koder'
 import { version } from '../../package.json'
 import type { BuildManifest } from './types'
@@ -54,5 +55,6 @@ new Command('pilot')
 	.version(version)
 	.addCommand(build)
 	.addCommand(dev)
+	.addCommand(doctor)
 	.addCommand(syncLocales)
 	.parse(process.argv)

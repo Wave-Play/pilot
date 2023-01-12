@@ -2,7 +2,8 @@
  * © 2022 WavePlay <dev@waveplay.com>
  */
 import { createElement, FunctionComponent, ReactElement } from 'react'
-import { ActionResult, DataMap, FlightOptions, PilotHookCallback, Url } from '../../_internal/types'
+import { createRouter } from 'radix3'
+import type { ActionResult, DataMap, FlightOptions, PilotHookCallback, Redirect, Url } from '../../_internal/types'
 import { Default404, Default500 } from '../../_internal/ui'
 import { eventWaiter, generateNumber, matchesLocale } from '../../_internal/utils'
 import { RadixRouter } from './radix-router'
@@ -29,6 +30,8 @@ export class Pilot {
 	private _currentLocale?: string
 	private _currentPage?: PilotPage
 	private readonly _hooks: PilotHook[] = []
+	private readonly _routerRedirects = createRouter<Redirect>()
+	private readonly _routerRewrites = createRouter<Redirect>()
 	private readonly _stack: string[] = []
 
 	// Development only
@@ -44,6 +47,20 @@ export class Pilot {
 		// Use built-in default router if none is specified
 		if (!config?.router) {
 			this._config.router = new RadixRouter()
+		}
+
+		// Add redirects to router
+		if (this._config?.redirects) {
+			for (const redirect of this._config.redirects) {
+				this._routerRedirects.insert(redirect.source, redirect)
+			}
+		}
+
+		// Add rewrites to router
+		if (this._config?.rewrites) {
+			for (const rewrite of this._config.rewrites) {
+				this._routerRewrites.insert(rewrite.source, rewrite)
+			}
 		}
 
 		// Assign default locale if 18n is enabled
@@ -123,6 +140,20 @@ export class Pilot {
 		// Assign current locale if 18n is enabled
 		if (!this._currentLocale) {
 			this._currentLocale = config?.i18n?.defaultLocale
+		}
+
+		// Add redirects to router
+		if (this._config?.redirects) {
+			for (const redirect of this._config.redirects) {
+				this._routerRedirects.insert(redirect.source, redirect)
+			}
+		}
+
+		// Add rewrites to router
+		if (this._config?.rewrites) {
+			for (const rewrite of this._config.rewrites) {
+				this._routerRewrites.insert(rewrite.source, rewrite)
+			}
 		}
 
 		return this._config
@@ -401,6 +432,38 @@ export class Pilot {
 			}
 		}
 
+		// Check if this path matches any of the redirects defined in the config
+		const redirect = this._routerRedirects.lookup(hasQuery ? path.substring(0, path.indexOf('?')) : path)
+
+		if (redirect) {
+			let destination = redirect.destination
+			this.log('info', `Redirect found for path "${path}" -> "${destination}"`)
+
+			// Add query params to redirect destination
+			if (hasQuery) {
+				destination += path.substring(path.indexOf('?'))
+			}
+
+			return {
+				redirect: destination
+			}
+		}
+
+		// Check if this path matches any of the rewrites defined in the config
+		const rewrite = this._routerRewrites.lookup(hasQuery ? path.substring(0, path.indexOf('?')) : path)
+
+		if (rewrite) {
+			let destination = rewrite.destination
+			this.log('info', `Rewrite found for path "${path}" -> "${destination}"`)
+
+			// Add query params to redirect destination
+			if (hasQuery) {
+				destination += path.substring(path.indexOf('?'))
+			}
+
+			path = destination
+		}
+
 		// Look up the route data for this path
 		let route = this._config.router?.find(path, { pilot: this })
 
@@ -553,7 +616,7 @@ export class Pilot {
 	 * @returns The modified path. If no hooks modify the path, this will be the same as the original.
 	 */
 	private async _notify(path: string, event: PilotEvent): Promise<string> {
-		this.log('debug', `_notify(${path})`)
+		this.log('debug', `_notify(${path}, ${event.type})`)
 		for (let hook of this._hooks) {
 			if (hook.type === event.type || hook.type === '*') {
 				const result = hook.callback(path, event)

@@ -1,5 +1,5 @@
 import { Text, View } from 'react-native'
-import { Link } from '@waveplay/pilot/ui'
+import { Link } from '@waveplay/pilot/link'
 import { css } from '@/utils/css'
 import { useHover } from '@/utils/use-hover'
 import Icon from '@mdi/react'
@@ -23,15 +23,15 @@ const PageNavigation = (props: PageNavigationProps) => {
 	return (
 		<View {...rootStyle}>
 			{ previous
-				? <Link {...linkStyle(isPreviousHovered, 'flex-start')} href={previous.path}>
+				? <Link {...linkStyle(isPreviousHovered, 'flex-start')} href={previous.path} ref={previousRef}>
 						<Icon color={'#ffffff'} path={mdiChevronLeft} size={'24px'}/>
-						<Text {...textStyle} ref={previousRef}>{previous.title}</Text>
+						<Text {...textStyle}>{previous.title}</Text>
 					</Link>
 				: <View/>
 			}
 			{ next
-				? <Link {...linkStyle(isNextHovered, 'flex-end')} href={next.path}>
-						<Text {...textStyle} ref={nextRef}>{next.title}</Text>
+				? <Link {...linkStyle(isNextHovered, 'flex-end')} href={next.path} ref={nextRef}>
+						<Text {...textStyle}>{next.title}</Text>
 						<Icon color={'#ffffff'} path={mdiChevronRight} size={'24px'}/>
 					</Link>
 				: <View/>

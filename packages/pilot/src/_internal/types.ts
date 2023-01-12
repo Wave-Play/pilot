@@ -40,6 +40,18 @@ export interface PageRoute {
 
 export type PilotHookCallback = (path: string, event: PilotEvent) => string | void
 
+export interface Redirect {
+	destination: string
+	permanent?: boolean
+	source: string
+}
+
+export interface Rewrite {
+	destination: string
+	permanent?: boolean
+	source: string
+}
+
 export type Url =
 	| string
 	| {

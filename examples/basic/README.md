@@ -7,19 +7,11 @@ This is a basic TypeScript project using NextJS and Expo to show how well Pilot 
 First things first, install dependencies.
 
 ```bash
-yarn install
+npm install
 ```
 
-To run this example on the web:
+To run this example:
 
 ```bash
-yarn dev:web
+npm run dev
 ```
-
-To run this example on native:
-
-```bash
-yarn dev:native
-```
-
-You can run both `dev:web` and `dev:native` at the same time.

@@ -1,6 +1,6 @@
 import { Image, Text, View } from 'react-native'
 import { css } from 'utils/css'
-import { Link } from '@waveplay/pilot/ui'
+import { Link } from '@waveplay/pilot/link'
 import { isNative } from '@/utils/utils'
 import { Inter } from '@next/font/google'
 import slugify from 'slugify'
@@ -18,8 +18,8 @@ export const mdxComponents = {
 		const slug = slugify(props.children, { lower: true })
 
 		return (
-			<Link {...h2ContainerStyle} href={'#' + slug}>
-				<Text {...props} {...h2Style(isHovered)} ref={ref}/>
+			<Link {...h2ContainerStyle} href={'#' + slug} ref={ref}>
+				<Text {...props} {...h2Style(isHovered)}/>
 				<View {...anchorStyle} nativeID={slug} pointerEvents={'none'}/>
 			</Link>
 		)
@@ -29,8 +29,8 @@ export const mdxComponents = {
 		const slug = slugify(props.children, { lower: true })
 
 		return (
-			<Link href={'#' + slug}>
-				<Text {...props} {...h3Style(isHovered)} ref={ref}/>
+			<Link href={'#' + slug} ref={ref}>
+				<Text {...props} {...h3Style(isHovered)}/>
 				<View {...anchorStyle} nativeID={slug} pointerEvents={'none'}/>
 			</Link>
 		)

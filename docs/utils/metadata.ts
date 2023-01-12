@@ -12,6 +12,7 @@ export const metadata = {
 				'/docs/caching',
 				'/docs/environment-variables',
 				'/docs/i18n',
+				'/docs/redirects',
 				'/docs/web-props'
 			]
 		}
@@ -279,8 +280,8 @@ export const metadata = {
 			title: 'Environment Variables'
 		},
 		next: {
-			path: '/docs/web-props',
-			title: 'Web Props'
+			path: '/docs/redirects',
+			title: 'Redirects'
 		}
 	},
 	'/docs/managed-entry': {
@@ -291,6 +292,11 @@ export const metadata = {
 				text: 'Custom entry',
 				slug: 'custom-entry',
 				subheadings: []
+			},
+			{
+				text: 'Managed document',
+				slug: 'managed-document',
+				subheadings: []
 			}
 		],
 		previous: {
@@ -300,6 +306,25 @@ export const metadata = {
 		next: {
 			path: '/docs/configuration',
 			title: 'Configuration'
+		}
+	},
+	'/docs/redirects': {
+		path: '/docs/redirects',
+		title: 'Redirects',
+		tableOfContents: [
+			{
+				text: 'Overview',
+				slug: 'overview',
+				subheadings: []
+			}
+		],
+		previous: {
+			path: '/docs/i18n',
+			title: 'Internationalized Routing'
+		},
+		next: {
+			path: '/docs/web-props',
+			title: 'Web Props'
 		}
 	},
 	'/docs/supported-features': {
@@ -337,8 +362,8 @@ export const metadata = {
 			}
 		],
 		previous: {
-			path: '/docs/i18n',
-			title: 'Internationalized Routing'
+			path: '/docs/redirects',
+			title: 'Redirects'
 		}
 	}
 }

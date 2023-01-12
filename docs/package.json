@@ -22,7 +22,7 @@
 		"@mdx-js/react": "^2.2.1",
 		"@next/font": "^13.1.1",
 		"@next/mdx": "^13.0.7",
-		"@waveplay/pilot": "3.0.0",
+		"@waveplay/pilot": "0.0.0-canary-20230109012509",
 		"expo": "47.0.6",
 		"next": "13.1.1",
 		"react": "18.1.0",
