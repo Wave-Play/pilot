@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.1.0
+
+### Minor Changes
+
+- 5cc38da: feat: support for pre-defined redirects
+- 5ee2b2c: feat: withRouter HOC
+- 0db449d: feat(cli): new doctor command
+- accf7a9: refactor(cli): removed internal compiler as part of build process
+- 7b42f6c: feat: rewrites support
+
 ## 0.0.0-canary-20230109030829
 
 ### Patch Changes
