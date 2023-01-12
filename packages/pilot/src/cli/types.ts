@@ -1,7 +1,7 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import type { DataMap, Redirect } from '../_internal/types'
+import type { DataMap, Redirect, Rewrite } from '../_internal/types'
 import type { Config } from '../client/types'
 
 export interface BuildManifest {
@@ -20,4 +20,5 @@ export interface BuildManifest {
 		}
 	}
 	redirects?: Redirect[]
+	rewrites?: Rewrite[]
 }

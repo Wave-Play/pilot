@@ -31,6 +31,7 @@ export class Pilot {
 	private _currentPage?: PilotPage
 	private readonly _hooks: PilotHook[] = []
 	private readonly _routerRedirects = createRouter<Redirect>()
+	private readonly _routerRewrites = createRouter<Redirect>()
 	private readonly _stack: string[] = []
 
 	// Development only
@@ -52,6 +53,13 @@ export class Pilot {
 		if (this._config?.redirects) {
 			for (const redirect of this._config.redirects) {
 				this._routerRedirects.insert(redirect.source, redirect)
+			}
+		}
+
+		// Add rewrites to router
+		if (this._config?.rewrites) {
+			for (const rewrite of this._config.rewrites) {
+				this._routerRewrites.insert(rewrite.source, rewrite)
 			}
 		}
 
@@ -138,6 +146,13 @@ export class Pilot {
 		if (this._config?.redirects) {
 			for (const redirect of this._config.redirects) {
 				this._routerRedirects.insert(redirect.source, redirect)
+			}
+		}
+
+		// Add rewrites to router
+		if (this._config?.rewrites) {
+			for (const rewrite of this._config.rewrites) {
+				this._routerRewrites.insert(rewrite.source, rewrite)
 			}
 		}
 
@@ -421,10 +436,32 @@ export class Pilot {
 		const redirect = this._routerRedirects.lookup(hasQuery ? path.substring(0, path.indexOf('?')) : path)
 
 		if (redirect) {
-			this.log('info', `Redirect found for path "${path}" -> "${redirect.destination}"`)
-			return {
-				redirect: redirect.destination
+			let destination = redirect.destination
+			this.log('info', `Redirect found for path "${path}" -> "${destination}"`)
+
+			// Add query params to redirect destination
+			if (hasQuery) {
+				destination += path.substring(path.indexOf('?'))
 			}
+
+			return {
+				redirect: destination
+			}
+		}
+
+		// Check if this path matches any of the rewrites defined in the config
+		const rewrite = this._routerRewrites.lookup(hasQuery ? path.substring(0, path.indexOf('?')) : path)
+
+		if (rewrite) {
+			let destination = rewrite.destination
+			this.log('info', `Rewrite found for path "${path}" -> "${destination}"`)
+
+			// Add query params to redirect destination
+			if (hasQuery) {
+				destination += path.substring(path.indexOf('?'))
+			}
+
+			path = destination
 		}
 
 		// Look up the route data for this path

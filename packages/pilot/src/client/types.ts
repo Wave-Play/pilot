@@ -5,7 +5,7 @@ import type { GetServerSideProps, GetStaticProps } from 'next'
 import type { NextRouter } from 'next/router'
 import type { ComponentProps, ComponentType } from 'react'
 import type { Pilot } from './core/pilot'
-import type { BaseConfig, DataMap, PilotHookCallback, Redirect } from '../_internal/types'
+import type { BaseConfig, DataMap, PilotHookCallback, Redirect, Rewrite } from '../_internal/types'
 
 /**
  * pilot.config.js
@@ -20,6 +20,11 @@ export interface Config extends BaseConfig {
 		include?: string[]
 	}
 	redirects?: () => Promise<Redirect[]>
+	rewrites?: () => Promise<Rewrite[] | {
+		afterFiles: Rewrite[]
+		beforeFiles: Rewrite[]
+		fallback: Rewrite[]
+	}>
 }
 
 export interface Logger {
@@ -48,6 +53,7 @@ export interface PilotConfig extends BaseConfig {
 	nativeCache?: NativeCache
 	nextRouter?: NextRouter | null
 	redirects?: Redirect[]
+	rewrites?: Rewrite[]
 	router?: PilotRouter
 }
 

@@ -46,6 +46,12 @@ export interface Redirect {
 	source: string
 }
 
+export interface Rewrite {
+	destination: string
+	permanent?: boolean
+	source: string
+}
+
 export type Url =
 	| string
 	| {
