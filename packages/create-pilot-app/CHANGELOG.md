@@ -1,5 +1,11 @@
 # create-pilot-app
 
+## 3.1.1
+
+### Patch Changes
+
+- c16938e: fix: continue using next-transpile-modules due to issues with transpilePackages
+
 ## 3.1.0
 
 ### Minor Changes
