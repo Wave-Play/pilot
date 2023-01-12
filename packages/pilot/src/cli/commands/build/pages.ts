@@ -3,8 +3,6 @@
  */
 import fs from 'fs-extra';
 import klaw from 'klaw';
-import { Options, transform } from '@swc/core';
-import evil from 'safe-eval';
 import { syncManifest } from '../..';
 import koder from '../../koder';
 import { getPkgManager } from '../dev';
@@ -22,22 +20,6 @@ const DIR_DELTA_DEPTH = packageManager === 'pnpm' ? 8 : 5;
 
 // Name of the file that will be generated
 const GENERATED_FILE = 'pages.js';
-
-// Default SWC options used for transforming the code in order to find getProps
-// This is meant to be a simple best-effort transform and is not meant to be 100% accurate
-const TRANSFORM_OPTIONS: Options = {
-	jsc: {
-		parser: {
-			syntax: 'typescript',
-			decorators: true,
-			tsx: true
-		},
-		target: 'es2018'
-	},
-	module: {
-		type: 'commonjs'
-	}
-};
 
 export async function buildPages(logger: Logger, config?: Config) {
 	// Try scanning the default /pages directory first
@@ -71,21 +53,8 @@ const findGetPropsType = async (filePath: string): Promise<'getServerSideProps' 
 	// Read the file
 	const fileContents = await fs.readFile(filePath, 'utf8');
 
-	// Transforming and evaluating the code is the most "reliable" way to find the getProps function
-	// However, this is also the most expensive way to do it and breaks easily
-	try {
-		const code = (await transform(fileContents, TRANSFORM_OPTIONS))?.code;
-		const page = evil(code);
-
-		if (page['getServerSideProps']) {
-			return 'getServerSideProps';
-		} else if (page['getStaticProps']) {
-			return 'getStaticProps';
-		}
-	} catch {}
-
-	// If the transform/eval method fails, try a simpler method
-	// This method is much faster, but also much less accurate and can be thrown off by simple comments
+	// Simple string lookup is much faster, but also much less accurate and can be thrown off by simple comments
+	// TODO: Piggyback off of NextJS's own logic for this
 	if (fileContents.includes('getServerSideProps')) {
 		return 'getServerSideProps';
 	} else if (fileContents.includes('getStaticProps')) {
