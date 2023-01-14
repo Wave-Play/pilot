@@ -1,5 +1,11 @@
 # create-pilot-app
 
+## 3.1.2
+
+### Patch Changes
+
+- 4224aee: fix: use correct slashes on windows
+
 ## 3.1.1
 
 ### Patch Changes

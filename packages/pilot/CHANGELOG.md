@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.1.1
+
+### Patch Changes
+
+- 2a0ad79: fix(cli): use correct spawn command on windows
+
 ## 3.1.0
 
 ### Minor Changes
