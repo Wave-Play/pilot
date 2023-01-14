@@ -110,8 +110,8 @@ export async function action(options: OptionValues) {
 		nextArgs.push('-H', options.hostname)
 	}
 
-	logger.debug(`[PilotJS] Executing: ${pkgManager} ${nextArgs.join(' ')}`)
-	spawn(pkgManager, nextArgs, {
+	logger.debug(`[PilotJS] Executing: ${cmd(pkgManager)} ${nextArgs.join(' ')}`)
+	spawn(cmd(pkgManager), nextArgs, {
 		stdio: 'inherit'
 	})
 
@@ -137,13 +137,19 @@ export async function action(options: OptionValues) {
 		nativeArgs.splice(0, 0, 'exec')
 	}
 
-	logger.debug(`[PilotJS] Executing: ${pkgManager} ${nativeArgs.join(' ')}`)
-	spawn(pkgManager, nativeArgs, {
+	logger.debug(`[PilotJS] Executing: ${cmd(pkgManager)} ${nativeArgs.join(' ')}`)
+	spawn(cmd(pkgManager), nativeArgs, {
 		stdio: 'inherit'
 	})
 }
 
 type PackageManager = 'npm' | 'pnpm' | 'yarn'
+
+const IS_WINDOWS = /^win/.test(process.platform)
+
+function cmd(packageManager: PackageManager): string {
+	return IS_WINDOWS ? `${packageManager}.cmd` : packageManager
+}
 
 export function getPkgManager(): PackageManager {
 	const userAgent = process.env.npm_config_user_agent
