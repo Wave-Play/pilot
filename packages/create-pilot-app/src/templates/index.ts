@@ -114,7 +114,7 @@ export const installTemplate = async ({
 		'react-dom@18.1.0',
 		'react-native@0.70.5',
 		'react-native-web@0.18.9',
-		'@waveplay/pilot@3.1.1'
+		'@waveplay/pilot@3.1.2'
 	]
 	const devDependencies = ['@babel/core@7.20.2', '@nissy-dev/swc-plugin-react-native-web@0.3.0', 'next-transpile-modules@10.0.0', 'webpack@5.75.0']
 	/**
