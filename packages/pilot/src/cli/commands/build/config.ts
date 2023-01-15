@@ -11,21 +11,36 @@ import type { NextConfig } from 'next';
 import type { Logger } from 'pino';
 import type { BuildManifest } from '../../types';
 import type { Config, PilotConfig } from '../../../client/types';
+import { pathToFileURL } from 'node:url'
 
 const GENERATED_FILE = 'config.js';
 
 export const readConfig = async <T = any>(logger: Logger, file: string): Promise<T> => {
 	try {
-		// Try to read the config file (fallback to .mjs if .js does not exist)
-		let filePath = path.join(process.cwd(), file);
-		if (filePath.endsWith('.js') && !(await fs.pathExists(filePath))) {
+		let fileName = file
+		let filePath = path.join(process.cwd(), fileName);
+
+		// Ensure file format is resolved absolutely by all platforms correctly
+		filePath = pathToFileURL(filePath).toString();
+
+		// Fallback to .mjs if .js does not exist
+		if (fileName.endsWith('.js') && !(await fs.pathExists(filePath))) {
+			fileName = fileName.replace('.js', '.mjs')
 			filePath = filePath.replace('.js', '.mjs')
 		}
 
 		const config = await import(filePath);
-		return typeof config?.default === 'function' ? config.default(PHASE_PRODUCTION_BUILD) : config?.default;
+		const data = typeof config?.default === 'function' ? config.default(PHASE_PRODUCTION_BUILD) : config?.default;
+		if (data) {
+			logger.debug(`[PilotJS] Found config file: ${fileName}`)
+		}
+
+		return data;
 	} catch (e) {
-		logger.debug(`[PilotJS] Could not read config file: ${file}`);
+		if (logger.level === 'debug') {
+			logger.warn(e.message)
+		}
+		logger.debug(`[PilotJS] Could not read config file: ${file} (or .mjs)`);
 		return {} as T;
 	}
 }

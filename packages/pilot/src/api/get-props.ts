@@ -10,8 +10,12 @@ import fs from 'fs-extra'
 // Namespace used for validating prop cache
 const NS = '__pilot'
 
+// Make sure to use the correct slash for the platform
+const IS_WINDOWS = /^win/.test(process.platform);
+const SLASH = IS_WINDOWS ? '\\' : '/';
+
 // Root level directory of the project
-const ROOT_DIR = process.cwd() + '/.pilot'
+const ROOT_DIR = process.cwd() + SLASH + '.pilot'
 
 // Create router using generated routes
 const router = createRouter()
@@ -121,9 +125,9 @@ async function getCache(context: GetPropsContext, pilot: Pilot): Promise<Cache> 
 
 	// Create cache entry with locale prefix and without query params
 	const cleanPath = path.includes('?') ? path.split('?')[0] : path
-	const localePrefix = locale ? '/' + locale : ''
+	const localePrefix = locale ? SLASH + locale : ''
 	const cache: Cache = {
-		file: ROOT_DIR + `/cache/static${localePrefix}${cleanPath}.json`,
+		file: ROOT_DIR + `${SLASH}cache${SLASH}static${localePrefix}${cleanPath}.json`,
 		status: 'MISS'
 	}
 

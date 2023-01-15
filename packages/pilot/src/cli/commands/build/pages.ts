@@ -21,18 +21,22 @@ const DIR_DELTA_DEPTH = packageManager === 'pnpm' ? 8 : 5;
 // Name of the file that will be generated
 const GENERATED_FILE = 'pages.js';
 
+// Make sure to use the correct slash for the platform
+const IS_WINDOWS = /^win/.test(process.platform);
+const SLASH = IS_WINDOWS ? '\\' : '/';
+
 export async function buildPages(logger: Logger, config?: Config) {
 	// Try scanning the default /pages directory first
 	let pages: PageRoute[] = [];
 	try {
-		pages = await readAllPages('/pages', logger, config);
+		pages = await readAllPages(SLASH + 'pages', logger, config);
 	} catch {}
 
 	// If none were found, try scanning the /src/pages directory instead
 	// Both of these directions are supported by NextJS, so we should support them too
 	if (!pages.length) {
 		logger.debug('[PilotJS] Could not find "/pages" directory, trying "/src/pages"');
-		pages = await readAllPages('/src/pages', logger, config);
+		pages = await readAllPages(`${SLASH}src${SLASH}pages`, logger, config);
 	}
 
 	// Generate file containing info for all pages, including static imports
@@ -106,7 +110,10 @@ const readPage = async (file: klaw.Item, readDirectory: string, logger: Logger):
 	let path = file.path.replace(readDirectory, '');
 
 	// Create duplicate with file extension removed for comparison purposes
-	const cleanPath = path.substring(0, path.lastIndexOf('.'));
+	let cleanPath = path.substring(0, path.lastIndexOf('.'));
+
+	// From here on out, we only need forwardslashes (Windows uses backslashes)
+	cleanPath = cleanPath.replace(/\\/g, '/');
 
 	// _document is very web-specific, so we don't want to include it
 	if (cleanPath === '/_document') {
@@ -143,7 +150,7 @@ const readPage = async (file: klaw.Item, readDirectory: string, logger: Logger):
 	// Add page stats to the list
 	return {
 		getPropsType: getPropsType,
-		importPath: importPath.substring(0, importPath.lastIndexOf('.')),
+		importPath: importPath.substring(0, importPath.lastIndexOf('.')).replace(/\\/g, '/'),
 		path: route
 	};
 };
