@@ -46,6 +46,9 @@ export async function action(options: OptionValues) {
 	const pkgManager = getPkgManager()
 	logger.debug(`[PilotJS] Using package manager: ${pkgManager}`)
 
+	// Whether or not this package manager requires -- to pass arguments
+	const isNpmBased = pkgManager === 'npm' || pkgManager === 'pnpm'
+
 	// Check if ngrok is installed
 	let useTunnel = options.tunnel
 	let localtunnel
@@ -97,17 +100,21 @@ export async function action(options: OptionValues) {
 
 	// Start Next.js process
 	const nextArgs = config.commands?.devWeb?.split(' ') ?? ['next', 'dev']
-	if (pkgManager === 'npm' || pkgManager === 'pnpm') {
-		nextArgs.splice(0, 0, 'exec')
-	}
 	if (!nextArgs.includes('-p') && !nextArgs.includes('--port')) {
-		if (pkgManager === 'npm' || pkgManager === 'pnpm') {
-			nextArgs.push('--')
-		}
 		nextArgs.push('-p', port.toString())
 	}
 	if (options.hostname) {
 		nextArgs.push('-H', options.hostname)
+	}
+
+	// Check if args include option flags
+	// Inserts -- before options to make sure they're being passed correctly
+	if (isNpmBased) {
+		nextArgs.splice(0, 0, 'exec')
+		const optionsIndex = nextArgs.findIndex((arg) => arg.startsWith('-'))
+		if (optionsIndex !== -1) {
+			nextArgs.splice(optionsIndex, 0, '--')
+		}
 	}
 
 	logger.debug(`[PilotJS] Executing: ${cmd(pkgManager)} ${nextArgs.join(' ')}`)
@@ -133,8 +140,16 @@ export async function action(options: OptionValues) {
 
 	// Start native process
 	const nativeArgs = config.commands?.devNative?.split(' ') ?? ['expo', 'start']
-	if (pkgManager === 'npm' || pkgManager === 'pnpm') {
+	
+	// Check if args include option flags
+	// Inserts -- before options to make sure they're being passed correctly
+	if (isNpmBased) {
 		nativeArgs.splice(0, 0, 'exec')
+
+		const optionsIndex = nativeArgs.findIndex((arg) => arg.startsWith('-'))
+		if (optionsIndex !== -1) {
+			nativeArgs.splice(optionsIndex, 0, '--')
+		}
 	}
 
 	logger.debug(`[PilotJS] Executing: ${cmd(pkgManager)} ${nativeArgs.join(' ')}`)
