@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.1.2
+
+### Patch Changes
+
+- 04b109c: fix(cli): custom command options should be delegated when using npm or pnpm
+- 942a256: fix: use correct slashes when building on windows
+- 7755630: fix(api): use correct platform slashes in get-props
+- b84af2d: fix(cli): exclude pnpm from .cmd suffix on windows
+- 080ca85: fix: use correct absolute path protocol when importing config files on windows
+
 ## 3.1.1
 
 ### Patch Changes
