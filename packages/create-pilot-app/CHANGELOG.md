@@ -1,5 +1,11 @@
 # create-pilot-app
 
+## 3.1.3
+
+### Patch Changes
+
+- 6630be9: chore: bumped pilot dependency version
+
 ## 3.1.2
 
 ### Patch Changes
