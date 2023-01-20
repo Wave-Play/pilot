@@ -54,9 +54,10 @@ const parseQuery = (path: string): { [key: string]: any } => {
 	// Parse out queries!
 	const queries = path.substring(path.indexOf('?') + 1).split('&')
 	for (let queryPair of queries) {
-		const query = queryPair.split('=')
-		const key = query[0]
-		result[key] = query[1].split(',') || []
+		const queryPairSplit = queryPair.indexOf('=')
+		const key = queryPair.substring(0, queryPairSplit)
+		const value = queryPair.substring(queryPairSplit + 1)
+		result[key] = value?.split(',') || []
 
 		for (let i = 0; i < result[key].length; i++) {
 			result[key][i] = decodeURIComponent(result[key][i])

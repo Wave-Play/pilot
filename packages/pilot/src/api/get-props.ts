@@ -72,7 +72,7 @@ export async function handleGetProps(req: NextApiRequest, res: NextApiResponse, 
 		query: route.query ?? {},
 		resolvedUrl: path
 	})
-	pilot.log('debug', `API: Loaded props for ${path}:`, props)
+	pilot.log('debug', `API: Loaded props for ${path}: ${JSON.stringify(props)}`)
 
 	// Cache props if this is a static page
 	if (getPropsType === 'getStaticProps' && props) {

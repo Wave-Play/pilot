@@ -225,12 +225,12 @@ export class Pilot {
 			action: async (path: string) => {
 				// Delegate to NextJS router if one exists; use internal router otherwise
 				if (this._config.nextRouter) {
-					// Account for updated path (e.g. hook overrides)
+					// Account for updated path (e.g. hook overrides, redirects)
 					if (typeof url !== 'string') {
-						const splitPath = path.split('?')
 						// Extract just the pathname from "path" along with any query params
-						url.pathname = splitPath[0]
-						url.query = splitPath[1]
+						const splitPath = path.split('?')
+						url.pathname = splitPath?.[0]
+						url.query = splitPath?.[1]
 							?.split('&')
 							.reduce((acc, param) => {
 								const [key, value] = param.split('=')
@@ -372,7 +372,8 @@ export class Pilot {
 			// If redirected, recursively call this function again with the new path after notifying hooks
 			if (result?.redirect) {
 				this._notify(path, { type: 'redirect' })
-				return await this._fly(result.redirect, options)
+				const redirect = typeof url === 'string' ? result.redirect : { ...url, pathname: result.redirect }
+				return await this._fly(redirect, options)
 			}
 			this._currentPage = result?.page
 		} catch (e) {
