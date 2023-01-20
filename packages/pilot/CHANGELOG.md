@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.0-canary-20230120164757
+
+### Patch Changes
+
+- 54eaba8: fix: redirect chain behavior with nested query params
+
 ## 3.1.2
 
 ### Patch Changes
