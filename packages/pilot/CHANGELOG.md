@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.0-canary-20230124042950
+
+### Patch Changes
+
+- 57cc832: fix(cli): doctor command no longer causes hangups
+
 ## 0.0.0-canary-20230120164757
 
 ### Patch Changes
