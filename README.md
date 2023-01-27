@@ -1,4 +1,11 @@
-<h1 align="center">Pilot.js</h1>
+<p align="center">
+  <a href="https://pilot.waveplay.dev">
+    <picture>
+      <img src="https://raw.githubusercontent.com/Wave-Play/pilot/canary/docs/public/logo-round.png" height="128">
+    </picture>
+    <h1 align="center">Pilot.js</h1>
+  </a>
+</p>
 
 <div align="center">
 
