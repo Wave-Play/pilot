@@ -1,5 +1,5 @@
 import { Text, TouchableOpacity, View } from 'react-native'
-import { css } from '@/utils/css'
+import { css, sheet } from '@waveplay/snazzy'
 import { useHover } from '@/utils/use-hover'
 import { useEffect } from 'react'
 
@@ -42,17 +42,17 @@ const SearchResult = (props: SearchResultProps) => {
 
 	return (
 		<TouchableOpacity {...rootStyle(isHovered)} onPress={() => onPress(item)}>
-			<View {...containerStyle} ref={ref}>
-				<Text {...titleStyle}>{highlight({
+			<View {...styles.container} ref={ref}>
+				<Text {...styles.title}>{highlight({
 					formattedText: item.data._formatted.title,
 					matches: item._matchesInfo.title,
-					style: titleHighlightStyle
+					style: styles.titleHighlight.style
 				})}</Text>
-				<View {...spacerStyle}/>
-				<Text {...contentStyle}>{highlight({
+				<View {...styles.spacer}/>
+				<Text {...styles.content}>{highlight({
 					formattedText: item.data._formatted.content,
 					matches: item._matchesInfo.content,
-					style: contentHighlightStyle,
+					style: styles.contentHighlight,
 					text: item.data.content
 				})}</Text>
 			</View>
@@ -99,48 +99,45 @@ const highlight = (option: HighlightOptions): React.ReactNode[] => {
 	return parts
 }
 
+const styles = sheet({
+	container: {
+		padding: 12
+	},
+	title: {
+		color: '#ffffff',
+		fontSize: 16,
+		fontWeight: '500',
+		lineHeight: 26.4
+	},
+	titleHighlight: {
+		color: '#000000',
+		backgroundColor: 'yellow',
+		fontSize: 16,
+		fontWeight: 500,
+		lineHeight: 26.4
+	},
+	content: {
+		color: '#ffffff',
+		fontSize: 16,
+		fontWeight: '400',
+		lineHeight: 26.4
+	},
+	contentHighlight: {
+		color: '#000000',
+		backgroundColor: 'yellow',
+		fontSize: 16,
+		fontWeight: '400',
+		lineHeight: 26.4
+	},
+	spacer: {
+		height: 8
+	}
+})
+
 const rootStyle = (isActive: boolean) => css({
 	width: '100%',
 	backgroundColor: isActive ? '#000000' : undefined,
 	borderColor: isActive ? '#d8d8d8' : 'transparent',
 	borderRadius: 4,
 	borderWidth: 1
-})
-
-const containerStyle = css({
-	padding: 12
-})
-
-const titleStyle = css({
-	color: '#ffffff',
-	fontSize: 16,
-	fontWeight: 500,
-	lineHeight: 26.4
-})
-
-const titleHighlightStyle = css({
-	color: '#000000',
-	backgroundColor: 'yellow',
-	fontSize: 16,
-	fontWeight: 500,
-	lineHeight: 26.4
-})
-
-const contentStyle = css({
-	color: '#ffffff',
-	fontSize: 16,
-	fontWeight: 400,
-	lineHeight: 26.4
-})
-
-const contentHighlightStyle = css({
-	color: '#000000',
-	backgroundColor: 'yellow',
-	fontSize: 16,
-	fontWeight: 400,
-	lineHeight: 26.4
-})
-
-const spacerStyle = css({
-	height: 8
 })

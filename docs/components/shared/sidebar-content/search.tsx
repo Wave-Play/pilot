@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { TextInput, TouchableOpacity, View } from 'react-native'
-import { css } from '@/utils/css'
+import { css, sheet } from '@waveplay/snazzy'
 import Icon from '@mdi/react'
 import { mdiClose } from '@mdi/js'
 
@@ -40,7 +40,7 @@ const Search = (props: SearchProps) => {
 				size={'13px'}
 				viewBox={'0 0 13 13'}/>
 			<TextInput
-				{...inputStyle}
+				{...styles.input}
 				accessibilityRole={'search'}
 				onBlur={onBlur}
 				onChangeText={onChangeText}
@@ -49,7 +49,7 @@ const Search = (props: SearchProps) => {
 				placeholderTextColor={'#666'}
 				value={text}/>
 			{ text.trim().length > 0
-				? <TouchableOpacity {...closeButtonStyle} onPress={onClear}>
+				? <TouchableOpacity {...styles.closeButton} onPress={onClear}>
 						<FixedIcon
 							color={'white'}
 							path={mdiClose}
@@ -61,6 +61,30 @@ const Search = (props: SearchProps) => {
 	)
 }
 export default Search
+
+const styles = sheet({
+	input: {
+		width: '100%',
+		height: '100%',
+		fontFamily: 'Arial',
+		fontSize: 14,
+		outlineStyle: 'none',
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		paddingLeft: 29,
+		paddingRight: 29
+	},
+	closeButton: {
+		width: 40,
+		height: 40,
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		position: 'absolute',
+		right: 0
+	}
+})
 
 const rootStyle = (isFocused: boolean) => css({
 	width: '100%',
@@ -76,27 +100,4 @@ const rootStyle = (isFocused: boolean) => css({
 	paddingLeft: 8,
 	marginTop: 24,
 	marginBottom: 24
-})
-
-const inputStyle = css({
-	width: '100%',
-	height: '100%',
-	fontFamily: 'Arial',
-	fontSize: 14,
-	outlineStyle: 'none',
-	position: 'absolute',
-	top: 0,
-	left: 0,
-	paddingLeft: 29,
-	paddingRight: 29
-})
-
-const closeButtonStyle = css({
-	width: 40,
-	height: 40,
-	display: 'flex',
-	alignItems: 'center',
-	justifyContent: 'center',
-	position: 'absolute',
-	right: 0
 })

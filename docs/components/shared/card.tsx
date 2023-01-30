@@ -1,6 +1,6 @@
 import { Text } from 'react-native'
 import { Link } from '@waveplay/pilot/link'
-import { css } from '@/utils/css'
+import { css, sheet } from '@waveplay/snazzy'
 import { useHover } from '@/utils/use-hover'
 
 interface CardProps {
@@ -13,30 +13,31 @@ const Card = (props: CardProps) => {
 	const [ref, isHovered] = useHover()
 
 	return (
-		<Link {...rootStyle} href={href} ref={ref}>
-			<Text {...titleStyle}>{title}</Text>
+		<Link {...styles.root} href={href} ref={ref}>
+			<Text {...styles.title}>{title}</Text>
 			<Text {...descriptionStyle(isHovered)}>{description}</Text>
 		</Link>
 	)
 }
 export default Card
 
-const rootStyle = css({
-	width: '100%',
-	backgroundColor: '#000',
-	borderColor: 'rgb(51, 51, 51)',
-	borderRadius: 3,
-	borderWidth: 1,
-	padding: 24,
-	marginTop: 12,
-	marginBottom: 12
-})
-
-const titleStyle = css({
-	color: '#ffffff',
-	fontSize: 18,
-	fontWeight: 600,
-	lineHeight: 24
+const styles = sheet({
+	root: {
+		width: '100%',
+		backgroundColor: '#000',
+		borderColor: 'rgb(51, 51, 51)',
+		borderRadius: 3,
+		borderWidth: 1,
+		padding: 24,
+		marginTop: 12,
+		marginBottom: 12
+	},
+	title: {
+		color: '#ffffff',
+		fontSize: 18,
+		fontWeight: '600',
+		lineHeight: 24
+	}
 })
 
 const descriptionStyle = (isHovered: boolean) => css({

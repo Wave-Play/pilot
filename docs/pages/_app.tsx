@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app'
 import { ScrollView, View } from 'react-native'
 import { MDXProvider } from '@mdx-js/react'
-import { css, cssWeb } from 'utils/css'
+import { css, sheet } from '@waveplay/snazzy'
 import Header from '@/components/shared/header'
 import { getMetaFromPath, isNative } from '@/utils/utils'
 import { Inter } from '@next/font/google'
@@ -55,7 +55,7 @@ export default function App({ Component, pageProps }: AppProps) {
 							`}</style>
 						: null
 					}
-					<ScrollView {...scrollStyle} contentContainerStyle={scrollContainerStyle.style}>
+					<ScrollView {...styles.scroll} contentContainerStyle={styles.scrollContainer.style}>
 						<View {...contentContainerStyle(paddingLeft, paddingRight)}>
 							<Component {...pageProps} />
 							<PageNavigation previous={meta?.previous} next={meta?.next}/>
@@ -63,8 +63,8 @@ export default function App({ Component, pageProps }: AppProps) {
 						</View>
 						{ isMobile ? <Header position={'absolute'}/> : null }
 					</ScrollView>
-					<View {...sideContainerStyle} pointerEvents={'none'}>
-						<View {...sideContentContainerStyle}>
+					<View {...styles.sideContainer} pointerEvents={'none'}>
+						<View {...styles.sideContentContainer}>
 							{ showSidebarLeft ? <SidebarContent/> : <View/> }
 							{ showSidebarRight ? <SidebarTableOfContents/> : <View/> }
 						</View>
@@ -76,26 +76,48 @@ export default function App({ Component, pageProps }: AppProps) {
 	)
 }
 
-const bodyStyle = cssWeb({
+// TODO: Update Snazzy to use values equivalent to "css" function
+const styles = sheet<any, any>({
+	scroll: {
+		width: '100%',
+		flex: 1
+	},
+	scrollContainer: {
+		width: '100%',
+		maxWidth: 1440,
+		display: 'flex',
+		alignItems: 'center',
+		alignSelf: 'center',
+		justifySelf: 'center',
+		backgroundColor: 'rgb(17, 17, 17)'
+	},
+	sideContainer: {
+		width: '100%',
+		height: 'calc(100% - 147px)',
+		display: 'flex',
+		alignItems: 'center',
+		position: 'fixed',
+		top: 147
+	},
+	sideContentContainer: {
+		width: '100%',
+		maxWidth: 1440,
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		paddingLeft: 32,
+		paddingRight: 32
+	}
+})
+
+// TODO: Don't wrap with StyleProp for raw styles
+const bodyStyle = css({
 	width: '100%',
 	height: '100vh',
 	backgroundColor: 'rgb(17, 17, 17)'
-})
-
-const scrollStyle = css({
-	width: '100%',
-	flex: 1
-})
-
-const scrollContainerStyle = css({
-	width: '100%',
-	maxWidth: 1440,
-	display: 'flex',
-	alignItems: 'center',
-	alignSelf: 'center',
-	justifySelf: 'center',
-	backgroundColor: 'rgb(17, 17, 17)'
-})
+}, {
+	raw: 'web'
+}) as any
 
 const contentContainerStyle = (paddingLeft: number, paddingRight: number) => css({
 	width: '100%',
@@ -105,23 +127,4 @@ const contentContainerStyle = (paddingLeft: number, paddingRight: number) => css
 	paddingTop: 130 + 16,
 	paddingLeft: 32 + paddingLeft,
 	paddingRight: 32 + paddingRight
-})
-
-const sideContainerStyle = css({
-	width: '100%',
-	height: 'calc(100% - 147px)',
-	display: 'flex',
-	alignItems: 'center',
-	position: 'fixed',
-	top: 147
-})
-
-const sideContentContainerStyle = css({
-	width: '100%',
-	maxWidth: 1440,
-	display: 'flex',
-	flexDirection: 'row',
-	justifyContent: 'space-between',
-	paddingLeft: 32,
-	paddingRight: 32
 })

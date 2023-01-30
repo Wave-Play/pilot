@@ -1,6 +1,6 @@
 import { Text, View } from 'react-native'
 import { Link } from '@waveplay/pilot/link'
-import { css } from '@/utils/css'
+import { css, sheet } from '@waveplay/snazzy'
 import { useHover } from '@/utils/use-hover'
 import Icon from '@mdi/react'
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'
@@ -21,17 +21,17 @@ const PageNavigation = (props: PageNavigationProps) => {
 	const [nextRef, isNextHovered] = useHover()
 
 	return (
-		<View {...rootStyle}>
+		<View {...styles.root}>
 			{ previous
 				? <Link {...linkStyle(isPreviousHovered, 'flex-start')} href={previous.path} ref={previousRef}>
 						<Icon color={'#ffffff'} path={mdiChevronLeft} size={'24px'}/>
-						<Text {...textStyle}>{previous.title}</Text>
+						<Text {...styles.text}>{previous.title}</Text>
 					</Link>
 				: <View/>
 			}
 			{ next
 				? <Link {...linkStyle(isNextHovered, 'flex-end')} href={next.path} ref={nextRef}>
-						<Text {...textStyle}>{next.title}</Text>
+						<Text {...styles.text}>{next.title}</Text>
 						<Icon color={'#ffffff'} path={mdiChevronRight} size={'24px'}/>
 					</Link>
 				: <View/>
@@ -41,14 +41,26 @@ const PageNavigation = (props: PageNavigationProps) => {
 }
 export default PageNavigation
 
-const rootStyle = css({
-	width: '100%',
-	display: 'flex',
-	flexDirection: 'row',
-	justifyContent: 'space-between',
-	marginTop: 48,
-	paddingLeft: 8,
-	paddingRight: 8
+const styles = sheet({
+	root: {
+		width: '100%',
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		marginTop: 48,
+		paddingLeft: 8,
+		paddingRight: 8
+	},
+	text: {
+		color: '#ffffff',
+		fontSize: 16,
+		fontWeight: 400,
+		lineHeight: 26.4,
+		paddingTop: 4,
+		paddingBottom: 4,
+		paddingLeft: 8,
+		paddingRight: 8
+	}
 })
 
 const linkStyle = (isHovered: boolean, justifyContent: string) => css({
@@ -60,15 +72,4 @@ const linkStyle = (isHovered: boolean, justifyContent: string) => css({
 	backgroundColor: isHovered ? '#333' : undefined,
 	borderRadius: 7,
 	transition: 'background-color 0.2s ease'
-})
-
-const textStyle = css({
-	color: '#ffffff',
-	fontSize: 16,
-	fontWeight: 400,
-	lineHeight: 26.4,
-	paddingTop: 4,
-	paddingBottom: 4,
-	paddingLeft: 8,
-	paddingRight: 8
 })

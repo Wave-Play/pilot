@@ -1,7 +1,7 @@
 import { Text } from 'react-native'
 import { usePilot } from '@waveplay/pilot'
 import { Link } from '@waveplay/pilot/link'
-import { css } from '@/utils/css'
+import { css, sheet } from '@waveplay/snazzy'
 import { useHover } from '@/utils/use-hover'
 
 interface NavigationLinkProps {
@@ -20,18 +20,20 @@ const NavigationLink = (props: NavigationLinkProps) => {
 	}
 
 	return (
-		<Link {...linkStyle} href={href} ref={ref}>
-			<Text {...linkTextStyle(isHovered || path.startsWith(href))} accessibilityRole={'link'}>{text}</Text>
+		<Link {...styles.root} href={href} ref={ref}>
+			<Text {...textStyle(isHovered || path.startsWith(href))} accessibilityRole={'link'}>{text}</Text>
 		</Link>
 	)
 }
 export default NavigationLink
 
-const linkStyle = css({
-	marginLeft: 26
+const styles = sheet({
+	root: {
+		marginLeft: 26
+	}
 })
 
-const linkTextStyle = (isActive: boolean) => css({
+const textStyle = (isActive: boolean) => css({
 	color: isActive ? '#fff' : '#696969',
 	fontSize: 14,
 	fontWeight: 500,

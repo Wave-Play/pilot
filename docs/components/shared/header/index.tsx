@@ -1,5 +1,5 @@
 import { View } from 'react-native'
-import { css } from '@/utils/css'
+import { css } from '@waveplay/snazzy'
 import Banner from '@/components/shared/header/banner'
 import Navigation from '@/components/shared/header/navigation'
 

@@ -1,5 +1,5 @@
 import { Text } from 'react-native'
-import { css } from '@/utils/css'
+import { css } from '@waveplay/snazzy'
 import { Link } from '@waveplay/pilot/link'
 import { useHover } from '@/utils/use-hover'
 
@@ -24,7 +24,7 @@ export default HeadingLink
 const contentLinkStyle = (isActive: boolean, isHovered: boolean, isSubheading?: boolean) => css({
 	color: isActive || isHovered ? '#ffffff' : '#999999',
 	fontSize: 14,
-	fontWeight: isActive ? 500 : 400,
+	fontWeight: isActive ? '500' : '400',
 	lineHeight: 26.4,
 	paddingLeft: isSubheading ? 20 : 0,
 	marginBottom: 5,
