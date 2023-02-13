@@ -55,7 +55,7 @@
 		"fs-extra": "10.1.0",
 		"glob": "8.0.3",
 		"hoist-non-react-statics": "3.3.2",
-		"jotai": "1.10.0",
+		"jotai": "2.0.1",
 		"klaw": "4.0.1",
 		"pino": "8.7.0",
 		"pino-pretty": "9.1.1",
