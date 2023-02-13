@@ -1,5 +1,5 @@
-import { css } from '@/utils/css'
 import { View } from 'react-native'
+import { css } from '@waveplay/snazzy'
 
 const Footer = () => {
 	return (

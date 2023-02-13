@@ -1,7 +1,7 @@
 import { usePilot } from '@waveplay/pilot'
 import { Fragment } from 'react'
 import { Text, View } from 'react-native'
-import { css } from '@/utils/css'
+import { sheet } from '@waveplay/snazzy'
 import HeadingLink from '@/components/shared/sidebar-toc/heading-link'
 import { getMetaFromPath } from '@/utils/utils'
 
@@ -10,8 +10,8 @@ const SidebarTableOfContents = () => {
 	const meta = getMetaFromPath(pilot.getPath())
 
 	return (
-		<View {...rootStyle} pointerEvents={'auto'}>
-			<Text {...titleStyle}>On this page</Text>
+		<View {...styles.root} pointerEvents={'auto'}>
+			<Text {...styles.title}>On this page</Text>
 			{ meta?.tableOfContents?.map((content, index) => {
 				return (
 					<Fragment key={content.slug}>
@@ -27,18 +27,19 @@ const SidebarTableOfContents = () => {
 }
 export default SidebarTableOfContents
 
-const rootStyle = css({
-	width: 270,
-	display: 'flex',
-	flexDirection: 'column',
-	alignItems: 'flex-start'
-})
-
-const titleStyle = css({
-	color: '#ffffff',
-	fontSize: 16,
-	fontWeight: 600,
-	lineHeight: 26.4,
-	marginTop: 24,
-	marginBottom: 16
+const styles = sheet({
+	root: {
+		width: 270,
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'flex-start'
+	},
+	title: {
+		color: '#ffffff',
+		fontSize: 16,
+		fontWeight: 600,
+		lineHeight: 26.4,
+		marginTop: 24,
+		marginBottom: 16
+	}
 })

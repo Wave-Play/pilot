@@ -1,6 +1,6 @@
 import { metadata } from '@/utils/metadata'
 import { ScrollView, Text, View } from 'react-native'
-import { css } from '@/utils/css'
+import { sheet } from '@waveplay/snazzy'
 import Search from '@/components/shared/sidebar-content/search'
 import ContentLink from '@/components/shared/sidebar-content/content-link'
 import { useSearch } from '@/utils/search'
@@ -27,14 +27,14 @@ const SidebarContent = () => {
 	}
 
 	return (
-		<View {...rootStyle} pointerEvents={'auto'}>
+		<View {...styles.root} pointerEvents={'auto'}>
 			<Search onSearch={onSearch}/>
-			<ScrollView {...scrollStyle} contentContainerStyle={scrollContainerStyle.style}>
+			<ScrollView {...styles.scroll} contentContainerStyle={styles.scrollContainer.style}>
 				{ metadata._contentOrder.map((content) => {
 					if (typeof content === 'object') {
 						return (
 							<>
-								<Text {...sectionTitleStyle}>{content.title}</Text>
+								<Text {...styles.sectionTitle}>{content.title}</Text>
 								{ content.children.map((content) => {
 									const page = metadata[content]
 									return <ContentLink key={page.path} href={page.path} text={page.title}/>
@@ -47,9 +47,9 @@ const SidebarContent = () => {
 				})}
 			</ScrollView>
 			{ showSearch
-				? <ScrollView {...searchScrollStyle} contentContainerStyle={searchScrollContainerStyle.style}>
+				? <ScrollView {...styles.searchScroll} contentContainerStyle={styles.searchScrollContainer.style}>
 						{ !searchItems?.length
-							? <Text {...noResultsStyle}>No results for "{searchQuery}".{'\n'}Try again with a different keyword.</Text>
+							? <Text {...styles.noResults}>No results for "{searchQuery}".{'\n'}Try again with a different keyword.</Text>
 							: searchItems.map((item, index) => (
 									<SearchResult index={index} item={item as SearchResultItem} onPress={onPressSearchItem}/>
 								))
@@ -62,56 +62,52 @@ const SidebarContent = () => {
 }
 export default SidebarContent
 
-const rootStyle = css({
-	width: 270,
-	display: 'flex',
-	flexDirection: 'column',
-	alignItems: 'flex-start'
-})
-
-const scrollStyle = css({
-	width: '100%',
-	flex: 1
-})
-
-const scrollContainerStyle = css({
-	paddingBottom: 24
-})
-
-const searchScrollStyle = css({
-	width: '100%',
-	height: '100%',
-	position: 'absolute',
-	top: 88,
-	left: 0,
-	right: 0,
-	bottom: 0,
-	backgroundColor: 'rgb(17, 17, 17)'
-})
-
-const searchScrollContainerStyle = css({
-	paddingRight: 12,
-	paddingBottom: 24
-})
-
-const noResultsStyle = css({
-	width: '100%',
-	marginTop: 16,
-	color: '#999999',
-	textAlign: 'center',
-	lineHeight: 24,
-	fontSize: 14,
-	paddingLeft: 24,
-	paddingRight: 24
-})
-
-const sectionTitleStyle = css({
-	width: '100%',
-	marginTop: 2,
-	marginBottom: 20,
-	color: '#ffffff',
-	textAlign: 'left',
-	lineHeight: 31.68,
-	fontSize: 19.2,
-	fontWeight: 600
+const styles = sheet({
+	root: {
+		width: 270,
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'flex-start'
+	},
+	scroll: {
+		width: '100%',
+		flex: 1
+	},
+	scrollContainer: {
+		paddingBottom: 24
+	},
+	searchScroll: {
+		width: '100%',
+		height: '100%',
+		position: 'absolute',
+		top: 88,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		backgroundColor: 'rgb(17, 17, 17)'
+	},
+	searchScrollContainer: {
+		paddingRight: 12,
+		paddingBottom: 24
+	},
+	noResults: {
+		width: '100%',
+		marginTop: 16,
+		color: '#999999',
+		textAlign: 'center',
+		lineHeight: 24,
+		fontSize: 14,
+		paddingLeft: 24,
+		paddingRight: 24
+	},
+	sectionTitle: {
+		width: '100%',
+		marginTop: 2,
+		marginBottom: 20,
+		color: '#ffffff',
+		textAlign: 'left',
+		lineHeight: 31.68,
+		fontSize: 19.2,
+		fontWeight: 600
+	}
 })

@@ -1,6 +1,6 @@
 import { usePilot } from '@waveplay/pilot'
 import { Text, View } from 'react-native'
-import { css } from '@/utils/css'
+import { css, sheet } from '@waveplay/snazzy'
 import { Link } from '@waveplay/pilot/link'
 import { useHover } from '@/utils/use-hover'
 
@@ -20,8 +20,8 @@ const ContentLink = (props: ContentLinkProps) => {
 	}
 
 	return (
-		<View {...rootStyle}>
-			<View {...dotStyle}/>
+		<View {...styles.root}>
+			<View {...styles.dot}/>
 			<Link href={href} ref={ref}>
 				<Text {...textStyle(path.startsWith(href), isHovered)}>{text}</Text>
 			</Link>
@@ -30,20 +30,21 @@ const ContentLink = (props: ContentLinkProps) => {
 }
 export default ContentLink
 
-const rootStyle = css({
-	width: 'fit-content',
-	display: 'flex',
-	flexDirection: 'row',
-	marginBottom: 18
-})
-
-const dotStyle = css({
-	width: 4,
-	height: 4,
-	borderRadius: 2,
-	backgroundColor: '#666',
-	marginTop: 10,
-	marginRight: 16
+const styles = sheet({
+	root: {
+		width: 'fit-content',
+		display: 'flex',
+		flexDirection: 'row',
+		marginBottom: 18
+	},
+	dot: {
+		width: 4,
+		height: 4,
+		borderRadius: 2,
+		backgroundColor: '#666',
+		marginTop: 10,
+		marginRight: 16
+	}
 })
 
 const textStyle = (isActive: boolean, isHovered: boolean) => css({

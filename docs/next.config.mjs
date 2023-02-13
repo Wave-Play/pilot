@@ -32,7 +32,7 @@ const nextConfig = {
 		swcTraceProfiling: true,
 		swcPlugins: [['@nissy-dev/swc-plugin-react-native-web', { commonjs: false }]]
 	},
-	transpilePackages: ['@waveplay/pilot', 'react-native-web'],
+	transpilePackages: ['@waveplay/pilot', '@waveplay/snazzy', 'react-native-web'],
 	pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
 	rewrites: async () => [
 		{
@@ -52,11 +52,6 @@ const nextConfig = {
 				alias: {
 					...(config.resolve.alias || {}),
 					'react-native': 'react-native-web'
-				},
-				extensions: ['.web.ts', '.web.tsx', '.js', '.jsx', '.ts', '.tsx'],
-				fallback: {
-					...(config.resolve.fallback || {}),
-					fs: false
 				}
 			}
 		}

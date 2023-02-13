@@ -1,6 +1,6 @@
 import { Text, View } from 'react-native'
 import { Link } from '@waveplay/pilot/link'
-import { css } from '@/utils/css'
+import { css, sheet } from '@waveplay/snazzy'
 import NavigationLink from '@/components/shared/header/navigation-link'
 import { useHover } from '@/utils/use-hover'
 import { useMediaQuery } from 'react-responsive'
@@ -25,21 +25,21 @@ const Navigation = () => {
 	const isMobile = useMediaQuery({ query: '(max-width: 920px)' })
 
 	return (
-		<View {...rootStyle}>
-			<View {...contentStyle}>
-				<Link {...logoStyle} href={'/'}>
-					<Text {...logoTextStyle} accessibilityRole={'link'}>PILOT<Text {...logoTextTinyStyle}>.JS</Text></Text>
+		<View {...styles.root}>
+			<View {...styles.content}>
+				<Link {...styles.logo} href={'/'}>
+					<Text {...styles.logoText} accessibilityRole={'link'}>PILOT<Text {...styles.logoTextTiny}>.JS</Text></Text>
 				</Link>
 				{ isMobile
 					? null
-					: <View {...linkContainerStyle}>
+					: <View {...styles.linkContainer}>
 							{ LINKS.map((link) => (
 								<NavigationLink href={link.href} key={link.text} text={link.text}/>
 							))}
 						</View>
 				}
 				<Link {...githubLinkStyle(isHovered)} href={'https://github.com/Wave-Play/pilot'} ref={ref}>
-					<Text {...githubLinkTextStyle} accessibilityRole={'link'}>GitHub</Text>
+					<Text {...styles.githubLinkText} accessibilityRole={'link'}>GitHub</Text>
 				</Link>
 			</View>
 		</View>
@@ -47,44 +47,50 @@ const Navigation = () => {
 }
 export default Navigation
 
-const rootStyle = css({
-	width: '100%',
-	height: 80,
-	display: 'flex',
-	alignItems: 'center'
-})
-
-const contentStyle = css({
-	width: '100%',
-	maxWidth: 1440,
-	height: '100%',
-	display: 'flex',
-	alignItems: 'center',
-	justifyContent: 'space-between',
-	flexDirection: 'row',
-	paddingLeft: 32,
-	paddingRight: 32
-})
-
-const logoStyle = css({
-	marginRight: 26
-})
-
-const logoTextStyle = css({
-	color: '#fff',
-	fontSize: 24,
-	fontWeight: 700
-})
-
-const logoTextTinyStyle = css({
-	fontSize: 10
-})
-
-const linkContainerStyle = css({
-	flex: 1,
-	display: 'flex',
-	flexDirection: 'row',
-	alignItems: 'center'
+const styles = sheet({
+	root: {
+		width: '100%',
+		height: 80,
+		display: 'flex',
+		alignItems: 'center'
+	},
+	content: {
+		width: '100%',
+		maxWidth: 1440,
+		height: '100%',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		flexDirection: 'row',
+		paddingLeft: 32,
+		paddingRight: 32
+	},
+	logo: {
+		marginRight: 26
+	},
+	logoText: {
+		color: '#fff',
+		fontSize: 24,
+		fontWeight: '700'
+	},
+	logoTextTiny: {
+		fontSize: 10
+	},
+	linkContainer: {
+		flex: 1,
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center'
+	},
+	githubLinkText: {
+		color: '#ffffff',
+		fontSize: 14,
+		fontWeight: 500,
+		paddingTop: 8,
+		paddingLeft: 16,
+		paddingRight: 16,
+		paddingBottom: 8
+	}
 })
 
 const githubLinkStyle = (isHovered: boolean) => css({
@@ -94,14 +100,4 @@ const githubLinkStyle = (isHovered: boolean) => css({
 	borderWidth: 1,
 	transition: 'background 0.2s ease',
 	transitionDuration: 1
-})
-
-const githubLinkTextStyle = css({
-	color: '#ffffff',
-	fontSize: 14,
-	fontWeight: 500,
-	paddingTop: 8,
-	paddingLeft: 16,
-	paddingRight: 16,
-	paddingBottom: 8
 })

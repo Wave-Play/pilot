@@ -158,7 +158,7 @@ importers:
       fs-extra: 10.1.0
       glob: 8.0.3
       hoist-non-react-statics: 3.3.2
-      jotai: 1.10.0
+      jotai: 2.0.1
       klaw: 4.0.1
       next: 13.0.2
       pino: 8.7.0
@@ -172,7 +172,7 @@ importers:
       fs-extra: 10.1.0
       glob: 8.0.3
       hoist-non-react-statics: 3.3.2
-      jotai: 1.10.0
+      jotai: 2.0.1
       klaw: 4.0.1
       pino: 8.7.0
       pino-pretty: 9.1.1
@@ -8298,44 +8298,6 @@ packages:
     resolution: {integrity: sha512-bF7vcQxbODoGK1imE2P9GS9aw4zD0Sd+Hni68IMZLj7zRnquH7dXUmMw9hDI5S/Jzt7q+IyTXN0rSg2GI0IKhQ==}
     dev: false
 
-  /jotai/1.10.0:
-    resolution: {integrity: sha512-3Q8kQU3Ktds+80Ku4dVcvnwSXEcK0Fg0b6mC1+4wz3rmF64lOGNUySKXQ4njvYCWodR8bw2HygOKYSYkHxQQmA==}
-    engines: {node: '>=12.7.0'}
-    peerDependencies:
-      '@babel/core': '*'
-      '@babel/template': '*'
-      jotai-immer: '*'
-      jotai-optics: '*'
-      jotai-redux: '*'
-      jotai-tanstack-query: '*'
-      jotai-urql: '*'
-      jotai-valtio: '*'
-      jotai-xstate: '*'
-      jotai-zustand: '*'
-      react: '>=16.8'
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
-      '@babel/template':
-        optional: true
-      jotai-immer:
-        optional: true
-      jotai-optics:
-        optional: true
-      jotai-redux:
-        optional: true
-      jotai-tanstack-query:
-        optional: true
-      jotai-urql:
-        optional: true
-      jotai-valtio:
-        optional: true
-      jotai-xstate:
-        optional: true
-      jotai-zustand:
-        optional: true
-    dev: false
-
   /jotai/1.10.0_naleetjjl2tr2dal5iyxdlhv3y:
     resolution: {integrity: sha512-3Q8kQU3Ktds+80Ku4dVcvnwSXEcK0Fg0b6mC1+4wz3rmF64lOGNUySKXQ4njvYCWodR8bw2HygOKYSYkHxQQmA==}
     engines: {node: '>=12.7.0'}
@@ -8375,6 +8337,16 @@ packages:
     dependencies:
       '@babel/core': 7.20.2
       react: 18.1.0
+    dev: false
+
+  /jotai/2.0.1:
+    resolution: {integrity: sha512-b/BpBFkv3nq8HgT6YX5h5/y9VfKIn9OL1dO6gd9bWTgKt6LLe24VIMURTDwSYS888XfubuRQlbepb5IQGAtmcQ==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      react: '>=17.0.0'
+    peerDependenciesMeta:
+      react:
+        optional: true
     dev: false
 
   /joycon/3.1.1:
