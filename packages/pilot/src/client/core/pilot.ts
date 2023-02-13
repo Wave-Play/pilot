@@ -250,7 +250,13 @@ export class Pilot {
 
 	public log(level: 'trace' | 'debug' | 'info' | 'warn' | 'error', message?: string, ...args: any[]) {
 		const id = `PilotJS${this._config.id ? '-' + this._config.id : ''}`
-		this._config.logger?.[level]?.(`[${id}] ` + message, ...args)
+		if (this._config.logger) {
+			this._config.logger?.[level]?.(`[${id}] ` + message, ...args)
+		} else if (level === 'error') {
+			// Error is the only level that should be logged to console by default
+			// You can disable this by passing in a custom logger
+			console.error(`[${id}] ` + message, ...args)
+		}
 	}
 
 	/**
