@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.2.0
+
+### Minor Changes
+
+- 67c574d: chore: updated to jotai v2
+
+### Patch Changes
+
+- 3ac0a3b: fix(cli): doctor command no longer causes hangups
+- f08108e: feat: errors now logged by default
+
 ## 0.0.0-canary-20230124042950
 
 ### Patch Changes
