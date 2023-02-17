@@ -120,36 +120,6 @@ const pilot = usePilot();
 pilot.fly('/dashboard'); // or pilot.push('/dashboard');
 ```
 
-## Supported Next.js features
-
-| Feature              | Support             | Description |
-|----------------------|---------------------|-------------|
-| `/_app`               | <center>✅</center> | Optional app wrapper is applied on pages when the [`_app`](https://nextjs.org/docs/advanced-features/custom-app) route is registered. |
-| `/404`               | <center>✅</center> | Rendered when page route cannot be found or when [`notFound: true`]((https://nextjs.org/docs/api-reference/data-fetching/get-server-side-props#notfound)) is returned while loading props. |
-| `/500`               | <center>✅</center> | Rendered when an error is thrown while loading props. |
-| `/pages`             | <center>✅</center> | Automatically finds routes from `/pages` or `/src/pages` directory via [`pilot build`](https://pilot.waveplay.dev/docs/cli.md) command. |
-| `getServerSideProps` | <center>✅</center> | Calls this function and delegates props if it exists when loading new route. |
-| `getStaticProps`     | <center>✅</center> | Calls this function and delegates props if it exists when loading new route. May be skipped if props were cached. |
-| `i18n`               | <center>✅</center> | Supports `defaultLocale` and `locales` from next.config.js `i18n` fields. `locale` is passed as a variable in your getProps functions. [Learn more](https://pilot.waveplay.dev/docs/i18n.md). |
-| `revalidate`         | <center>✅</center> | Uses this field returned by your `getStaticProps` function to skip future loading for the time specified. |
-| `.env`							 | <center>✅</center> | Environment variables are loaded during `pilot build`. This follows the [same pattern](https://nextjs.org/docs/basic-features/environment-variables#exposing-environment-variables-to-the-browser) and [load order](https://nextjs.org/docs/basic-features/environment-variables#environment-variable-load-order) as Next.js. |
-| `context`            | <center>🕒</center> | `context` is passed to `getServerSideProps` and `getStaticProps` functions. If haven't [set up Web Props](https://pilot.waveplay.dev/docs/web-props.md), `req` and `res` will be empty objects.<br/><br/>Fields not supported yet:<br/>`preview`, `previewData` |
-| `<Link>`             | <center>🕒</center> | Supports most functionality that [`next/link`](https://nextjs.org/docs/api-reference/next/link) provides.<br/><br/>Props not supported yet:<br/>`passHref`, `prefetch`, `replace`, `scroll`, `shallow` |
-| `redirects`             | <center>🕒</center> | Redirects are supported by [returning a `redirect` object](https://nextjs.org/docs/api-reference/data-fetching/get-server-side-props#redirect) from your props functions.<br/><br/>Redirects defined in `next.config.js` are not supported yet. |
-| `useRouter`          | <center>🕒</center> | Supports most functionality using the `usePilot()` hook.<br/><br/>Fields not supported yet:<br/>`basePath`, `domainLocales`, `isFallback`, `isReady`, `isPreview`.<br/><br/>Functions not supported yet:<br/>`beforePopState()`, `events()`, `prefetch()`, `replace()` |
-| `/api`     | <center>❌</center> | Not supported yet. |
-| `getStaticPaths`     | <center>❌</center> | Not supported yet. |
-| `middleware`         | <center>❌</center> | Not supported yet. |
-| `rewrites`           | <center>❌</center> | Not supported yet. |
-| `withRouter`         | <center>❌</center> | Not supported yet. |
-| `appDir`             | <center>❌</center> | Not supported yet. |
-| `serverComponents`   | <center>❌</center> | Not supported yet. |
-| `next export`        | <center>❌</center> | Not supported yet. |
-
-> **Note:** If a feature is not in the table above, that likely means there are no plans to support it or we may have missed it.  However, you can still use unsupported features in the web environment.
-> 
-> Native apps work much differently than a server which means some features may not be possible to support. Please open an issue if you'd like to see a feature added.
-
 ## Credits
 
 This project was originally developed as an internal router for [WavePlay](https://waveplay.com).
