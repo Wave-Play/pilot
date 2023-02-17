@@ -1,8 +1,9 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import type { GetServerSideProps, GetStaticProps } from 'next'
-import type { NextRouter } from 'next/router'
+import type { GetServerSideProps, GetStaticProps } from 'next/types'
+// @ts-expect-error
+import type { NextRouter } from 'next/types'
 import type { ComponentProps, ComponentType } from 'react'
 import type { Pilot } from './core/pilot'
 import type { BaseConfig, DataMap, PilotHookCallback, Redirect, Rewrite } from '../_internal/types'

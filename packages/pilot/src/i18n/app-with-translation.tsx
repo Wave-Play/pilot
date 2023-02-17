@@ -4,10 +4,11 @@
 import hoistNonReactStatics from 'hoist-non-react-statics'
 // @ts-ignore (peer dependency)
 import i18next from 'i18next'
-import type { AppProps as NextJsAppProps } from 'next/app'
 import { useMemo } from 'react'
 // @ts-ignore (peer dependency)
 import { I18nextProvider, initReactI18next } from 'react-i18next'
+// @ts-expect-error
+import type { AppProps as NextJsAppProps } from 'next/app'
 
 type AppProps = NextJsAppProps & {
 	pageProps: any
