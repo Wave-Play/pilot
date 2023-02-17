@@ -19,12 +19,13 @@ export const readConfig = async <T = any>(logger: Logger, file: string): Promise
 	try {
 		let fileName = file
 		let filePath = path.join(process.cwd(), fileName);
+		const pathExists = await fs.pathExists(filePath)
 
 		// Ensure file format is resolved absolutely by all platforms correctly
 		filePath = pathToFileURL(filePath).toString();
 
 		// Fallback to .mjs if .js does not exist
-		if (fileName.endsWith('.js') && !(await fs.pathExists(filePath))) {
+		if (fileName.endsWith('.js') && !pathExists) {
 			fileName = fileName.replace('.js', '.mjs')
 			filePath = filePath.replace('.js', '.mjs')
 		}
