@@ -1,5 +1,11 @@
 # create-pilot-app
 
+## 3.2.0
+
+### Minor Changes
+
+- 323afa8: chore(deps): updated dependency versions for create-pilot-app templates
+
 ## 3.1.3
 
 ### Patch Changes
