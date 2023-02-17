@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.3.0
+
+### Minor Changes
+
+- 59977ea: feat(cli): new "up-dirs" option for better monorepo support
+
+### Patch Changes
+
+- 336380d: fix(cli): minor port typo in logs when running "dev" command
+- 315db4c: fix(cli): commonjs config files not being recognized
+
 ## 3.2.0
 
 ### Minor Changes
