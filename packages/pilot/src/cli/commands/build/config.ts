@@ -7,7 +7,7 @@ import pino from 'pino'
 import { syncManifest } from '../..';
 import koder, { Kode } from '../../koder';
 import { PHASE_PRODUCTION_BUILD } from 'next/constants'
-import type { NextConfig } from 'next';
+import type { NextConfig } from 'next/types';
 import type { Logger } from 'pino';
 import type { BuildManifest } from '../../types';
 import type { Config, PilotConfig } from '../../../client/types';

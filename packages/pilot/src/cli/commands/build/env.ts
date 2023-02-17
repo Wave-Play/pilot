@@ -39,7 +39,7 @@ export const buildEnv = async (options: OptionValues, logger: Logger) => {
 	// Allow only `production`, `development`, and `test` environments
 	let NODE_ENV: 'production' | 'development' | 'test';
 	if (['production', 'development', 'test'].includes(process.env.NODE_ENV)) {
-		NODE_ENV = process.env.NODE_ENV;
+		NODE_ENV = process.env.NODE_ENV as 'production' | 'development' | 'test';
 	}
 
 	// Load variables from .env files following the same rules as Next.js

@@ -1,11 +1,11 @@
 /**
  * © 2022 WavePlay <dev@waveplay.com>
  */
-import type { GetStaticPropsResult, NextApiRequest, NextApiResponse } from 'next'
 import { importPage, pageRoutes } from '../_generated/pages'
-import type { Pilot } from '../client/core/pilot'
 import { RadixRouter } from '../client/core/radix-router'
 import fs from 'fs-extra'
+import type { Pilot } from '../client/core/pilot'
+import type { GetStaticPropsResult, NextApiRequest, NextApiResponse } from 'next/types'
 
 // Namespace used for validating prop cache
 const NS = '__pilot'
