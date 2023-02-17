@@ -7,7 +7,7 @@ import fs from 'fs-extra'
 import { networkInterfaces } from 'os'
 import pino from 'pino'
 import { createServer } from 'http'
-import { syncManifest } from '../..'
+import { getGenDir, syncManifest } from '../..'
 import { action as build } from '../build'
 import koder, { Kode } from '../../koder'
 import { readConfig } from '../build/config'
@@ -24,6 +24,7 @@ const command = new Command('dev')
 	.option('-p --port <port>', 'port to run the application on')
 	.option('-s --silent', 'do not print anything')
 	.option('-t --tunnel', 'create a local tunnel for this session')
+	.option('-ud --up-dirs <upDirs>', 'number of directories to go up from current directory for generated files')
 	.option('-v --verbose', 'print more information for debugging')
 	.action(action)
 export default command
@@ -136,7 +137,7 @@ export async function action(options: OptionValues) {
 		.value(localUrl)
 		.const('tunnelUrl', { export: true })
 		.value(tunnelUrl)
-	await writeDev(logger, kode, localUrl, tunnelUrl)
+	await writeDev(logger, kode, options.upDirs, localUrl, tunnelUrl)
 
 	// Start native process
 	const nativeArgs = config.commands?.devNative?.split(' ') ?? ['expo', 'start']
@@ -200,9 +201,9 @@ function testPort(port: number, host: string): Promise<boolean> {
 	})
 }
 
-async function writeDev(logger: Logger, kode: Kode, localUrl?: string | null, tunnelUrl?: string | null) {
+async function writeDev(logger: Logger, kode: Kode, upDirs: number, localUrl?: string | null, tunnelUrl?: string | null) {
 	// Write the generated dev file
-	const file = process.cwd() + '/node_modules/@waveplay/pilot/dist/_generated/' + GENERATED_FILE
+	const file = getGenDir({ upDirs }) + GENERATED_FILE
 	await fs.outputFile(file, kode.toString())
 
 	// Apply newly generated dev fields to the manifest

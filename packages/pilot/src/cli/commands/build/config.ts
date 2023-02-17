@@ -4,7 +4,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import pino from 'pino'
-import { syncManifest } from '../..';
+import { getGenDir, syncManifest } from '../..';
 import koder, { Kode } from '../../koder';
 import { PHASE_PRODUCTION_BUILD } from 'next/constants'
 import type { NextConfig } from 'next/types';
@@ -46,7 +46,7 @@ export const readConfig = async <T = any>(logger: Logger, file: string): Promise
 	}
 }
 
-export const buildConfig = async (logger: Logger): Promise<Config> => {
+export const buildConfig = async (logger: Logger, upDirs: number): Promise<Config> => {
 	// Read the config file
 	logger.debug(`[PilotJS] Reading config...`);
 	const [ config, nextConfig ] = await Promise.all([
@@ -81,7 +81,7 @@ export const buildConfig = async (logger: Logger): Promise<Config> => {
 	// Skip this step if no config was found
 	if (!Object.keys(config).length) {
 		logger.debug(`[PilotJS] No config found`);
-		await writeConfig(logger, kode, {}, {});
+		await writeConfig(logger, kode, {}, {}, upDirs);
 		return config;
 	}
 	logger.debug(`[PilotJS] Loaded config file`, config);
@@ -113,14 +113,14 @@ export const buildConfig = async (logger: Logger): Promise<Config> => {
 		...baseConfig,
 		logLevel: config.logLevel,
 		pages: config.pages
-	});
+	}, upDirs);
 
 	return config;
 };
 
-const writeConfig = async (logger: Logger, kode: Kode, pilotConfig: PilotConfig, manifestConfig: Config) => {
+const writeConfig = async (logger: Logger, kode: Kode, pilotConfig: PilotConfig, manifestConfig: Config, upDirs: number) => {
 	// Write the generated config file
-	const file = process.cwd() + '/node_modules/@waveplay/pilot/dist/_generated/' + GENERATED_FILE;
+	const file = getGenDir({ upDirs }) + GENERATED_FILE;
 	await fs.outputFile(file, kode.value({
 		...pilotConfig,
 		logger: pilotConfig.logger

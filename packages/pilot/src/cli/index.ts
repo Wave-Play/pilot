@@ -21,6 +21,23 @@ koder.config({
 // Manifest file to sync changes with
 export const MANIFEST_FILE = process.cwd() + '/.pilot/build-manifest.json'
 
+interface GenDirOptions {
+	/** Levels above current working directory to up by (useful for monorepos) */
+	upDirs?: number
+}
+
+export const getGenDir = (options?: GenDirOptions) => {
+	const { upDirs = 0 } = options ?? {}
+
+	// If we're in a monorepo, we need to go up a few directories
+	let cwd = process.cwd()
+	for (let i = 0; i < upDirs; i++) {
+		cwd = cwd.substring(0, cwd.lastIndexOf('/'))
+	}
+
+	return cwd + '/node_modules/@waveplay/pilot/dist/_generated/'
+}
+
 export const syncManifest = async (action: (manifest: BuildManifest) => void, logger: Logger): Promise<void> => {
 	let manifest: BuildManifest = {}
 

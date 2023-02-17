@@ -3,7 +3,7 @@
  */
 import fs from 'fs-extra'
 import koder, { Kode } from '../../koder'
-import { syncManifest } from '../..'
+import { getGenDir, syncManifest } from '../..'
 import type { OptionValues } from 'commander'
 import type { Logger } from 'pino'
 import type { DataMap } from '../../../_internal/types'
@@ -63,7 +63,7 @@ export const buildEnv = async (options: OptionValues, logger: Logger) => {
 		.newline()
 		.const('env', { export: true })
 
-	await writeEnv(logger, kode, env)
+	await writeEnv(logger, kode, env, options.upDirs)
 }
 
 /**
@@ -92,9 +92,9 @@ const loadFile = async (file: string, publicEnv: DataMap, logger: Logger) => {
 	}
 }
 
-const writeEnv = async (logger: Logger, kode: Kode, env: DataMap) => {
+const writeEnv = async (logger: Logger, kode: Kode, env: DataMap, upDirs: number) => {
 	// Write the generated config file
-	const file = process.cwd() + '/node_modules/@waveplay/pilot/dist/_generated/' + GENERATED_FILE
+	const file = getGenDir({ upDirs }) + GENERATED_FILE
 	await fs.outputFile(file, kode.value(env).toString())
 	
 	// Apply newly read pages to the manifest
