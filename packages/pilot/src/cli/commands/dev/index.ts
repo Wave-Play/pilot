@@ -75,7 +75,7 @@ export async function action(options: OptionValues) {
 				process.exit(1)
 			}
 
-			logger.info(`[PilotJS] Port ${port - 1} is taken, trying ${++port}...`)
+			logger.info(`[PilotJS] Port ${port} is taken, trying ${++port}...`)
 		}
 	}
 
