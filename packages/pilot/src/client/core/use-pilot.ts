@@ -4,7 +4,6 @@
 'use client'
 import { atom, Atom, useAtom } from 'jotai'
 import { Platform } from 'react-native'
-// @ts-expect-error
 import { useRouter } from 'next/router'
 import { Pilot } from './pilot'
 import { PilotConfig } from '../types'
