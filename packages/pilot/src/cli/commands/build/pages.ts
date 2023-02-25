@@ -16,7 +16,7 @@ import type { Logger } from 'pino';
 // That's assuming @waveplay/pilot is installed in the root node_modules directory
 // PNPM and Yarn 2 have different directory structures, so we need to account for that
 const packageManager = getPkgManager();
-const DIR_DELTA_DEPTH = packageManager === 'pnpm' ? 8 : 5;
+const DIR_DELTA_DEPTH = 5;
 
 // Name of the file that will be generated
 const GENERATED_FILE = 'pages.js';
@@ -29,14 +29,14 @@ export async function buildPages(logger: Logger, config: Config, upDirs: number)
 	// Try scanning the default /pages directory first
 	let pages: PageRoute[] = [];
 	try {
-		pages = await readAllPages(SLASH + 'pages', logger, config);
+		pages = await readAllPages(SLASH + 'pages', logger, config, upDirs);
 	} catch {}
 
 	// If none were found, try scanning the /src/pages directory instead
 	// Both of these directions are supported by NextJS, so we should support them too
 	if (!pages.length) {
 		logger.debug('[PilotJS] Could not find "/pages" directory, trying "/src/pages"');
-		pages = await readAllPages(`${SLASH}src${SLASH}pages`, logger, config);
+		pages = await readAllPages(`${SLASH}src${SLASH}pages`, logger, config, upDirs);
 	}
 
 	// Generate file containing info for all pages, including static imports
@@ -68,7 +68,7 @@ const findGetPropsType = async (filePath: string): Promise<'getServerSideProps' 
 	return null;
 };
 
-const readAllPages = async (directory: string, logger: Logger, config?: Config): Promise<PageRoute[]> => {
+const readAllPages = async (directory: string, logger: Logger, config: Config, upDirs: number): Promise<PageRoute[]> => {
 	logger.debug(`[PilotJS] Reading pages from "${directory}" directory...`);
 	const pages: PageRoute[] = [];
 	const readDirectory = process.cwd() + directory;
@@ -80,7 +80,7 @@ const readAllPages = async (directory: string, logger: Logger, config?: Config):
 		}
 
 		// Store page info only as long as it exists (null === skip)
-		const page = await readPage(file, readDirectory, logger);
+		const page = await readPage(file, readDirectory, logger, upDirs);
 		if (!page) {
 			continue;
 		}
@@ -103,7 +103,7 @@ const readAllPages = async (directory: string, logger: Logger, config?: Config):
 	return pages;
 };
 
-const readPage = async (file: klaw.Item, readDirectory: string, logger: Logger): Promise<PageRoute | null> => {
+const readPage = async (file: klaw.Item, readDirectory: string, logger: Logger, upDirs: number): Promise<PageRoute | null> => {
 	logger.debug(`[PilotJS] Reading page "${file.path}"...`);
 
 	// We just want the file name, not the full path
@@ -140,8 +140,20 @@ const readPage = async (file: klaw.Item, readDirectory: string, logger: Logger):
 		route = route.substring(0, route.length - 1);
 	}
 
+	// Adjust import path based on how many directories up we need to go
+	// PNPM's directory structure is different, so we need to account for that
+	// If upDirs is greater than 0, we need to go up that many more directories instead (monorepo likely)
+	let cwdUpDirs = ''
+	let dirDeltaDepth = DIR_DELTA_DEPTH
+	if (upDirs > 0) {
+		const cwdDirs = process.cwd().split('/').slice(-upDirs);
+		cwdUpDirs = '/' + cwdDirs.join('/')
+	} else if (packageManager === 'pnpm') {
+		dirDeltaDepth = DIR_DELTA_DEPTH + 3
+	}
+
 	// Relative path comes in useful for runtime imports
-	const importPath = new Array(DIR_DELTA_DEPTH).fill(0).map(() => '..').join('/') + file.path.replace(process.cwd(), '');
+	const importPath = new Array(dirDeltaDepth).fill(0).map(() => '..').join('/') + cwdUpDirs + file.path.replace(process.cwd(), '');
 	
 	// Check to see if this page contains getServerSideProps or getStaticProps
 	// If it does, we need to include it in the build
