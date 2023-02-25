@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.0-canary-20230225064210
+
+### Patch Changes
+
+- 74c0814: fix: up-dirs now affects relative page import paths
+
 ## 3.3.0
 
 ### Minor Changes
